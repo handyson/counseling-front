@@ -1,12 +1,12 @@
 <template>
   <el-container>
-    <el-header >
+    <!-- <el-header >
       <el-button @click="gotoAdminLogin" icon="el-icon-d-arrow-right" style="float: right;border: none" >管理端登录</el-button>
-    </el-header>
+    </el-header> -->
     <el-main>
       <div class="loginContainer">
         <el-form ref="loginForm" :rules="rules" :model="loginForm" label-width="80px">
-          <h3 class="loginTitle">微言SubtleChat~</h3>
+          <h3 class="loginTitle">欢迎大白心理咨询</h3>
           <el-form-item label="用户名:" prop="username">
             <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="请输入用户名"></el-input>
           </el-form-item>
@@ -17,12 +17,19 @@
             <el-input type="text" @keydown.enter.native="submitLogin" v-model="loginForm.code" auto-complete="off" placeholder="请输入验证码" style="width:150px;"></el-input>
             <img :src="verifyCode" title="点击切换验证码" @click="changeverifyCode" />
           </el-form-item>
-          <el-checkbox v-model="checked" class="loginRemember"></el-checkbox><span> 记住我一周</span>
+          <!-- <el-checkbox v-model="checked" class="loginRemember"></el-checkbox><span> 记住我一周</span> -->
           <div>
             <el-button @click="showRegistryDialog" style="width:45% ;margin-right: 15px">注册</el-button>
             <el-button type="primary" style="width:45% ;" @click="submitLogin"  v-loading.fullscreen.lock="fullscreenLoading">登录</el-button>
           </div>
         </el-form>
+        <div class="login-bottom">
+                <h4>
+                  <a style="color: #888888;" href="/">返回首页</a>
+                    <!-- <a style="color: #888888;" href="/">返回首页<span> | </span></a>
+                    <a style="color: #888888;" href="/#/repwd">找回密码</a> -->
+                </h4>
+            </div>
       </div>
     </el-main>
     <el-dialog title="新用户注册" :before-close="closeRegisterDialog" :visible.sync="registerDialogVisible" width="30%">
@@ -176,7 +183,8 @@
                 //保存登录用户到sessionStorage中
                 window.sessionStorage.setItem("user",JSON.stringify(resp.obj));
                 let path=this.$route.query.redirect;
-                this.$router.replace((path=='/'||path==undefined)?"/chatroom":path);
+                // this.$router.replace((path=='/'||path==undefined)?"/chatroom":path);
+                this.$router.replace((path=='/'||path==undefined)?"/user/helloHome":path);
               }else {
                 this.changeverifyCode();
               }
@@ -190,9 +198,9 @@
       changeverifyCode(){
         this.verifyCode="/verifyCode?time="+new Date();
       },
-      gotoAdminLogin(){
-        this.$router.replace("/adminlogin");
-      },
+      // gotoAdminLogin(){
+      //   this.$router.replace("/adminlogin");
+      // },
       showRegistryDialog(){
         this.registerDialogVisible=true;
       },
@@ -262,6 +270,19 @@
 
 
 <style>
+body {
+    /*background: url(../../../assets/img/con-bg_04f25dbf8e.jpg) no-repeat;*/
+    /*background-size: 100% 100%;*/
+    background: #50a3a2;
+    background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
+    background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+    /*opacity: 0.8;*/
+    /*padding: 100px 0px 30px 0px;*/
+    font-family: 'Roboto', sans-serif;
+    font-size: 100%;
+}
+
+
   .disabled .el-upload--picture-card{
     display: none;
   }
@@ -292,4 +313,14 @@
   /* display: flex;*/
   /*  align-items: center*/
   /*}*/
+  .login-bottom {
+    background: #fff;
+    padding: 30px 5px 10px;
+    border-radius: 0px 0px 25px 25px;
+    -webkit-border-radius: 0px 0px 25px 25px;
+    -moz-border-radius: 0px 0px 25px 25px;
+    -o-border-radius: 0px 0px 25px 25px;
+    text-align: right;
+    border-top: 2px solid #fff;
+}
 </style>

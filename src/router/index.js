@@ -296,7 +296,8 @@ export default new Router({
         },
         {
             path: '/userlogin',
-            component: () => import(/* webpackChunkName: "login" */ '../components/page/user/Login.vue'),
+            // component: () => import(/* webpackChunkName: "login" */ '../components/page/user/Login.vue'),
+            component: () => import('../components/page/chat/Login.vue'),
             meta: {title: '用户登录'}
         },
         {

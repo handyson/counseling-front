@@ -2,7 +2,12 @@
     <div class="header" id="top">
         <div style="float: left">
             <!-- left: auto; -->
-            <el-menu mode="horizontal" style="background-color: #f6f6f6; left: 15%; margin-top: 10px;width: 1340px;" active-text-color="#409eff" router>
+            <el-menu
+                mode="horizontal"
+                style="background-color: #f6f6f6; left: 15%; margin-top: 10px; width: 1340px"
+                active-text-color="#409eff"
+                router
+            >
                 <!-- 前往主页按钮 -->
                 <!-- <el-menu-item> style="color: #f2f8fe" -->
 
@@ -45,17 +50,18 @@
                 <div class="header-right">
                     <div class="header-user-con" v-if="username === '_nouser'">
                         <div class="topbar">
+                            <el-button type="primary" size="medium" @click="ToLogin">登录 / 注册</el-button>
                             <!-- <div class="nav"> -->
                             <ul>
                                 <li>
-                                    <a href="/#/userlogin">
+                                    <!-- <a href="/#/userlogin">
                                         <el-button type="text">登录</el-button>
                                     </a>
                                     <span class="sep">|</span>
                                     <a href="/#/userregister">
                                         <el-button type="text">注册</el-button>
-                                    </a>
-                                    <span class="sep">|</span>
+                                    </a> 
+                                    <span class="sep">|</span>-->
                                     <a href="#/adminlogin">
                                         <el-button type="text">管理员后台</el-button>
                                     </a>
@@ -75,11 +81,11 @@
                         <!-- 我的收藏 -->
 
                         <router-link to="/user/consltInfo" v-if="userform.roleType == '1'">
-                            <i class="el-icon-monitor" style="color: #2C1D0F; font-size: 16px">商家服务</i>
-                            <span style="color:	#2C1D0F"> | </span>
+                            <i class="el-icon-monitor" style="color: #2c1d0f; font-size: 16px">商家服务</i>
+                            <span style="color: #2c1d0f"> | </span>
                         </router-link>
                         <router-link to="/user/collection">
-                            <i class="el-icon-star-on" style="color: #2C1D0F; font-size: 16px">我的收藏</i>
+                            <i class="el-icon-star-on" style="color: #2c1d0f; font-size: 16px">我的收藏</i>
                         </router-link>
                         <!-- 用户头像 -->
                         <div class="user-avator">
@@ -232,10 +238,9 @@ export default {
                 // localStorage.removeItem('user');
 
                 localStorage.clear();
-			    window.sessionStorage.clear();
+                window.sessionStorage.clear();
 
-
-                this.$router.push('/user/helloHome').catch(err=>{});
+                this.$router.push('/user/helloHome').catch((err) => {});
             }
         },
         mouseenter1() {
@@ -278,6 +283,9 @@ export default {
                     kind: kind
                 }
             });
+        },
+        ToLogin(){
+            this.$router.push('/userlogin');
         }
     },
     mounted() {}
@@ -293,6 +301,19 @@ export default {
     font-size: 22px;*/
     background-color: #fff;
     height: 80px;
+}
+
+.el-button--medium {
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    margin-top: 6px;
+}
+
+.el-button--primary {
+    color: #fff;
+    background-color: #419ce5;
+    border-color: #419ce5;
 }
 
 .collapse-btn {
