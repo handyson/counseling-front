@@ -19,7 +19,7 @@
                     </template>
                 </el-table-column>
                 <!--        咨询师名字-->
-                <el-table-column label="咨询师姓名" prop="name" align="center"></el-table-column>
+                <el-table-column label="咨询师姓名" prop="nickname" align="center"></el-table-column>
                 <el-table-column label="咨询师详情" prop="title" align="center"></el-table-column>
             </el-table>
         </div>
@@ -44,18 +44,19 @@ export default {
         };
     },
     created() {
-        if (localStorage.getItem('user_id') == null) {
-            this.$router.push('/user/helloHome');
-            this.$message.error('用户未登录');
-        }
-        this.uid = localStorage.getItem('user_id');
+        // if (localStorage.getItem('user_id') == null) {
+        //     this.$router.push('/user/helloHome');
+        //     this.$message.error('用户未登录');
+        // }
+        // this.uid = localStorage.getItem('user_id');
+        this.uid = this.$store.state.currentUser.id;
         this.getData();
     },
     methods: {
         getData() {
             this.$axios.get('/api/userCollection/' + this.uid).then((res) => {
-                console.log(res.data);
-                this.tableData = res.data.data;
+                console.log(res);
+                this.tableData = res.data;
                 // if(this.tableData) this.showable=false
             });
         },

@@ -52,7 +52,7 @@
                                     <ul class="teacher-info">
                                         <li class="basic-info">
                                             <a @click="goConsultantDesc(item.id)" class="name">
-                                                {{ item.realName }}&nbsp;&nbsp;&nbsp;&nbsp;</a
+                                                {{ item.nickname }}&nbsp;&nbsp;&nbsp;&nbsp;</a
                                             >
                                             <!-- <span class="zx_num"> 6296人次咨询 </span> 
                                             <span class="point">·</span>-->
@@ -94,9 +94,9 @@
                             </ul>
                             <div class="block">
                                 <!-- <span class="demonstration">页数较少时的效果</span> -->
-                                <!-- <el-pagination layout="prev, pager, next" :total="50"> </el-pagination> -->
+                                <!-- <el-pagination layout="prev, pager, next" :total="50"> </el-pagination> 
+                                @size-change="handleSizeChange"-->
                                 <el-pagination
-                            @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="currentPage"
                             layout="total, prev, pager, next"
@@ -468,7 +468,7 @@ export default {
                 .post('/api/consultant/selectResult', this.query)
                 .then((res) => {
                     this.consultantList = res.records;
-                    console.log(res.data);
+                    console.log(res.records);
                 })
                 .catch((error) => {
                     console.log('接口请求异常');

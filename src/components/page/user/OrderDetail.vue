@@ -11,9 +11,9 @@
 
                 <div style="display: flex; align-items: center; margin-bottom: 25px; height: 68px" @click="goConsultantDesc(tableData.cid)">
                     <li class="teacher-item">
-                        <span style="padding-right:20px">咨询师姓名：</span>
+                        <span style="padding-right: 20px">咨询师姓名：</span>
                         <a>
-                            <img :src="tableData.photourl" class="avatar" />
+                            <img :src="tableData.avatar" class="avatar" />
                         </a>
                         <!-- <ul class="teacher-info">
                             <li class="basic-info">
@@ -22,7 +22,7 @@
                             </li>
                         </ul> -->
                     </li>
-                    <span>{{ tableData.cname }}</span>
+                    <span>{{ tableData.nickname }}</span>
                 </div>
 
                 <p>咨询类型：{{ tableData.tname }}</p>
@@ -32,20 +32,36 @@
                 <h3>请联系咨询师，确认交易完成后点击确认按钮</h3>
                 <p>用户信息：{{ tableData.username }}</p>
                 <p>用户联系电话：{{ tableData.utel }}</p>
-                <p>创建时间：{{ tableData.createtime.toLocaleString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '') }}</p>
-                <p v-if="tableData.submittime">确认时间：{{ tableData.submittime.toLocaleString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '') }}</p>
-                <p v-if="tableData.finishtime">完毕时间：{{ tableData.finishtime.toLocaleString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '') }}</p>
+                <p>
+                    创建时间：{{
+                        tableData.createtime
+                            
+                    }}
+                    <!-- .toLocaleString()
+                            .replace(/T/g, ' ')
+                            .replace(/\.[\d]{3}Z/, '') -->
+                </p>
+                <p v-if="tableData.submittime">
+                    确认时间：{{
+                        tableData.submittime
+                           
+                    }}
+                     <!-- .toLocaleString()
+                            .replace(/T/g, ' ')
+                            .replace(/\.[\d]{3}Z/, '') -->
+                </p>
+                <p v-if="tableData.finishtime">
+                    完毕时间：{{
+                        tableData.finishtime
+                            
+                    }}
+                    <!-- .toLocaleString()
+                            .replace(/T/g, ' ')
+                            .replace(/\.[\d]{3}Z/, '') -->
+                </p>
                 <div class="paybtn" id="d1">
-                    <button
-                        class="btn1"
-                        name="submit"
-                        type="submit"
-                        @click="confirmTofinish"
-                        v-if="tableData.status == 2"
-                    >
-                        确认收货
-                    </button>
-                    <button class="btn1" name="submit" type="submit" @click="cancelOrder" v-if="tableData.status == 1">终止订单</button>
+                    <button class="btn1" name="submit" type="submit" @click="confirmTofinish" v-if="tableData.status == 2">结束咨询</button>
+                    <button class="btn1" name="submit" type="submit" @click="cancelOrder" v-if="tableData.status == 0 || tableData.status == 1">终止订单</button>
                     <button class="btn1" name="submit" type="submit" @click="openComment" v-if="tableData.status == 3">评论咨询师</button>
                     <!-- <button class="btn1" name="submit" type="submit" disabled v-if="tableData.status == 2">请等待咨询师</button> -->
                 </div>
@@ -84,21 +100,23 @@ export default {
                 uid: '',
                 orderid: '',
                 anonymousflag: '0'
-            }
-            // consultantMap: []
+            },
+            user: {}
         };
     },
     created() {
-        if (localStorage.getItem('user_id') == null) {
-            this.$router.push('/user/helloHome');
-            this.$message.error('用户未登录');
-        }
+        this.user = this.$store.state.currentUser;
+        // if (localStorage.getItem('user_id') == null) {
+        //     this.$router.push('/user/helloHome');
+        //     this.$message.error('用户未登录');
+        // }
         if (this.$route.query.orderid == null) {
             this.$message.error('订单不存在');
             this.$router.push('/user/helloHome');
         }
         this.orderid = this.$route.query.orderid;
-        this.param.uid = localStorage.getItem('user_id');
+        // this.param.uid = localStorage.getItem('user_id');
+        this.param.uid = this.user.id;
         // this.tableData = this.$route.query.OrderMap;
         this.getOrder();
     },
@@ -116,15 +134,16 @@ export default {
         },
         getOrder() {
             this.$axios.get('/api/ordersInfo/getOrdersByid?id=' + this.orderid).then((res) => {
-                if (res.data.data == null) {
+                if (res.data == null) {
                     this.$message.error('订单不存在');
                     this.$router.push('/user/helloHome');
                 }
-                if (res.data.data.uid != localStorage.getItem('user_id')) {
+                // if (res.data.uid != localStorage.getItem('user_id')) {
+                     if (res.data.uid != this.user.id) {
                     this.$message.error('无权限');
                     this.$router.push('/user/helloHome');
                 }
-                this.tableData = res.data.data;
+                this.tableData = res.data;
                 console.log(this.tableData);
             });
         },
@@ -152,7 +171,8 @@ export default {
         confirmTofinish() {
             this.$axios.get('/api/ordersInfo/getGoods?id=' + this.orderid).then((res) => {
                 this.$message.success('确认收货');
-                location.reload();confirm
+                location.reload();
+                confirm;
             });
         },
         cancelOrder() {

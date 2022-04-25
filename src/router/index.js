@@ -214,6 +214,11 @@ export default new Router({
                     meta: {title: '个人信息'}
                 },
                 {
+                    path: '/user/consltUserInfo',
+                    component: () => import( '../components/page/user/ConsltUserInfo.vue'),
+                    meta: {title: '个人信息'}
+                },
+                {
                     path: '/user/addressMag',
                     component: () => import( '../components/page/user/AddressMag.vue'),
                     meta: {title: '地址管理'}

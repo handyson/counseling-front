@@ -20,19 +20,13 @@
                         <img style="height: 50px; margin-top: 5px; left: 8%" src="../../../assets/img/logo.png" />
                     </router-link>
                 </div>
-
-                <!-- </el-menu-item> -->
                 <el-menu-item class="el-menu-demo-item" index="/user/helloHome" style="font-size: 18px">首页 </el-menu-item>
                 <el-menu-item class="el-menu-demo-item" style="font-size: 18px" index="/user/SelectResult">
-                    <!-- @click="tocounsell()"  -->
                     <div style="height: 70px; width: 60px">心理咨询</div>
                 </el-menu-item>
                 <el-menu-item class="el-menu-demo-item" style="font-size: 18px" index="/user/SelectZiYingResult">
                     <div style="height: 70px; width: 60px" @mouseenter="mouseenter2" @mouseleave="mouseleave2">心理问答</div>
                 </el-menu-item>
-                <!--                <el-menu-item class="el-menu-demo-item" style="font-size: 16px" index="/user/selectResult?kind=1002">-->
-                <!--                    <div @mouseenter="mouseenter1" @mouseleave="mouseleave1">知识变现</div>-->
-                <!--                </el-menu-item>-->
                 <el-menu-item class="el-menu-demo-item" style="font-size: 18px" index="/user/about">关于我们</el-menu-item>
 
                 <!-- <div class="so" style="display: inline-block; margin-top: 1%; margin-left: 120px">
@@ -71,20 +65,15 @@
                         </div>
                     </div>
                     <div class="header-user-con" v-else>
-                        <!--                <div class="btn-bell">-->
-                        <!--                    <el-tooltip effect="dark" content="我的购物车" placement="bottom">-->
-                        <!--                        <router-link to="/user/carts">-->
-                        <!--                            <i class="el-icon-shopping-cart-2" style="color: #F2F8FE;"></i>-->
-                        <!--                        </router-link>-->
-                        <!--                    </el-tooltip>-->
-                        <!--                </div>-->
-                        <!-- 我的收藏 -->
-
-                        <router-link to="/user/consltInfo" v-if="userform.roleType == '1'">
-                            <i class="el-icon-monitor" style="color: #2c1d0f; font-size: 16px">商家服务</i>
+                        <router-link to="/user/consltInfo" v-if="userform.roleType == 1">
+                            <i class="el-icon-monitor" style="color: #2c1d0f; font-size: 16px">咨询师服务中心</i>
                             <span style="color: #2c1d0f"> | </span>
                         </router-link>
-                        <router-link to="/user/collection">
+                        <router-link to="/chatroom">
+                            <i class="el-icon-message-solid" style="color: #2c1d0f; font-size: 16px">消息</i>
+                        </router-link>
+                        <router-link to="/user/collection" v-if="userform.roleType == 0">
+                            <span style="color: #2c1d0f"> | </span>
                             <i class="el-icon-star-on" style="color: #2c1d0f; font-size: 16px">我的收藏</i>
                         </router-link>
                         <!-- 用户头像 -->
@@ -93,9 +82,9 @@
                         </div>
 
                         <!-- 用户名下拉菜单 -->
-                        <el-dropdown class="user-name" @command="handleCommand">
+                        <el-dropdown class="user-name" @command="handleCommand" v-if="userform.roleType == 0">
                             <span class="el-dropdown-link">
-                                {{ userform.username }}
+                                {{ userform.nickname }}
                                 <i class="el-icon-caret-bottom"></i>
                             </span>
                             <el-dropdown-menu slot="dropdown">
@@ -105,66 +94,25 @@
                                 <router-link to="/user/userInfo">
                                     <el-dropdown-item>个人中心</el-dropdown-item>
                                 </router-link>
-                                <!--                        <router-link to="/user/addressMag">-->
-                                <!--                            <el-dropdown-item>地址管理</el-dropdown-item>-->
-                                <!--                        </router-link>-->
-                                <!-- <a href="https://github.com/zengxiaochao/hello-mall">
-                            <el-dropdown-item>Git仓库</el-dropdown-item>
-                        </a> -->
+                                <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                        <!-- 咨询师名下拉菜单 -->
+                        <el-dropdown class="user-name" @command="handleCommand" v-if="userform.roleType == 1">
+                            <span class="el-dropdown-link">
+                                {{ userform.nickname }}
+                                <i class="el-icon-caret-bottom"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <router-link to="/user/consltUserInfo">
+                                    <el-dropdown-item>个人中心</el-dropdown-item>
+                                </router-link>
                                 <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>
                 </div>
-                <!-- 上方导航弹窗 -->
             </el-menu>
-            <!--            商品种类弹窗-->
-            <!-- <div style="height: 200px;width: 100%;background-color: #d0e5e8;position: absolute;z-index: 9999;"
-                 @mouseenter="mouseenter1" @mouseleave="mouseleave1" v-show="this.topmsg">
-                <div style="float:left;width: 15%;margin-top: 30px;"></div>
-                <div style="float:left;width: 10%;margin-top: 30px;text-align: center;"
-                     v-for="(item, index) in typelist" :key="item.id" v-if="index<=5">
-                    <a @click="kindClick(item.kid)" target="_blank">
-                        <div class="figure figure-thumb">
-                            <img :src="item.kimg" style="border-radius: 20px;"
-                                 alt="" width="160px" height="110px">
-                        </div>
-                        <div class="title" style="margin-top: 15px;font-size: 12px;color: #666666;">{{item.kname}}</div>-->
-            <!--                        <p class="price" style="margin-top:5px;font-size: 12px;color: #fc0d5a">1999元起</p>-->
-            <!-- </a>
-                </div>
-                <div style="float:left;width: 10%;margin-top: 30px;text-align: center;">
-                    <a href="/#/user/selectResult?kind=" target="_blank">
-                        <div class="title" style="margin-top: 65px;font-size: 20px;color: #666666;">查看全部 <i
-                                class="el-icon-lx-right"></i>
-                        </div>
-                    </a>
-                </div>
-            </div>   -->
-            <!--平台自营-->
-            <!-- <div style="height: 200px;width: 100%;background-color: #d0e5e8;position: absolute;z-index: 9999;"
-                 @mouseenter="mouseenter2" @mouseleave="mouseleave2" v-show="this.topmsg2">
-                <div style="float:left;width: 15%;margin-top: 30px;"></div>
-                <div style="float:left;width: 10%;margin-top: 30px;text-align: center;"
-                     v-for="(item, index) in ziyinglist" :key="item.goodsid" v-if="index <= 5">
-                    <a @click="goGoodsDesc(item.goodsid)" target="_blank">
-                        <div class="figure figure-thumb">
-                            <img :src="item.iconurl" style="border-radius: 20px;"
-                                 alt="" width="160px" height="110px">
-                        </div>
-                        <div class="title" style="margin-top: 15px;font-size: 12px;color: #666666;">{{item.goodsname}}
-                        </div> -->
-            <!-- <p class="price" style="margin-top:5px;font-size: 12px;color: #fc0d5a">1999元起</p>
-                    </a>
-                </div>
-                <div style="float:left;width: 10%;margin-top: 30px;text-align: center;">
-                    <a href="/#/user/selectResult?kind=1001" target="_blank">
-                        <div class="title" style="margin-top: 65px;font-size: 20px;color: #666666;">查看全部 <i
-                                class="el-icon-lx-right"></i>
-                        </div>
-                    </a>
-                </div>
-            </div> -->
         </div>
     </div>
 </template>
@@ -174,7 +122,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            ishow: false,
+            // ishow: false,
             topmsg: false,
             topmsg2: false,
             collapse: false,
@@ -182,9 +130,9 @@ export default {
             name: '_nouser',
             usericon: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2057588226,2402156864&fm=11&gp=0.jpg',
             searchkey: '',
-            drawer: false,
+            // drawer: false,
             typelist: [],
-            uid: '',
+            // uid: '',
             userform: {},
             ziyinglist: []
         };
@@ -192,6 +140,7 @@ export default {
     created() {
         // this.getTypeList();
         // this.getziyinglist();
+
         this.getUserData();
     },
     computed: {
@@ -206,20 +155,15 @@ export default {
     },
     methods: {
         getUserData() {
-            this.uid = localStorage.getItem('user_id');
-            if (this.uid != null) {
-                this.$axios.get('/api/userInfo/selectOne?id=' + this.uid).then((res) => {
-                    this.userform = res.data;
-                });
-            }
+            // user:JSON.parse(window.sessionStorage.getItem('user'))
+            this.userform = this.$store.state.currentUser;
+            // this.uid = localStorage.getItem('user_id');
+            // if (this.uid != null) {
+            //     this.$axios.get('/api/userInfo/selectOne?id=' + this.uid).then((res) => {
+            //         this.userform = res.data;
+            //     });
+            // }
         },
-        // getziyinglist() {
-        //     axios.get('/api/goods/selectShowZiYing').then(res => {
-        //         this.ziyinglist = res.data;
-        //     }).catch(error => {
-        //         console.log("自营商品接口请求异常");
-        //     });
-        // },
         getTypeList() {
             axios
                 .get('/api/consultantType/selectAll')
@@ -243,6 +187,7 @@ export default {
                 this.$router.push('/user/helloHome').catch((err) => {});
             }
         },
+
         mouseenter1() {
             this.topmsg = true;
         },
@@ -284,7 +229,7 @@ export default {
                 }
             });
         },
-        ToLogin(){
+        ToLogin() {
             this.$router.push('/userlogin');
         }
     },

@@ -9,7 +9,7 @@
                 </el-image>
                 <div class="goodsBox-btn">
                     <br /><br />
-                    <h1>{{ this.ConsultantList.username }}</h1>
+                    <h1>{{ this.ConsultantList.nickname }}</h1>
                     <br />
                     <div style="text-align: left">
                         <p>
@@ -69,7 +69,7 @@
                 <span style="font-weight: bold; font-size: 20px">认证资质 · 从业{{ this.ConsultantList.workyear }}年</span>
                 <div v-for="(item,index) in ConsltCertifList" :key="index">
                     <!-- <p class="txt" >{{ item.certfname }}</p> -->
-                    <h4 style="font-weight: normal">{{ item.certfname }}</h4>
+                    <h4 style="font-weight: normal">{{ item.certifName }}</h4>
                 </div>
                 <br /><br />
             </div>
@@ -88,7 +88,7 @@
             <span class="detial-bigtitle">推荐语</span>
             <br />
             <el-divider></el-divider>
-            <span style="font-size: 20px">{{ this.ConsultantList.send_word }}</span>
+            <span style="font-size: 20px">{{ this.ConsultantList.sendword }}</span>
 
             <br /><br /><br /><br />
             <span class="detial-bigtitle">个人简介</span>
@@ -110,7 +110,7 @@ export default {
     name: 'consultantDesc',
     data() {
         return {
-            consultantId: '0',
+            consultantId: 0,
             //按钮点击限制
             add1_can_press: true,
             add2_can_press: true,
@@ -127,30 +127,40 @@ export default {
                 id: '',
                 consltid: ''
             },
-            orderparams: {
-                uid: '',
-                consltid: ''
-            },
-            haveCollection: false
+            // orderparams: {
+            //     uid: '',
+            //     consltid: ''
+            // },
+            haveCollection: false,
+            user:{}
+        
         };
     },
     created() {
+        this.user = this.$store.state.currentUser;
         if (this.$route.query.consultant == null) {
             this.$router.push('/user/helloHome');
         }
         this.consultantId = this.$route.query.consultant;
         this.collectparams.consltid = this.consultantId;
-        this.collectparams.id = localStorage.getItem('user_id');
-        this.orderparams.consltid = this.consultantId;
-        this.orderparams.uid = localStorage.getItem('user_id');
+        // this.collectparams.id = localStorage.getItem('user_id');
+        // this.collectparams.id = this.user.id;
+        // this.orderparams.consltid = this.consultantId;
+        // this.orderparams.uid = localStorage.getItem('user_id');
+        // this.orderparams.uid = this.user.id;
         this.getdata();
-        this.getConsltSkillList();
-        this.getConsltCertifList();
-        this.getcollectiondate();
-        // this.getWayList();
-        if (this.collectparams.id != null) {
-            this.getloginuserdate();
+        // this.getConsltSkillList();
+        // this.getConsltCertifList();
+
+        if (this.user.id != null) {
+            this.collectparams.id = this.user.id;
+            this.getcollectiondate();
         }
+        
+        // this.getWayList();
+        // if (this.collectparams.id != null) {
+        //     this.getloginuserdate();
+        // }
     },
     methods: {
         //前往用户主页
@@ -167,8 +177,12 @@ export default {
             axios
                 .get('/api/consultant/selectOne?id=' + this.consultantId)
                 .then((res) => {
-                    this.ConsultantList = res.data;
-                    this.wayList = this.ConsultantList.conslt_way.split(';');
+                    this.ConsultantList = res;
+                    this.wayList = this.ConsultantList.way.split(';');
+                    console.log(res);
+                    this.ConsltSkillList = res.ConsltSkill;
+                    this.ConsltCertifList = res.ConsltCertif;
+
                     // if (this.ConsultantList.isreview != 1) {
                     //     this.$message.error("该商品不符合审核规范")
                     //     this.$router.push('/user/helloHome');
@@ -176,7 +190,8 @@ export default {
                     // this.getuserdate();
                 })
                 .catch((error) => {
-                    console.log('查找商品接口请求异常');
+                    console.log(error)
+                    console.log('查找咨询师详情接口请求异常');
                 });
         },
         getuserdate() {
@@ -226,33 +241,30 @@ export default {
                     console.log('查找商品接口请求异常');
                 });
         },
-        getloginuserdate() {
-            axios
-                .get('/api/userInfo/selectOne?id=' + this.collectparams.id)
-                .then((res) => {
-                    this.loginuserList = res.data;
-                    console.log(this.loginuserList);
-                })
-                .catch((error) => {
-                    console.log('查找用户接口请求异常');
-                });
-        },
+        // getloginuserdate() {
+        //     axios
+        //         .get('/api/userInfo/selectOne?id=' + this.collectparams.id)
+        //         .then((res) => {
+        //             this.loginuserList = res.data;
+        //             console.log(this.loginuserList);
+        //         })
+        //         .catch((error) => {
+        //             console.log('查找用户接口请求异常');
+        //         });
+        // },
         //创建订单
         TobookConslt() {
-            if (this.collectparams.id == null) {
+            if (this.user.id == null) {
                 this.$message.error('请先登录账号');
             }
-            // else if (this.collectparams.uid == this.ConsultantList.id) {
-            //     this.$message.error('不能购买自己的商品');
-            // }
-            else if (this.loginuserList.isAuth == 0) {
+            else if (this.user.isAuth == 0) {
                 this.$message.error('若要预约，请先实名认证');
                 this.$router.push('/user/userInfo');
             } else {
                 this.$router.push({
                     path: '/user/bookInfo',
                     query: {
-                        consltId: this.ConsultantList.id,
+                        consltId: this.consultantId,
                         consltName: this.ConsultantList.username,
                         consltPhoto: this.ConsultantList.photourl,
                         consltArea: this.ConsltSkillList,
@@ -274,11 +286,12 @@ export default {
             }
         },
         getcollectiondate() {
+            console.log(this.collectparams.consltid)
             if (this.collectparams.id != null) {
                 axios
                     .post('/api/userCollection/haveCollection', this.collectparams)
                     .then((res) => {
-                        if (res.data.code == 200) this.haveCollection = true;
+                        if (res && res.data.code == 200) this.haveCollection = true;
                     })
                     .catch((error) => {
                         console.log('查找收藏接口返回异常');

@@ -21,13 +21,13 @@
                            style="float: right;margin-bottom: -20px;margin-right: 40px;">查看全部<i
                                 class="el-icon-lx-right"></i></a>
                     </div>
-                    <div class="card" v-for="(item, index) in consultantList" :key="item.id"
+                    <div class="card" v-for="(item, index) in consultantList" :key="item.user_id"
                          v-on:mouseenter="showDialog(index)" v-on:mouseleave="hideDialog(index)">
                         <div class="ribbon">
                             <!--鼠标移入移出事件-->
                             <div class="handleDialog" v-if="ishow && index==current">
                                 <el-button type="success" style="margin-left:30%;margin-top: 70%;" size="medium"
-                                           @click="goConsultantDesc(item.id)">查看详情
+                                           @click="goConsultantDesc(item.user_id)">查看详情
                                 </el-button>
                             </div>
                             <img :src="item.photourl" style="height: 100%;width: 100%">
@@ -66,7 +66,8 @@
                 scrolltofigurelist: [],
                 consultantList: [],
             };
-        }, created() {
+        }, 
+        created() {
             this.getscrolltofigure();
             this.getconsultantList();
         },
@@ -88,6 +89,7 @@
             },
             //前往商品详情页
             goConsultantDesc(consultant_id) {
+                console.log(consultant_id)
                 this.$router.push({
                     path: '/consultant/consultantDesc',
                     query: {

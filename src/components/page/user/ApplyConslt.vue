@@ -215,7 +215,8 @@ export default {
         };
     },
     created() {
-            this.uid = localStorage.getItem('user_id');
+            // this.uid = localStorage.getItem('user_id');
+            this.uid = this.$store.state.currentUser.id;
             // this.singleShow();
         },
     methods: {
@@ -259,11 +260,11 @@ export default {
                 console.log(paramsData);
                 this.$axios.post('/api/consultant/applyConslt', paramsData).then((res) => {
                     console.log(res);
-                    if (res && res.data.code == 200) {
+                    if (res && res.code == 200) {
                         this.index = 4;
                         this.finished = false;
                         this.$message.success('添加成功');
-                    } else this.$message.error(res.data.msg);
+                    } else this.$message.error(res.msg);
                 });
             } else {
                 this.index++;
@@ -308,8 +309,8 @@ export default {
             axios
                 .get('/api/consultantType/selectAll')
                 .then((res) => {
-                    this.typeList = res.data;
-                    console.log(res.data);
+                    this.typeList = res;
+                    console.log(res);
                 })
                 .catch((error) => {
                     console.log('查找商品接口请求异常');

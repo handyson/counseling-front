@@ -198,13 +198,13 @@ const store =  new Vuex.Store({
 })
 
 /**
- * 监听state.sessions，有变化就重新保存到local Storage中chat-session中
+ * 监听state，有变化就重新保存到state到sessionStorage
  */
-store.watch(function (state) {
-  return state.sessions
+ store.watch(function (state) {
+  return state
 },function (val) {
   console.log('CHANGE: ', val);
-  localStorage.setItem('chat-session', JSON.stringify(val));
+  sessionStorage.setItem("state",JSON.stringify(store.state));
 },{
   deep:true/*这个貌似是开启watch监测的判断,官方说明也比较模糊*/
 })

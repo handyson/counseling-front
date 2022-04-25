@@ -16,7 +16,7 @@
                 <el-table-column label="订单号" prop="oid" align="center" width="100"></el-table-column>
 
                 <!--        商品名字-->
-                <el-table-column label="咨询师" prop="cname" align="center"></el-table-column>
+                <el-table-column label="咨询师" prop="nickname" align="center"></el-table-column>
                 <!--        商品图片-->
                 <!-- <el-table-column label="时间" prop="img" width="110px" align="center">
                     <template slot-scope="scope">
@@ -71,26 +71,30 @@ export default {
             uid: '',
             tableData: [],
             ways: { 0: '即时聊天咨询', 1: '语音咨询', 2: '视频咨询', 3: '面对面咨询' },
-            search: ''
+            search: '',
+            user:{}
         };
     },
     created() {
-        if (localStorage.getItem('user_id') == null) {
+        this.user = this.$store.state.currentUser;
+        // if (localStorage.getItem('user_id') == null) {
+             if (this.user.id == null) {
             this.$router.push('/user/helloHome');
             this.$message.error('用户未登录');
         }
-        this.uid = localStorage.getItem('user_id');
+        // this.uid = localStorage.getItem('user_id');
+        this.uid = this.user.id;
         this.getData();
     },
     methods: {
         getData() {
             this.$axios.get('/api/ordersInfo/getOrdersByUid?id=' + this.uid).then((res) => {
-                this.tableData = res.data;
-                for (let i = 0; i < this.tableData.length; i++) {
+                this.tableData = res;
+                // for (let i = 0; i < this.tableData.length; i++) {
                     // let w = this.tableData.data.way;
                     // this.tableData.data.way = this.ways[w];
-                }
-                console.log(this.tableData.way);
+                // }
+                console.log(this.tableData);
 
                 // this.changeData();
             });
@@ -146,6 +150,7 @@ export default {
             // } else if (row.goodssum == 1 || row.goodssum == 2 || row.goodssum == 3) {
             //
             // }
+            console.log(row.oid);
             this.$router.push({
                 path: '/user/orderDetail',
                 query: {
