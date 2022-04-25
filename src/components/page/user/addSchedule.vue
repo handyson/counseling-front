@@ -2,7 +2,6 @@
     <div class="addPrestudyRecord">
         <el-form :model="form" label-width="98px" ref="form" :rules="rules" :hide-required-asterisk="true" label-position="left">
             <el-row :gutter="30">
-                
                 <el-col :span="30">
                     <el-form-item label="时间范围" prop="workTime">
                         <el-time-picker
@@ -12,7 +11,8 @@
                             start-placeholder="开始时间"
                             end-placeholder="结束时间"
                             placeholder="选择时间范围"
-                            format = 'HH:mm'>
+                            format="HH:mm"
+                        >
                         </el-time-picker>
                     </el-form-item>
                 </el-col>
@@ -31,23 +31,25 @@ export default {
     data() {
         // 时间冲突验证器
         var checkTimeConflict = (rule, value, callback) => {
-            var start = Date.parse(value[0]) / 1000
-            var end = Date.parse(value[1]) / 1000
-            var date = this.dateShow
-            date = parseInt(date.split('-').join(''), 10);  // 转为yyyyMMdd格式
+            var start = Date.parse(value[0]) / 1000;
+            var end = Date.parse(value[1]) / 1000;
+            var date = this.dateShow;
+            date = parseInt(date.split('-').join(''), 10); // 转为yyyyMMdd格式
 
-            var conflictTimeArr = this.calendarData.filter((item) => {
-                return date === item.workdate;
-            }).filter((item) => {
-                return !(start >= item.endtime || end <= item.starttime)
-            })
-            
+            var conflictTimeArr = this.calendarData
+                .filter((item) => {
+                    return date === item.workdate;
+                })
+                .filter((item) => {
+                    return !(start >= item.endtime || end <= item.starttime);
+                });
+
             if (conflictTimeArr.length > 0) {
-                callback(new Error('所选时间与当天排班存在冲突'))
+                callback(new Error('所选时间与当天排班存在冲突'));
             } else {
-                callback()
+                callback();
             }
-        }
+        };
 
         return {
             loading: false,
@@ -62,12 +64,12 @@ export default {
                         message: '请选择时间',
                         trigger: 'blur'
                     },
-                    { 
-                        validator: checkTimeConflict, 
+                    {
+                        validator: checkTimeConflict,
                         trigger: 'blur'
                     }
                 ]
-            },
+            }
         };
     },
     methods: {
@@ -90,17 +92,17 @@ export default {
                         workdate: parseInt(this.dateShow.split('-').join(''), 10),
                         starttime: this.form.workTime[0].getTime() / 1000,
                         endtime: this.form.workTime[1].getTime() / 1000
-                    }
+                    };
                     // 请求参数
                     var params = {
-                        cid: localStorage.getItem("user_id"),
+                        cid: localStorage.getItem('user_id'),
                         schedule: calendarDataItem
-                    }
+                    };
                     // 请求添加接口
                     this.$axios.post('/api/consltSchedule/addSchedule', params).then((res) => {
                         console.log(res);
                         if (res && res.data.code == 200) {
-                            calendarDataItem.id = res.data.data.id  // 接口返回新增的id字段
+                            calendarDataItem.id = res.data.data.id; // 接口返回新增的id字段
 
                             // 添加成功自动更新到日历显示
                             this.$emit('propClose', calendarDataItem);
@@ -109,7 +111,6 @@ export default {
                             this.$message.error(res.data.msg);
                         }
                     });
-
                 } else {
                     //console.log("error submit!!");
                     this.loading = false;
@@ -137,7 +138,7 @@ export default {
         // 从父组件获得排班列表
         calendarData: {
             type: [Array || null]
-        },
+        }
     }
 };
 </script>

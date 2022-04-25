@@ -5,7 +5,6 @@
                 <div class="container">
                     <div class="left-container">
                         <div class="selected-box">
-
                             <div class="selected" v-for="(item, index) in filterBox" :key="index">
                                 <span class="label">{{ item.name }}</span>
                                 <ul class="selected-list">
@@ -20,14 +19,17 @@
                                     </li>
                                 </ul>
                             </div>
-
                         </div>
                         <div class="teacher-box">
                             <div class="top-box">
                                 <span class="title">心理咨询师</span>
                                 <div class="search-box">
-                                    <el-input placeholder="搜索咨询师名字" v-model="query.searchkey" style="width:200px"></el-input>
-                                    <el-button class="search-btn el-button--infoSearch" icon="el-icon-search" @click="getconsltByQuery()"></el-button>
+                                    <el-input placeholder="搜索咨询师名字" v-model="query.searchkey" style="width: 200px"></el-input>
+                                    <el-button
+                                        class="search-btn el-button--infoSearch"
+                                        icon="el-icon-search"
+                                        @click="getconsltByQuery()"
+                                    ></el-button>
                                     <!-- <input type="text" placeholder="搜索咨询师名字" /> -->
                                     <!-- <i class="icon icon-node-website icon-search" icon="el-icon-search" @click="submitSearch()"></i> -->
                                 </div>
@@ -44,7 +46,7 @@
                                     <a href="https://www.xinli001.com/consult"> 最新入驻</a>
                                 </li> -->
                             </ul>
-                            <ul class="teacher-list" :data="consultantList.slice((currentPage-1)*pagesize,currentPage*pagesize)">
+                            <ul class="teacher-list" :data="consultantList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
                                 <li class="teacher-item" v-for="item in consultantList" :key="item.id">
                                     <a @click="goConsultantDesc(item.id)">
                                         <img :src="item.photoUrl" class="avatar" />
@@ -52,7 +54,7 @@
                                     <ul class="teacher-info">
                                         <li class="basic-info">
                                             <a @click="goConsultantDesc(item.id)" class="name">
-                                                {{ item.realName }}&nbsp;&nbsp;&nbsp;&nbsp;</a
+                                                {{ item.nickname }}&nbsp;&nbsp;&nbsp;&nbsp;</a
                                             >
                                             <!-- <span class="zx_num"> 6296人次咨询 </span> 
                                             <span class="point">·</span>-->
@@ -90,23 +92,24 @@
                                     </ul>
                                     <a href="https://www.xinli001.com/expert/1001796757"><span class="yuyue">预约</span></a>
                                 </li> -->
-                               
                             </ul>
                             <div class="block">
                                 <!-- <span class="demonstration">页数较少时的效果</span> -->
-                                <!-- <el-pagination layout="prev, pager, next" :total="50"> </el-pagination> -->
+                                <!-- <el-pagination layout="prev, pager, next" :total="50"> </el-pagination> 
+                                @size-change="handleSizeChange"-->
                                 <el-pagination
-                            @size-change="handleSizeChange"
-                            @current-change="handleCurrentChange"
-                            :current-page="currentPage"
-                            layout="total, prev, pager, next"
-                            :total="consultantList.length">    //这是显示总共有多少数据，
-                    </el-pagination>
+                                    @current-change="handleCurrentChange"
+                                    :current-page="currentPage"
+                                    layout="total, prev, pager, next"
+                                    :total="consultantList.length"
+                                >
+                                    //这是显示总共有多少数据，
+                                </el-pagination>
                             </div>
                         </div>
                     </div>
                     <!-- <div class="right-container"> -->
-                        <!-- <div class="apply">
+                    <!-- <div class="apply">
                             <a href="https://www.xinli001.com/zx/apply-new"
                                 ><div class="apply-btn">
                                     <i class="icon icon-node-website icon-pc-zx-residence"></i>
@@ -120,7 +123,7 @@
                                 </div></a
                             >
                         </div> -->
-                        <!-- <div class="apply-new-teacher-list">
+                    <!-- <div class="apply-new-teacher-list">
                             <div class="title">最新入驻心理咨询师</div>
                             <ul class="teacher-list">
                                 <li class="teacher-item">
@@ -148,7 +151,7 @@
                                 </div></a
                             >
                         </div> -->
-                        <!-- <div class="teacher-answer">
+                    <!-- <div class="teacher-answer">
                             <div class="top">
                                 <div class="title">咨询师问答</div>
                                 <a href="https://www.xinli001.com/qa?source=pc-consult"
@@ -199,7 +202,7 @@
                                 </li>
                             </ul>
                         </div> -->
-                        <!-- <div class="teacher-article">
+                    <!-- <div class="teacher-article">
                             <div class="top">
                                 <div class="title">咨询师文章</div>
                                 <a href="https://www.xinli001.com/info?source=pc-consult"
@@ -359,8 +362,8 @@ export default {
             pageTotal: 0,
             ishow: false,
             topmsg: false,
-            currentPage:1, //初始页
-            pagesize:10,
+            currentPage: 1, //初始页
+            pagesize: 10,
             current: 0,
             selectd: '',
             // currentDate: new Date(),
@@ -372,49 +375,48 @@ export default {
             filterSelected: {
                 type: 0,
                 way: 0,
-                gender: "",
+                gender: ''
             },
             filterBox: [
                 {
-                    name: "类别:",
-                    key: "type",
-                    defaultVal: 0,  // 默认值（全部选项的值）
+                    name: '类别:',
+                    key: 'type',
+                    defaultVal: 0, // 默认值（全部选项的值）
                     items: [
-                        { value: 0, text: "全部", active: true },
-                        { value: 1, text: "婚姻家庭", active: false },
-                        { value: 2, text: "亲子教育", active: false },
-                        { value: 3, text: "职场心理", active: false },
-                        { value: 4, text: "情绪管理", active: false },
-                        { value: 5, text: "心理健康", active: false },
-                        { value: 6, text: "个人成长", active: false },
-                        { value: 7, text: "恋爱心理", active: false },
-                        { value: 8, text: "人际管理", active: false },
-                        { value: 9, text: "性心理", active: false },
-                    ],
+                        { value: 0, text: '全部', active: true },
+                        { value: 1, text: '婚姻家庭', active: false },
+                        { value: 2, text: '亲子教育', active: false },
+                        { value: 3, text: '职场心理', active: false },
+                        { value: 4, text: '情绪管理', active: false },
+                        { value: 5, text: '心理健康', active: false },
+                        { value: 6, text: '个人成长', active: false },
+                        { value: 7, text: '恋爱心理', active: false },
+                        { value: 8, text: '人际管理', active: false },
+                        { value: 9, text: '性心理', active: false }
+                    ]
                 },
                 {
-                    name: "方式:",
-                    key: "way",
+                    name: '方式:',
+                    key: 'way',
                     defaultVal: 0,
                     items: [
-                        { value: 0, text: "全部", active: true },
-                        { value: 1, text: "语音咨询", active: false },
-                        { value: 2, text: "视频咨询", active: false },
-                        { value: 3, text: "面对面", active: false },
-                    ],
+                        { value: 0, text: '全部', active: true },
+                        { value: 1, text: '语音咨询', active: false },
+                        { value: 2, text: '视频咨询', active: false },
+                        { value: 3, text: '面对面', active: false }
+                    ]
                 },
                 {
-                    name: "性别:",
-                    key: "gender",
-                    defaultVal: "",
+                    name: '性别:',
+                    key: 'gender',
+                    defaultVal: '',
                     items: [
-                        { value: "", text: "不限", active: true },
-                        { value: "0", text: "男咨询师", active: false },
-                        { value: "1", text: "女咨询师", active: false },
-                    ],
-                },
-            ],
-
+                        { value: '', text: '不限', active: true },
+                        { value: '0', text: '男咨询师', active: false },
+                        { value: '1', text: '女咨询师', active: false }
+                    ]
+                }
+            ]
         };
     },
     created() {
@@ -432,24 +434,25 @@ export default {
     methods: {
         // 筛选框点击事件
         clickrange(parentIndex, el, childIndex) {
-            var selKey = this.filterBox[parentIndex].key
-            var selKeyDefaultVal = this.filterBox[parentIndex].defaultVal
+            var selKey = this.filterBox[parentIndex].key;
+            var selKeyDefaultVal = this.filterBox[parentIndex].defaultVal;
             var item = this.filterBox[parentIndex].items;
             item.filter((v, i) => {
                 if (i === childIndex) {
                     v.active = !v.active; // 选中和反选
                     if (v.active === true) {
-                        this.filterSelected[selKey] = v.value
-                    } else {    // 反选
+                        this.filterSelected[selKey] = v.value;
+                    } else {
+                        // 反选
                         // 不允许反选“全部”这个选项
                         if (childIndex === 0) {
-                            v.active = true
+                            v.active = true;
                         }
                         // 设为默认值
-                        this.filterSelected[selKey] = selKeyDefaultVal
+                        this.filterSelected[selKey] = selKeyDefaultVal;
                     }
-                    
-                    console.log("选中后", this.filterSelected);
+
+                    console.log('选中后', this.filterSelected);
                 } else {
                     v.active = false; // 取消选中，实现一行只选一个
                 }
@@ -460,23 +463,23 @@ export default {
         },
         getconsltByQuery() {
             this.query.kind = this.filterSelected.type;
-            this.query.cousltway = this.filterSelected.way
-            this.query.cousltgender = this.filterSelected.gender
+            this.query.cousltway = this.filterSelected.way;
+            this.query.cousltgender = this.filterSelected.gender;
             // 有分页的话要重置会第一页，不能可能没有数据！！！！！！！！！！！！！！！！！！
 
             axios
                 .post('/api/consultant/selectResult', this.query)
                 .then((res) => {
                     this.consultantList = res.records;
-                    console.log(res.data);
+                    console.log(res.records);
                 })
                 .catch((error) => {
                     console.log('接口请求异常');
                 });
         },
-        handleCurrentChange: function(currentPage){
-                this.currentPage = currentPage;
-                console.log(this.currentPage)  //点击第几页
+        handleCurrentChange: function (currentPage) {
+            this.currentPage = currentPage;
+            console.log(this.currentPage); //点击第几页
         },
         getCouponSelected() {
             //获取选中的优惠券

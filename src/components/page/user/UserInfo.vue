@@ -5,7 +5,7 @@
         </el-radio-group>
         <el-tabs :tab-position="tabPosition" style="height: 100%; margin-top: 20px; margin-left: 20%; width: 50%" @tab-click="handleClick">
             <el-tab-pane label="我的信息">
-                <el-form ref="form" :model="form" label-width="80px">
+                <el-form ref="form" :model="user" label-width="80px">
                     <h3>我的信息</h3>
                     <br /><br />
                     <el-upload
@@ -17,11 +17,11 @@
                         :on-success="handleAvatarSuccess1"
                         :before-upload="beforeAvatarUpload"
                     >
-                        <img v-if="form.avatar" :src="form.avatar" style="width: 100px" class="avatar" />
+                        <img v-if="user.avatar" :src="user.avatar" style="width: 100px" class="avatar" />
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                     <el-form-item label="用户名">
-                        <el-input v-model="form.nickName" size="medium" :disabled="editable"></el-input>
+                        <el-input v-model="user.nickname" size="medium" :disabled="editable"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit" v-show="!editable">提交修改</el-button>
@@ -48,7 +48,7 @@
                         </el-upload>
                     </el-form-item> -->
                     <el-form-item label="真实姓名">
-                        <el-input v-model="form.userName" size="medium" :disabled="editable"></el-input>
+                        <el-input v-model="form.realName" size="medium" :disabled="editable"></el-input>
                     </el-form-item>
                     <el-form-item label="性别">
                         <el-radio-group v-model="form.gender" :disabled="editable" size="medium">
@@ -65,7 +65,7 @@
                     <el-form-item label="电子邮件">
                         <el-input v-model="form.mail" size="medium" :disabled="editable"></el-input>
                     </el-form-item>
-                    <el-form-item label="邮箱验证码" v-if="form.isAuth == '0'">
+                    <el-form-item label="邮箱验证码" v-if="this.user.isAuth == 0">
                         <el-col :span="16">
                             <el-input v-model="form.iscode" size="medium" :disabled="editable"></el-input>
                         </el-col>
@@ -103,7 +103,7 @@
                     <h3>入驻咨询师申请</h3>
                     <br /><br />
                     <el-form-item>
-                        <div  v-if=" form.isAuth == '1'">
+                        <div v-if="this.user.isAuth == 1">
                             <img
                                 src="http://127.0.0.1:8000/images/kinds/f8ba7d95-6a1e-4e30-9dd1-b6f5e8b71fc0.jpg"
                                 style="height: 200px"
@@ -189,6 +189,7 @@ export default {
     name: 'userInfo',
     data() {
         return {
+            user: {},
             editable: true,
             imageUrl: '',
             form: {},
@@ -205,7 +206,8 @@ export default {
             totalTime: 60, //记录具体倒计时时间
 
             dialogVisible: false,
-            singleData: ''
+            singleData: '',
+            user: this.$store.state.currentUser
         };
     },
     created() {
@@ -213,29 +215,33 @@ export default {
     },
     methods: {
         getData() {
-            this.form.id = localStorage.getItem('user_id');
-            this.$axios.get('/api/userInfo/selectOne?id=' + this.form.id).then((res) => {
-                this.form = res.data;
+            // this.form.id = localStorage.getItem('user_id');
+            this.user = this.$store.state.currentUser;
+            this.$axios.get('/api/userInfo/selectOne?id=' + this.user.id).then((res) => {
+                this.form = res;
             });
         },
         handleClick(tab, event) {
-            if ((tab.index=="3")) {
-                this.$axios.get('/api/consultant/checkApplied?id=' + this.form.id).then((res) => {
-                    this.settleform = res.data.data;
+            if (tab.index == '3') {
+                this.$axios.get('/api/consultant/checkApplied?id=' + this.user.id).then((res) => {
+                    this.settleform = res.data;
                     console.log(this.settleform);
                 });
             }
         },
         authSubmit() {
             this.editable = !this.editable;
-            this.$axios.put('/api/userInfo/toAuth', this.form).then((res) => {
+            // this.$axios.put('/api/userInfo/toAuth', this.form).then((res) => {
+            this.form.id = this.user.id;
+            this.putRequest('/api/userInfo/toAuth', this.form).then((res) => {
+                this.$store.state.currentUser = res.obj;
                 this.$message.success('实名认证成功');
             });
         },
 
         editPwd() {
-            this.pwdform.uid = this.form.id;
-            this.$axios.put('/api/userInfo/resetpwd', this.pwdform).then((res) => {
+            this.pwdform.uid = this.user.id;
+            this.$axios.put('/api/user/resetpwd', this.pwdform).then((res) => {
                 if (res.data.code == 400) this.$message.error(res.data.msg);
                 else {
                     this.$router.push('/user/helloHome');
@@ -245,8 +251,11 @@ export default {
         },
         onSubmit() {
             this.editable = !this.editable;
-            this.$axios.post('/api/userInfo/updateInfo', this.form).then((res) => {
-                localStorage.setItem('user_icon', this.form.avatar);
+            // this.$axios.post('/api/user/updateInfo', this.user).then((res) => {
+            this.postRequest('/api/user/updateInfo', this.user).then((res) => {
+                this.$store.state.currentUser = res.obj;
+                // window.sessionStorage.setItem("state",JSON.stringify(this.$store.state));
+                localStorage.setItem('user_name', this.user.username);
                 this.$message.success('修改成功');
             });
         },

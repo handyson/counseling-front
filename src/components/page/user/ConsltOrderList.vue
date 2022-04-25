@@ -17,7 +17,7 @@
             header-cell-class-name="table-header"
         >
             <el-table-column prop="oid" label="ID" width="100" align="center"></el-table-column>
-            <el-table-column prop="nickName" label="咨询者"> </el-table-column>
+            <el-table-column prop="nickname" label="咨询者"> </el-table-column>
             <el-table-column prop="utel" label="咨询者联系方式"></el-table-column>
             <el-table-column prop="tname" label="咨询方向"></el-table-column>
             <el-table-column label="咨询详情" align="center" width="100">
@@ -142,22 +142,24 @@ export default {
         };
     },
     created() {
-        this.consltId = localStorage.getItem('user_id');
+        // this.consltId = localStorage.getItem('user_id');
+        this.consltId = this.$store.state.currentUser.id;
         this.getConsltOrdersByUId();
     },
     methods: {
         getConsltOrdersByUId() {
             this.orderList.cid = this.consltId;
             this.$axios.post('/api/ordersInfo/selectSellerOrdersByUId', this.orderList).then((res) => {
-                this.ordertableData = res.data;
+                this.ordertableData = res;
                 // this.changeData2()
             });
         },
         queryOrder(code) {
-            if (code < 9) {
-                this.orderList.code = code;
-                this.getConsltOrdersByUId();
+            if (code == 9) {
+                code = '';
             }
+            this.orderList.code = code;
+            this.getConsltOrdersByUId();
         },
         orderStatus(status) {
             if (status == '0') return 'warning';

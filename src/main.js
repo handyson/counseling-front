@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router';
 import ElementUI from 'element-ui';
 import VueI18n from 'vue-i18n';
-import {messages} from './components/common/admin/i18n';
+import { messages } from './components/common/admin/i18n';
 import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
 // import './assets/css/theme-green/index.css'; // 浅绿色主题
 import './assets/css/icon.css';
@@ -18,19 +18,19 @@ import axios from 'axios';
 import store from './store/index';
 import 'font-awesome/css/font-awesome.min.css'
 // 封装请求方法,供全局调用
-import {postKeyValueRequest} from "./utils/api";
-import {postRequest} from "./utils/api";
-import {getRequest} from "./utils/api";
-import {putRequest} from "./utils/api";
-import {deleteRequest} from "./utils/api";
+import { postKeyValueRequest } from "./utils/api";
+import { postRequest } from "./utils/api";
+import { getRequest } from "./utils/api";
+import { putRequest } from "./utils/api";
+import { deleteRequest } from "./utils/api";
 
-Vue.prototype.postKeyValueRequest=postKeyValueRequest;
-Vue.prototype.postRequest=postRequest;
-Vue.prototype.getRequest=getRequest;
-Vue.prototype.putRequest=putRequest;
-Vue.prototype.deleteRequest=deleteRequest;
+Vue.prototype.postKeyValueRequest = postKeyValueRequest;
+Vue.prototype.postRequest = postRequest;
+Vue.prototype.getRequest = getRequest;
+Vue.prototype.putRequest = putRequest;
+Vue.prototype.deleteRequest = deleteRequest;
 // 音视频
-import {createTrtcCalling} from "./utils/trtc";
+import { createTrtcCalling } from "./utils/trtc";
 import TRTCCalling from 'trtc-calling-js';
 Vue.prototype.$trtcCalling = createTrtcCalling();
 Vue.prototype.TrtcCalling = TRTCCalling;
@@ -67,7 +67,7 @@ Vue.prototype.getNowFormatDate = function () {
         strDate = "0" + strDate;
     }
     var currentdate = year + seperator1 + month + seperator1 + strDate;
-    return currentdate+ " " + date.getHours() + ":" + date.getMinutes()+":"+date.getSeconds();
+    return currentdate + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 };
 
 

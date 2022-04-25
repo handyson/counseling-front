@@ -68,7 +68,7 @@ export default {
                     return false;
                 }
             });
-        },
+        }
 
         // submitLogin() {
         //     this.$refs.loginForm.validate((valid) => {

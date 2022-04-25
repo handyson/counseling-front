@@ -26,7 +26,8 @@
                             type="primary"
                             @click="submitForm()"
                             size="large"
-                            style="background-color: #50a3a2; width: 60%; height: 50px; margin-top: 20px">
+                            style="background-color: #50a3a2; width: 60%; height: 50px; margin-top: 20px"
+                        >
                             登录
                         </el-button>
                     </div>
@@ -34,10 +35,10 @@
             </form>
             <div class="login-bottom">
                 <h4>
-                    <a style="color: #D3D3D3;" href="/">返回首页<span> | </span></a>
-                    <a style="color: #D3D3D3;" href="/#/repwd">找回密码<span> | </span></a>
-                    <a style="color: #D3D3D3;" @click="shensuVisible = true" v-if="shensu">我要申诉<span> | </span></a>
-                    <a style="color: #D3D3D3;" href="/#/userregister">立即注册</a>
+                    <a style="color: #d3d3d3" href="/">返回首页<span> | </span></a>
+                    <a style="color: #d3d3d3" href="/#/repwd">找回密码<span> | </span></a>
+                    <a style="color: #d3d3d3" @click="shensuVisible = true" v-if="shensu">我要申诉<span> | </span></a>
+                    <a style="color: #d3d3d3" href="/#/userregister">立即注册</a>
                 </h4>
             </div>
         </div>
@@ -65,7 +66,7 @@ export default {
             shensuVisible: false,
             param: {
                 code: '',
-                username:'',
+                username: '',
                 // mail: '',
                 pwd: '',
                 details: ''

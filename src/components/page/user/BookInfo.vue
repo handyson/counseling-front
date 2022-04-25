@@ -21,7 +21,7 @@
                         <br /><br />
                         <el-form-item label="预约老师" v-model="consellform.consltId">
                             <img :src="Consultant.consltPhoto" style="width: 60px; height: 60px" class="avatar" />
-                            <span style="font-size: 18px; padding-left: 20px">{{ Consultant.consltName }}</span>
+                            <span style="font-size: 18px; padding-left: 20px">{{ Consultant.nickname }}</span>
                         </el-form-item>
                         <el-form-item label="咨询方式">
                             <el-select placeholder="请选择咨询方式" v-model="consellform.way">
@@ -75,7 +75,7 @@
                     </el-form>
                 </div>
                 <div v-show="index == 3">
-                    <el-button type="success" icon="el-icon-check" circle size="medium" ></el-button>
+                    <el-button type="success" icon="el-icon-check" circle size="medium"></el-button>
                     <h4>完成</h4>
                     <br /><br /><br /><br />
                     <router-link to="/user/helloHome">返回首页</router-link>
@@ -114,20 +114,22 @@ export default {
             // },
             index: 1,
             consellform: {
-                ConsltId: '0',
-                userId: '',
+                ConsltId: 0,
+                userId: 0,
                 endTime: 0
             },
             consltSchedule: [],
             isselectTime: false,
-            showStep:true,
+            showStep: true,
+            user: {}
         };
     },
     created() {
-        if (localStorage.getItem('user_id') == null) {
-            this.$router.push('/user/helloHome');
-            this.$message.error('用户未登录');
-        }
+        this.user = this.$store.state.currentUser;
+        // if (localStorage.getItem('user_id') == null) {
+        //     this.$router.push('/user/helloHome');
+        //     this.$message.error('用户未登录');
+        // }
         // if (this.$route.query.orderid == null) {
         //     this.$message.error('订单不存在');
         //     this.$router.push('/user/helloHome');
@@ -145,7 +147,7 @@ export default {
     methods: {
         getconsltSchedule() {
             this.$axios.get('/api/consltSchedule/getConsltSchedule?id=' + this.consellform.ConsltId).then((res) => {
-                this.consltSchedule = res.data;
+                this.consltSchedule = res;
                 console.log(this.consltSchedule);
             });
         },
@@ -161,11 +163,11 @@ export default {
                 this.$axios.post('/api/ordersInfo/add', this.consellform).then((res) => {
                     console.log(res);
 
-                    if (res && res.data.code == 200) {
+                    if (res && res.code == 200) {
                         this.index = 3;
-                        showStep=false;
+                        this.showStep = false;
                         this.$message.success('添加成功');
-                    } else this.$message.error(res.data.msg);
+                    } else this.$message.error(res.msg);
                 });
             } else {
                 this.index++;

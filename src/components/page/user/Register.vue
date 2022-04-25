@@ -34,8 +34,8 @@
             </div>
             <div class="login-bottom">
                 <h4>
-                    <a style="color: #D3D3D3;" href="/">返回首页<span> | </span></a>
-                    <a style="color: #D3D3D3;" href="/#/userlogin">立即登录</a>
+                    <a style="color: #d3d3d3" href="/">返回首页<span> | </span></a>
+                    <a style="color: #d3d3d3" href="/#/userlogin">立即登录</a>
                 </h4>
             </div>
         </div>
@@ -93,7 +93,7 @@ export default {
             if (!this.param.username) {
                 this.$message.error('用户名不能为空');
                 return false;
-            } 
+            }
             // else {
             //     // 去后端检查用户名使用数量
             //     user_count({ type: 'username', data: this.username }).then((res) => {

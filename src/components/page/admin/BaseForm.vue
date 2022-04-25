@@ -2,9 +2,7 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item>
-                    <i class="el-icon-lx-calendar"></i> 表单
-                </el-breadcrumb-item>
+                <el-breadcrumb-item> <i class="el-icon-lx-calendar"></i> 表单 </el-breadcrumb-item>
                 <el-breadcrumb-item>基本表单</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
@@ -28,16 +26,12 @@
                                 placeholder="选择日期"
                                 v-model="form.date1"
                                 value-format="yyyy-MM-dd"
-                                style="width: 100%;"
+                                style="width: 100%"
                             ></el-date-picker>
                         </el-col>
                         <el-col class="line" :span="2">-</el-col>
                         <el-col :span="11">
-                            <el-time-picker
-                                placeholder="选择时间"
-                                v-model="form.date2"
-                                style="width: 100%;"
-                            ></el-time-picker>
+                            <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%"></el-time-picker>
                         </el-col>
                     </el-form-item>
                     <el-form-item label="城市级联">

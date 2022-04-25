@@ -22,7 +22,12 @@
                                 :on-success="handleAvatarSuccess1"
                                 :before-upload="beforeAvatarUpload"
                             >
-                                <img v-if="consltInfoform.photourl" :src="consltInfoform.photourl" style="width: 100%;height=100%" class="avatar" />
+                                <img
+                                    v-if="consltInfoform.photourl"
+                                    :src="consltInfoform.photourl"
+                                    style="width: 100%;height=100%"
+                                    class="avatar"
+                                />
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
                         </el-form-item>
@@ -215,11 +220,11 @@ export default {
         };
     },
     created() {
-            this.uid = localStorage.getItem('user_id');
-            // this.singleShow();
-        },
+        // this.uid = localStorage.getItem('user_id');
+        this.uid = this.$store.state.currentUser.id;
+        // this.singleShow();
+    },
     methods: {
-        
         // save(formName) {
         //     this.loading = true;
         //     this.$refs[formName].validate((valid) => {
@@ -251,19 +256,19 @@ export default {
             this.tableLoading = true;
             if (this.index == 3) {
                 var paramsData = {
-                    'uid': this.uid,
-                    'consellform': this.consltInfoform,
-                    'CC_tableData': this.CC_tableData,
-                    'skill_tableData': this.skill_tableData
+                    uid: this.uid,
+                    consellform: this.consltInfoform,
+                    CC_tableData: this.CC_tableData,
+                    skill_tableData: this.skill_tableData
                 };
                 console.log(paramsData);
                 this.$axios.post('/api/consultant/applyConslt', paramsData).then((res) => {
                     console.log(res);
-                    if (res && res.data.code == 200) {
+                    if (res && res.code == 200) {
                         this.index = 4;
                         this.finished = false;
                         this.$message.success('添加成功');
-                    } else this.$message.error(res.data.msg);
+                    } else this.$message.error(res.msg);
                 });
             } else {
                 this.index++;
@@ -308,8 +313,8 @@ export default {
             axios
                 .get('/api/consultantType/selectAll')
                 .then((res) => {
-                    this.typeList = res.data;
-                    console.log(res.data);
+                    this.typeList = res;
+                    console.log(res);
                 })
                 .catch((error) => {
                     console.log('查找商品接口请求异常');
@@ -317,10 +322,9 @@ export default {
         },
         handleAvatarSuccess1(res, file) {
             if (res.code == 200) {
-                
                 this.$message.success('上传成功');
                 this.consltInfoform.photourl = 'http://127.0.0.1:8000/images/consultant/' + res.msg;
-                console.log(this.consltInfoform.photourl)
+                console.log(this.consltInfoform.photourl);
             } else this.$message.error('上传失败');
         },
         beforeAvatarUpload(file) {
@@ -345,7 +349,7 @@ export default {
     props: {
         singleData: {
             type: [Object || null]
-        },
+        }
         // dateShow: {
         //     type: String
         // }

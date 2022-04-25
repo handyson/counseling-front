@@ -6,7 +6,7 @@
             </el-radio-group>
             <!-- 我的信息管理 -->
             <el-tabs type="border-card">
-                <el-tab-pane label="我的信息管理">
+                <!--<el-tab-pane label="我的信息管理">
                     <el-form ref="form" :model="form" label-width="90px" style="width: 40%; margin-left: 30%">
                         <el-form-item label="ID">
                             <el-input v-model="form.id" disabled></el-input>
@@ -16,7 +16,6 @@
                         </el-form-item>
                         <el-form-item label="性别">
                             <el-input v-model="form.gender"></el-input>
-                            <!-- <el-input>{{form.gender == 0?"女":"男"}}</el-input> -->
                         </el-form-item>
                         <el-form-item label="图片">
                             <el-upload
@@ -41,73 +40,11 @@
                             <el-button type="primary" @click="updateUserInfo">提交</el-button>
                         </el-form-item>
                     </el-form>
-                </el-tab-pane>
+                </el-tab-pane> -->
 
                 <!-- 个人简介 -->
-                <el-tab-pane label="个人简介">
-                    <el-form ref="aform" :model="aform" label-width="90px" style="width: 40%; margin-left: 30%">
-                        <el-form-item label="咨询师头衔">
-                            <el-input v-model="aform.title"></el-input>
-                            <!-- <el-select v-model="aform.kid" placeholder="请选择商品种类">
-                                <el-option v-for="item in kindsList" :key="item.kid" :label="item.kname" :value="item.kid"> </el-option>
-                            </el-select> -->
-                        </el-form-item>
-                        <el-form-item label="寄语">
-                            <el-input v-model="aform.price"></el-input>
-                        </el-form-item>
-                        <el-form-item label="简介">
-                            <el-input v-model="aform.brief"></el-input>
-                        </el-form-item>
-                        <el-form-item label="从业年份">
-                            <el-input v-model="aform.workyear"></el-input>
-                        </el-form-item>
-                        <el-form-item label="个人照片">
-                            <el-upload
-                                class="avatar-uploader"
-                                name="kimg"
-                                action="/api/UpData/upkindimg/"
-                                :show-file-list="false"
-                                :on-success="handleAvatarSuccess"
-                                :before-upload="beforeAvatarUpload"
-                            >
-                                <img v-if="aform.iconurl" :src="aform.iconurl" class="avatar" style="height: 180px" />
-                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                            </el-upload>
-                        </el-form-item>
-                        <el-form-item label="咨询方式">
-                            <el-input v-model="aform.details"></el-input>
-                        </el-form-item>
-                        <el-form-item label="关键字">
-                            <el-input v-model="aform.goodstitle"></el-input>
-                        </el-form-item>
-                        <div>
-                            <!-- <el-button type="primary" @click="applySubmit" v-show="editable"
-                                   v-if="settleform.roleType=='0'&&settleform.isAuth=='1'">提交商家申请
-                            </el-button> -->
-                            <el-button
-                                type="primary"
-                                @click="dialogVisible = true"
-                                icon="el-icon-plus"
-                                size="mini"
-                                v-show="editable"
-                                v-if="form.roleType == '0' && form.isAuth == '1'"
-                                >修改资质资料
-                            </el-button>
-
-                            <!-- <el-button size="mini" type="success" @click="applySubmit" icon="el-icon-refresh"> </el-button> -->
-                        </div>
-                        <div>
-                            <el-button
-                                type="primary"
-                                @click="dialogVisible = true"
-                                size="mini"
-                                v-show="editable"
-                                v-if="form.roleType == '0' && form.isAuth == '1'"
-                                >修改资质资料
-                            </el-button>
-                        </div>
-                    </el-form>
-                    <el-button type="primary" @click="saveAdd">确 定</el-button>
+                <el-tab-pane label="个人简介管理">
+                    <conslt-resume></conslt-resume>
                 </el-tab-pane>
 
                 <!-- 我的预约列表 -->
@@ -164,48 +101,6 @@
         <br />
         <br />
         <br />
-        <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="eform" label-width="90px">
-                <el-form-item label="商品种类">
-                    <el-select v-model="eform.kid" placeholder="请选择商品种类">
-                        <el-option v-for="item in kindsList" :key="item.kid" :label="item.kname" :value="item.kid"> </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="商品价格">
-                    <el-input v-model="eform.price"></el-input>
-                </el-form-item>
-                <el-form-item label="商品名字">
-                    <el-input v-model="eform.goodsname"></el-input>
-                </el-form-item>
-                <el-form-item label="商品规格">
-                    <el-input v-model="eform.spec"></el-input>
-                </el-form-item>
-                <el-form-item label="图片">
-                    <el-upload
-                        class="avatar-uploader"
-                        name="kimg"
-                        action="/api/UpData/upkindimg/"
-                        :show-file-list="false"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload"
-                    >
-                        <img v-if="eform.iconurl" :src="eform.iconurl" class="avatar" style="height: 180px" />
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                </el-form-item>
-                <el-form-item label="商品详情">
-                    <el-input v-model="eform.details"></el-input>
-                </el-form-item>
-                <el-form-item label="关键字">
-                    <el-input v-model="eform.goodstitle"></el-input>
-                </el-form-item>
-            </el-form>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="editVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveEdit">确 定</el-button>
-            </span>
-        </el-dialog>
     </div>
 </template>
 
@@ -213,21 +108,27 @@
 import axios from 'axios';
 import AddDutySchedule from './addSchedule.vue';
 import consltOrderList from './ConsltOrderList.vue';
+import consltResume from './ConsltResume.vue';
 export default {
     name: 'ConsltInfo',
     data() {
         return {
             consltId: '',
-            editable: true,
-            dialogVisible: false,
-            editVisible: false,
-            tableData: [],
-            kindsList: [],
-            form: {},
-            eform: {},
-            aform: {
-                uid: ''
-            },
+            // editable: true,
+            // dialogVisible: false,
+            // CertifeditVisible: false,
+            // SkilleditVisible: false,
+            // tableData: [],
+            // kindsList: [],
+            // wayList: [],
+            // ways: ['聊天', '语音', '视频', '面对面'],
+            // form: {},
+            // eform: {},
+            // aform: {
+            //     uid: ''
+            // },
+            // ConsltSkillList: [],
+            // ConsltCertifList: [],
 
             // 按钮权限
             btn: {
@@ -250,7 +151,7 @@ export default {
         };
     },
     created() {
-        this.getUserData();
+        this.consltId = this.$store.state.currentUser.id;
         // this.getData();
         // getKindsList().then(
         //     data => {
@@ -273,15 +174,7 @@ export default {
                 }
             });
         },
-        getUserData() {
-            this.consltId = localStorage.getItem('user_id');
-            this.aform.uid = localStorage.getItem('user_id');
-            this.$axios.get('/api/consultant/selectOne?id=' + this.consltId).then((res) => {
-                this.form = res.data;
-                // this.getConsltOrdersByUId();
-            });
-        },
-        
+        change(item) {},
         updateUserInfo() {
             this.editable = !this.editable;
             this.$axios.put('/api/userInfo/toAuth', this.form).then((res) => {
@@ -300,46 +193,10 @@ export default {
         //         console.log("接口请求异常");
         //     });
         // },
-        
         handleEdit(index, row) {
             this.idx = index;
             this.eform = row;
             this.editVisible = true;
-        },
-        // 保存编辑
-        saveEdit() {
-            axios.post('/api/goods/useredit', this.eform).then((res) => {
-                this.$message.success('修改成功');
-            });
-            this.editVisible = false;
-        },
-        //保存添加
-        saveAdd() {
-            axios.post('/api/goods/useradd', this.aform).then((res) => {
-                this.aform = '';
-                this.$message.success('添加成功');
-            });
-        },
-        //文件上传
-        handleAvatarSuccess(res, file) {
-            if (res.code == 200) {
-                this.$message.success('上传成功');
-                this.aform.iconurl = 'http://127.0.0.1:8000/images/kinds/' + res.msg;
-                this.eform.iconurl = 'http://127.0.0.1:8000/images/kinds/' + res.msg;
-            } else this.$message.error('上传失败');
-        },
-        beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg';
-            const isPng = file.type === 'image/png';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
-            return isJPG && isLt2M;
         },
         // 刷新排班数据
         refreshCalendarData() {
@@ -363,17 +220,16 @@ export default {
                 date: date
             };
             this.$axios.post('/api/consltSchedule/getSchedule', param).then((res) => {
-                if (res && res.data.code == 200) {
+                if (res && res.code == 200) {
                     // 删除成功自动更新到日历显示
                     for (let i in res.data.data) {
                         this.calendarData.push(res.data.data[i]);
                     }
                 } else {
-                    this.$message.error(res.data.msg);
+                    this.$message.error(res.msg);
                 }
             });
         },
-
         //  删除按钮
         deleteDar(content, index) {
             this.$confirm('此操将删除排班, 是否继续?', '提示', {
@@ -440,7 +296,8 @@ export default {
     },
     components: {
         AddDutySchedule,
-        consltOrderList
+        consltOrderList,
+        consltResume
     }
 };
 </script>
