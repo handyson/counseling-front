@@ -1,23 +1,23 @@
 <template>
   <div id="list">
-  	<ul v-if="currentList=='群聊'">
 <!--群聊列表-->
+  		<!-- <ul v-if="currentList=='群聊'">
 			<p style="padding: 2px 4px;height: 20px">群聊列表</p>
 			<li :class="{ active: currentSession?'群聊'== currentSession.username:false }"
 					v-on:click="changeCurrentSession(chatObj)">
 				<img class="avatar" src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1268761962,3976237305&fm=26&gp=0.jpg">
 				<el-badge :is-dot="isDot[user.username+'#群聊']"><p class="name">群聊</p></el-badge>
 			</li>
-			</ul>
+		</ul> -->
 <!--机器人-->
-		<ul v-if="currentList=='机器人'">
+		<!-- <ul v-if="currentList=='机器人'">
 			<p style="padding: 2px 4px;height: 20px">快来和机器人聊天吧！</p>
 			<li :class="{ active: currentSession?'机器人'== currentSession.username:false }"
 					v-on:click="changeCurrentSession(robotObj)">
 				<img class="avatar" src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2548892998,499717296&fm=26&gp=0.jpg">
 				<p class="name">瓦力(智能回复)</p>
 			</li>
-		</ul>
+		</ul> -->
 <!--用户列表-->
 		<el-scrollbar      wrap-class="userList" wrap-style="height:600px;"
 											  view-style="height:100%;" :native="false">

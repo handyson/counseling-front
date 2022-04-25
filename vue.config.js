@@ -1,24 +1,12 @@
 let proxyObj={};
 
-proxyObj['/api']={
-    // target: 'http://127.0.0.1:8000',
-    target: 'http://localhost:8000',
-    changeOrigin: true,
-    pathRewrite: {
-        '^/api': ''
-    }
-};
-
-/* 
-聊天室
-*/
 proxyObj['/ws']={
   ws:true,
-  target:"ws://localhost:8000"
+  target:"http://kcd84m.natappfree.cc"
 };
 proxyObj['/']={
   ws:false,
-  target:'http://localhost:8000',
+  target:'http://kcd84m.natappfree.cc',
   changeOrigin: true,
   pathRewrite:{
     '^/':''
@@ -30,6 +18,7 @@ module.exports = {
     assetsDir: 'static',
     productionSourceMap: false,
     devServer: {
+        public: 'localhost',
         port: 80,
         proxy: proxyObj
     }

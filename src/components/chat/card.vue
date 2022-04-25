@@ -17,7 +17,7 @@ export default {
   name: 'card',
   data () {
     return {
-      user:JSON.parse(window.sessionStorage.getItem('user'))
+		user:this.$store.state.currentUser,
     }
   }
 }

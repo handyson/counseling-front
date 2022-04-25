@@ -49,13 +49,13 @@ export default {
   name: 'message',
   data () {
     return {
-    	user:JSON.parse(window.sessionStorage.getItem('user'))
+		user:this.$store.state.currentUser,
     }
   },
   computed:mapState([
   	'sessions',
   	'currentSession',
-		'errorImgUrl'
+	'errorImgUrl'
   ]),
   filters:{
   	time (date) {

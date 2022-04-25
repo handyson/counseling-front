@@ -16,13 +16,20 @@ const store =  new Vuex.Store({
     sessions:{},//聊天记录
     users:[],//用户列表
     currentUser:null,//当前登录用户
-    currentSession:{username:'群聊',nickname:'群聊'},//当前选中的用户，默认为群聊
-    currentList:'群聊',//当前聊天窗口列表
+    currentSession:{username:'',nickname:''},//当前选中的用户，默认为群聊
+    currentList:'私聊',//当前聊天窗口列表
     filterKey:'',
     stomp:null,
     isDot:{},//两用户之间是否有未读信息
     errorImgUrl:"http://39.108.169.57/group1/M00/00/00/J2ypOV7wJkyAAv1fAAANuXp4Wt8303.jpg",//错误提示图片
-    shotHistory:{}//拍一拍的记录历史
+    shotHistory:{},//拍一拍的记录历史
+    // 音视频聊天
+    callStatus: '', // 状态, idle, calling, connected
+    isInviter: false, 
+    isAccepted: false,
+    meetingUserIdList: [],
+    muteVideoUserIdList: [],
+    muteAudioUserIdList: []
   },
   mutations:{
     initRoutes(state,data){
@@ -94,7 +101,42 @@ const store =  new Vuex.Store({
           state.users=resp;
         }
       })
-    }
+    },
+
+    /* 
+    音视频聊天
+    */
+    updateIsInviter (state, isInviter) {
+      state.isInviter = isInviter;
+    },
+    updateCallStatus (state, callStatus) {
+      state.callStatus = callStatus;
+    },
+    userJoinMeeting (state, userId) {
+      if (state.meetingUserIdList.indexOf(userId) === -1) {
+        state.meetingUserIdList.push(userId);
+      }
+    },
+    userAccepted (state, isAccepted) {
+      state.isAccepted = isAccepted;
+    },
+    userLeaveMeeting (state, userId) {
+      const index = state.meetingUserIdList.findIndex(item => item === userId);
+      if (index >= 0) {
+        state.meetingUserIdList.splice(index, 1);
+      }
+    },
+    dissolveMeeting (state) {
+      state.meetingUserIdList = [];
+      state.isMuteVideoUserIdList = [];
+      state.isMuteAudioUserIdList = [];
+    },
+    updateMuteVideoUserIdList (state, userIdList) {
+      state.muteVideoUserIdList = userIdList;
+    },
+    updateMuteAudioUserIdList (state, userIdList) {
+      state.muteAudioUserIdList = userIdList;
+    },
   },
   actions:{
     /**
@@ -132,30 +174,30 @@ const store =  new Vuex.Store({
         /**
          * 订阅群聊消息
          */
-        context.state.stomp.subscribe("/topic/greetings",msg=>{
-          //接收到的消息数据
-          let receiveMsg=JSON.parse(msg.body);
-          console.log("收到消息"+receiveMsg);
-          //当前点击的聊天界面不是群聊,默认为消息未读
-          if (context.state.currentSession.username!="群聊"){
-            Vue.set(context.state.isDot,context.state.currentUser.username+"#群聊",true);
-          }
-          //提交消息记录
-          context.commit('addGroupMessage',receiveMsg);
-        });
+        // context.state.stomp.subscribe("/topic/greetings",msg=>{
+        //   //接收到的消息数据
+        //   let receiveMsg=JSON.parse(msg.body);
+        //   console.log("收到消息"+receiveMsg);
+        //   //当前点击的聊天界面不是群聊,默认为消息未读
+        //   if (context.state.currentSession.username!="群聊"){
+        //     Vue.set(context.state.isDot,context.state.currentUser.username+"#群聊",true);
+        //   }
+        //   //提交消息记录
+        //   context.commit('addGroupMessage',receiveMsg);
+        // });
         /**
          * 订阅机器人回复消息
          */
-        context.state.stomp.subscribe("/user/queue/robot",msg=>{
-          //接收到的消息
-          let receiveMsg=JSON.parse(msg.body);
-          //标记为机器人回复
-          receiveMsg.notSelf=true;
-          receiveMsg.to='机器人';
-          receiveMsg.messageTypeId=1;
-          //添加到消息记录保存
-          context.commit('addMessage',receiveMsg);
-        })
+        // context.state.stomp.subscribe("/user/queue/robot",msg=>{
+        //   //接收到的消息
+        //   let receiveMsg=JSON.parse(msg.body);
+        //   //标记为机器人回复
+        //   receiveMsg.notSelf=true;
+        //   receiveMsg.to='机器人';
+        //   receiveMsg.messageTypeId=1;
+        //   //添加到消息记录保存
+        //   context.commit('addMessage',receiveMsg);
+        // })
         /**
          * 订阅私人消息
          */
@@ -198,13 +240,13 @@ const store =  new Vuex.Store({
 })
 
 /**
- * 监听state.sessions，有变化就重新保存到local Storage中chat-session中
+ * 监听state，有变化就重新保存到state到sessionStorage
  */
 store.watch(function (state) {
-  return state.sessions
+  return state
 },function (val) {
   console.log('CHANGE: ', val);
-  localStorage.setItem('chat-session', JSON.stringify(val));
+  sessionStorage.setItem("state",JSON.stringify(store.state));
 },{
   deep:true/*这个貌似是开启watch监测的判断,官方说明也比较模糊*/
 })

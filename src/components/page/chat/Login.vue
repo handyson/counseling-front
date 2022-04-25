@@ -67,6 +67,7 @@
 </template>
 
 <script>
+  import { genTestUserSig } from "../../../utils/GenerateTestUserSig";
 
   export default {
     name: "Login",
@@ -172,11 +173,26 @@
               },1000);
               if (resp){
                 //保存当前用户到vuex
+                console.log(resp.obj);
                 this.$store.state.currentUser=resp.obj;
-                //保存登录用户到sessionStorage中
-                window.sessionStorage.setItem("user",JSON.stringify(resp.obj));
+
+                /* 
+                登陆聊天室websocket，音视频聊天
+                */
+                //初始化数据
+                this.$store.dispatch('initData');
+                //连接WebSocket服务
+                this.$store.dispatch('connect');
+                //登陆腾讯云trtc服务
+                const userId = this.$store.state.currentUser.id;
+                const userSig = genTestUserSig(String(userId)).userSig;
+                this.$trtcCalling.login({
+                  userID: String(userId),
+                  userSig
+                });
+
                 let path=this.$route.query.redirect;
-                this.$router.replace((path=='/'||path==undefined)?"/chatroom":path);
+                this.$router.replace((path=='/'||path==undefined)?"/user/helloHome":path);
               }else {
                 this.changeverifyCode();
               }

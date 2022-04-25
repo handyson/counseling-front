@@ -29,6 +29,11 @@ Vue.prototype.postRequest=postRequest;
 Vue.prototype.getRequest=getRequest;
 Vue.prototype.putRequest=putRequest;
 Vue.prototype.deleteRequest=deleteRequest;
+// 音视频
+import {createTrtcCalling} from "./utils/trtc";
+import TRTCCalling from 'trtc-calling-js';
+Vue.prototype.$trtcCalling = createTrtcCalling();
+Vue.prototype.TrtcCalling = TRTCCalling;
 
 
 

@@ -290,6 +290,18 @@ export default new Router({
             hidden:true
         },
         {
+            path:'/video-call',
+            name:'VideoCall',
+            component: () => import('../components/page/chat/VideoCall.vue'),
+            meta: {title: '视频咨询'}
+        },
+        {
+            path:'/audio-call',
+            name:'AudioCall',
+            component: () => import('../components/page/chat/AudioCall.vue'),
+            meta: {title: '语音咨询'}
+        },
+        {
             path: '/adminlogin',
             component: () => import(/* webpackChunkName: "login" */ '../components/page/admin/Login.vue'),
             meta: {title: '登录'}

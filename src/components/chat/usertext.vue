@@ -1,6 +1,6 @@
 <template>
   <div id="uesrtext">
-    <div>
+    <div id="toolBtn">
       <el-popover placement="top-start" width="400" trigger="click" class="emoBox">
         <div class="emotionList">
           <a href="javascript:void(0);" @click="getEmo(index)" v-for="(item,index) in faceList" :key="index" class="emotionItem">{{item}}</a>
@@ -9,17 +9,19 @@
           <i class="fa fa-smile-o" aria-hidden="true"></i>
         </el-button>
       </el-popover>
-    <el-upload
-            class="chat-upload-btn"
-            action="/ossFileUpload?module=group-chat"
-            :before-upload="beforeAvatarUpload"
-            :on-success="imgSuccess"
-            :on-error="imgError"
-            :show-file-list="false"
-            accept=".jpg,.jpeg,.png,.JPG,JPEG,.PNG,.gif,.GIF"
-            >
-      <el-button id="uploadImgBtn" icon="el-icon-picture-outline"></el-button>
-    </el-upload>
+      <el-upload
+              class="chat-upload-btn"
+              action="/ossFileUpload?module=group-chat"
+              :before-upload="beforeAvatarUpload"
+              :on-success="imgSuccess"
+              :on-error="imgError"
+              :show-file-list="false"
+              accept=".jpg,.jpeg,.png,.JPG,JPEG,.PNG,.gif,.GIF"
+              >
+        <el-button id="uploadImgBtn" icon="el-icon-picture-outline"></el-button>
+      </el-upload>
+      <el-button icon="el-icon-video-camera" @click="handleVideoCall"></el-button>
+      <el-button icon="el-icon-phone-outline" @click="handleAudioCall"></el-button>
     </div>
     <textarea id="textarea" placeholder="按 Ctrl + Enter 发送" v-model="content" v-on:keyup="addMessage">
     </textarea>
@@ -32,7 +34,7 @@ import {mapState} from 'vuex';
 const appData=require("../../utils/emoji.json")//引入存放emoji表情的json文件
 
 export default {
-  name: 'uesrtext',
+  name: 'usertext',
   data () {
     return {
       faceList:[],//表情包数据
@@ -160,6 +162,22 @@ export default {
       return;
 
     },
+    handleVideoCall: function() {
+      this.$router.push({
+          name: 'VideoCall',
+          params: {
+            call: this.$store.state.currentSession.id
+          }
+        });
+    },
+    handleAudioCall: function() {
+      this.$router.push({
+          name: 'AudioCall',
+          params: {
+            call: this.$store.state.currentSession.id
+          }
+        });
+    },
   }
 }
 </script>
@@ -197,26 +215,21 @@ export default {
     float: right;
     margin-right: 10px;
   }
-  #uploadImgBtn{
+  #toolBtn .el-button{
     border: none;
-    padding-bottom: 0px;
+    padding: 7px 10px;
     margin-bottom: 0px;
-    padding-left: 12px;
+    margin-left: 0px;
+    // padding-left: 10px;
+    // padding-right: 10px;
+    font-size: 15px;
   }
-  #uploadImgBtn:hover{
-    background-color: white;
-  }
-  #emojiBtn{
-    border: none;
-    padding-right: 0px;
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-  }
-  #emojiBtn:hover{
+  #toolBtn .el-button:hover{
     background-color: white;
   }
   .chat-upload-btn{
     display: inline-block;
+    width: 35px;
   }
 }
 .emotionList{

@@ -21,7 +21,7 @@
   import message from '../../chat/message.vue'
   import usertext from '../../chat/usertext.vue'
   import toolbar from "../../chat/toolbar";
-  import chattitle from "../../chat/chattitle"
+  import chattitle from "../../chat/chattitle";
 
   export default {
     name: 'ChatRoom',
@@ -31,11 +31,18 @@
       }
     },
     mounted:function() {
-      //初始化数据
-      this.$store.dispatch('initData');
-      //连接WebSocket服务
-      this.$store.dispatch('connect');
+      // //初始化数据
+      // this.$store.dispatch('initData');
+      // //连接WebSocket服务
+      // this.$store.dispatch('connect');
 
+      // 登录trtc音视频
+      // const userSig = genTestUserSig(this.UserID).userSig;
+      // const userId = this.$store.state.currentUser.id;
+      // this.$trtcCalling.login({
+      //   userID: userId,
+      //   userSig
+      // });
     },
     created () {
       // //在页面加载时读取sessionStorage里的状态信息
