@@ -19,7 +19,7 @@
                 </a>
             </div>
         </center>
-        <el-footer style="width: 100%">
+        <el-footer style="width: 100%; padding: 0px;">
             <div class="footer">
                 <div class="ng-promise-box">
                     <div class="ng-promise">

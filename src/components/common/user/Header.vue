@@ -1,10 +1,10 @@
 <template>
     <div class="header" id="top">
-        <div style="float: left">
+        <div>
             <!-- left: auto; -->
             <el-menu
                 mode="horizontal"
-                style="background-color: #f6f6f6; left: 15%; margin-top: 10px; width: 1340px"
+                style="background-color: #f6f6f6; margin-top: 10px; width: 100%"
                 active-text-color="#409eff"
                 router
             >
@@ -12,20 +12,20 @@
                 <!-- <el-menu-item> style="color: #f2f8fe" -->
 
                 <div class="logo">
-                    <router-link to="/user/helloHome">
+                    <router-link to="/user/helloHome" style="display: block; width: 100%; height: 61px; text-align: center;">
                         <!-- <div class="collapse-btn">
                                 <i class="el-icon-s-home"></i>
                                 style="position: absolute;left: 12%;"
                             </div> -->
-                        <img style="height: 50px; margin-top: 5px; left: 8%" src="../../../assets/img/logo.png" />
+                        <img style="height: 50px; margin: 5px auto" src="../../../assets/img/logo.png" />
                     </router-link>
                 </div>
                 <el-menu-item class="el-menu-demo-item" index="/user/helloHome" style="font-size: 18px">首页 </el-menu-item>
                 <el-menu-item class="el-menu-demo-item" style="font-size: 18px" index="/user/SelectResult">
-                    <div style="height: 70px; width: 60px">心理咨询</div>
+                    <div>心理咨询</div>
                 </el-menu-item>
                 <el-menu-item class="el-menu-demo-item" style="font-size: 18px" index="/user/SelectZiYingResult">
-                    <div style="height: 70px; width: 60px" @mouseenter="mouseenter2" @mouseleave="mouseleave2">心理问答</div>
+                    <div @mouseenter="mouseenter2" @mouseleave="mouseleave2">心理问答</div>
                 </el-menu-item>
                 <el-menu-item class="el-menu-demo-item" style="font-size: 18px" index="/user/about">关于我们</el-menu-item>
 
@@ -65,15 +65,15 @@
                         </div>
                     </div>
                     <div class="header-user-con" v-else>
-                        <router-link to="/user/consltInfo" v-if="userform.roleType == 1">
+                        <router-link to="/user/consltInfo" v-if="userform && userform.roleType == 1">
                             <i class="el-icon-monitor" style="color: #2c1d0f; font-size: 16px">咨询师服务中心</i>
-                            <span style="color: #2c1d0f"> | </span>
+                            <span style="color: #2c1d0f">&nbsp;|&nbsp;</span>
                         </router-link>
                         <router-link to="/chatroom">
                             <i class="el-icon-message-solid" style="color: #2c1d0f; font-size: 16px">消息</i>
                         </router-link>
-                        <router-link to="/user/collection" v-if="userform.roleType == 0">
-                            <span style="color: #2c1d0f"> | </span>
+                        <router-link to="/user/collection" v-if="userform && userform.roleType == 0">
+                            <span style="color: #2c1d0f">&nbsp;|&nbsp;</span>
                             <i class="el-icon-star-on" style="color: #2c1d0f; font-size: 16px">我的收藏</i>
                         </router-link>
                         <!-- 用户头像 -->
@@ -82,9 +82,9 @@
                         </div>
 
                         <!-- 用户名下拉菜单 -->
-                        <el-dropdown class="user-name" @command="handleCommand" v-if="userform.roleType == 0">
+                        <el-dropdown class="user-name" @command="handleCommand" v-if="userform && userform.roleType == 0">
                             <span class="el-dropdown-link">
-                                {{ userform.nickname }}
+                                {{ userform.nickname || "" }}
                                 <i class="el-icon-caret-bottom"></i>
                             </span>
                             <el-dropdown-menu slot="dropdown">
@@ -98,9 +98,9 @@
                             </el-dropdown-menu>
                         </el-dropdown>
                         <!-- 咨询师名下拉菜单 -->
-                        <el-dropdown class="user-name" @command="handleCommand" v-if="userform.roleType == 1">
+                        <el-dropdown class="user-name" @command="handleCommand" v-if="userform && userform.roleType == 1">
                             <span class="el-dropdown-link">
-                                {{ userform.nickname }}
+                                {{ userform.nickname || "" }}
                                 <i class="el-icon-caret-bottom"></i>
                             </span>
                             <el-dropdown-menu slot="dropdown">
@@ -128,7 +128,7 @@ export default {
             collapse: false,
             fullscreen: false,
             name: '_nouser',
-            usericon: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2057588226,2402156864&fm=11&gp=0.jpg',
+            usericon: 'default_head.jpg',
             searchkey: '',
             // drawer: false,
             typelist: [],
@@ -145,11 +145,17 @@ export default {
     },
     computed: {
         username() {
-            let username = localStorage.getItem('user_name');
+            let username;
+            if (this.$store.state.currentUser) {
+                username = this.$store.state.currentUser.nickname;
+            }
             return username ? username : this.name;
         },
         usericon2() {
-            let usericon = localStorage.getItem('user_icon');
+            let usericon;
+            if (this.$store.state.currentUser) {
+                usericon = this.$store.state.currentUser.avatar;
+            }
             return usericon ? usericon : this.usericon;
         }
     },
@@ -184,7 +190,7 @@ export default {
                 localStorage.clear();
                 window.sessionStorage.clear();
 
-                this.$router.push('/user/helloHome').catch((err) => {});
+                this.$router.go(0);
             }
         },
 
@@ -270,13 +276,14 @@ export default {
 
 .header .logo {
     float: left;
-    width: 150px;
-    /* line-height: 40px; */
+    width: 120px;
+    height: 61px;
+    margin: 0px 20px;
 }
 
 .header-right {
     float: right;
-    padding-right: 50px;
+    padding-right: 40px;
 }
 
 .header-user-con {
@@ -308,8 +315,15 @@ export default {
 /* 顶部导航栏CSS */
 .topbar {
     height: 60px;
-    margin-left: 50px;
+    width: 240px;
     /* background-color: #3d3d3d; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topbar button {
+    margin: 0px;
 }
 
 .topbar ul {
@@ -323,8 +337,8 @@ export default {
     color: #b0b0b0;
     font-size: 19px;
     text-align: center;
-    line-height: 50px;
-    margin-left: 20px;
+    line-height: 60px;
+    /* margin-left: 20px; */
 }
 
 .topbar .sep {
@@ -335,11 +349,11 @@ export default {
 
 .topbar li .el-button {
     color: #0f0f0f;
-    font-size: 18px;
+    font-size: 17px;
 }
 
 .topbar .el-button:hover {
-    color: rgb(119, 115, 115);
+    color: rgb(183, 180, 180);
 }
 
 .topbar li a {

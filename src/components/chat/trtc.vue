@@ -50,7 +50,7 @@ export default {
     methods: {
         handleAutoLogin: async function () {
             // 刷新自动登陆trtc
-            console.log('刷新自动登陆trtc !!!!!!!!!!!!!!!!!!!!!!', this.$store.state.currentUser.id);
+            console.log('刷新自动登陆trtc !!!!!!!!!!!!!!!!!!!!!!', this.$store.state);
             if (this.$store.state.currentUser && this.$store.state.currentUser.id) {
                 const userId = this.$store.state.currentUser.id;
                 const userSig = genTestUserSig(String(userId)).userSig;
