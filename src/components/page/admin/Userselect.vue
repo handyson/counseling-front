@@ -18,7 +18,7 @@
                                 <span>{{ scope.row.id }}</span>
                             </el-form-item>
                             <el-form-item label="真实姓名：" prop="nickName">
-                                <span>{{ scope.row.userName }}</span>
+                                <span>{{ scope.row.realName }}</span>
                             </el-form-item>
                             <el-form-item label="性别：">
                                 <span>{{ scope.row.gender == '0' ? '女' : '男' }}</span>
@@ -31,7 +31,7 @@
                 </el-table-column>
 
                 <el-table-column prop="id" label="ID" width="100" align="center" sortable></el-table-column>
-                <el-table-column prop="nickName" label="用户名"></el-table-column>
+                <el-table-column prop="nickname" label="用户名"></el-table-column>
                 <el-table-column label="头像" align="center">
                     <template slot-scope="scope">
                         <el-image class="table-td-thumb" :src="scope.row.avatar" :preview-src-list="[scope.row.avatar]"></el-image>
@@ -76,10 +76,10 @@
                         }}</span>
                     </template> -->
                 </el-table-column>
-                <el-table-column prop="userState" label="账号状态" align="center" sortable>
+                <el-table-column prop="isLocked" label="账号状态" align="center" sortable>
                     <template slot-scope="scope">
-                        <el-tag :type="scope.row.userState == '0' ? 'success' : 'danger'"
-                            >{{ scope.row.userState == '0' ? '正常' : '封禁' }}
+                        <el-tag :type="!scope.row.isLocked ? 'success' : 'danger'"
+                            >{{ !scope.row.isLocked ? '正常' : '封禁' }}
                         </el-tag>
                     </template>
                 </el-table-column>
@@ -168,7 +168,7 @@ export default {
                 .post('/api/userInfo/selectKeyByLimit', this.query)
                 .then((res) => {
                     console.log(res);
-                    this.tableData = res.data.records;
+                    this.tableData = res.records;
                     this.pageTotal = this.tableData.length;
                     this.changeData();
                 })

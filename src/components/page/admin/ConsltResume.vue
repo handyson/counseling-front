@@ -230,7 +230,7 @@ export default {
         };
     },
     created() {
-        this.consltId = this.$store.state.currentUser.id;
+        this.consltId = this.uid;
         this.getUserData();
     },
     methods: {
@@ -324,6 +324,11 @@ export default {
                 this.$message.error('上传头像图片大小不能超过 2MB!');
             }
             return isJPG && isLt2M;
+        },
+        props: {
+            uid: {
+                type: [Object || null]
+            }
         }
         // getConsltSkillList() {
         //     axios

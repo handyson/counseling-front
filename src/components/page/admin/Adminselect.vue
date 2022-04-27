@@ -57,7 +57,7 @@ export default {
                 .post('/api/managerInfo/selectKeyByLimit', this.query)
                 .then((res) => {
                     console.log(res);
-                    this.tableData = res.data.records;
+                    this.tableData = res.records;
                     this.pageTotal = this.tableData.length;
                 })
                 .catch((error) => {
