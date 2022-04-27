@@ -94,7 +94,7 @@
             </div>
         </div>
         <el-dialog :visible.sync="dialogVisible" v-if="dialogVisible" :close-on-click-modal="false" @close="propClose('取消')" width="50%">
-            <conslt-resume @propClose="propClose" />
+            <conslt-resume :uid="uid"/>
             <!-- :date-show="dateShow" :single-data="singleData"  -->
         </el-dialog>
     </div>
@@ -116,7 +116,7 @@ export default {
             },
             tableData: [],
             dialogVisible: false,
-            uid: ''
+            uid: 0,
         };
     },
     created() {
@@ -192,8 +192,8 @@ export default {
             }
         },
         ApplyDetail(uid) {
-            this.dialogVisible = true;
             this.uid = uid;
+            this.dialogVisible = true;
         },
         // 触发搜索按钮
         handleSearch() {

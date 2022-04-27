@@ -226,8 +226,18 @@ export default {
                 uid: ''
             },
             ConsltSkillList: [],
-            ConsltCertifList: []
+            ConsltCertifList: [],
         };
+    },
+    props: {
+        uid: {
+            type: Number
+        }
+    },
+    watch: {
+        uid(newVal) {
+            this.uid = newVal //对父组件传过来的值进行监听，如果改变也对子组件内部的值进行改变
+        }
     },
     created() {
         this.consltId = this.uid;
@@ -325,11 +335,6 @@ export default {
             }
             return isJPG && isLt2M;
         },
-        props: {
-            uid: {
-                type: [Object || null]
-            }
-        }
         // getConsltSkillList() {
         //     axios
         //         .get('/api/consltSkill/getConsltSkill?id=' + this.consultantId)
