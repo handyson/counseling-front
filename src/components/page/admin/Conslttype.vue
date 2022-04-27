@@ -77,7 +77,7 @@ export default {
         // 获取 easy-mock 的模拟数据
         getData() {
             this.$axios.get('/api/consultantType/selectAll').then((res) => {
-                this.read = res.data;
+                this.read = res;
                 this.changeData();
             });
         },

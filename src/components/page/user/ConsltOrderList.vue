@@ -234,6 +234,7 @@ export default {
             this.editDialog = true;
             this.consellform = row;
             this.getconsltSchedule();
+            console.log(this.consltSchedule);
             console.log(this.consellform);
         },
         editOrder(index, row) {

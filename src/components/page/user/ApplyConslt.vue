@@ -34,8 +34,16 @@
                         <!-- <el-form-item label="头衔">
                             <el-input v-model="consltInfoform.title" size="medium"></el-input>
                         </el-form-item> -->
-                        <el-form-item label="简介">
-                            <el-input v-model="consltInfoform.brief" size="medium"></el-input>
+                        <el-form-item label="最高学历">
+                            <el-select placeholder="请选择学历" v-model="consltInfoform.education">
+                                <el-option v-for="edu in eduList" :key="edu" :value="edu" :label="eduList[edu]"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="电话号码">
+                            <el-input v-model="consltInfoform.tel" size="medium"></el-input>
+                        </el-form-item>
+                        <el-form-item label="通讯地址">
+                            <el-input v-model="consltInfoform.faceAddress" size="medium"></el-input>
                         </el-form-item>
                         <el-form-item label="从业时间">
                             <el-input v-model="consltInfoform.workyear" size="medium"></el-input>
@@ -46,11 +54,8 @@
                         <el-form-item label="寄望">
                             <el-input v-model="consltInfoform.sendWord" size="medium"></el-input>
                         </el-form-item>
-                        <el-form-item label="电话号码">
-                            <el-input v-model="consltInfoform.tel" size="medium"></el-input>
-                        </el-form-item>
-                        <el-form-item label="通讯地址">
-                            <el-input v-model="consltInfoform.faceAddress" size="medium"></el-input>
+                        <el-form-item label="简介">
+                            <el-input v-model="consltInfoform.brief" size="medium"></el-input>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -216,7 +221,8 @@ export default {
             skill_tableData: [],
             tableLoading: false,
             finished: true,
-            editable: true
+            editable: true,
+            eduList: { 1: '大专以下', 2: '大专', 3: '本科', 4: '研究生', 5: '博士' }
         };
     },
     created() {

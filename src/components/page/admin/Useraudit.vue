@@ -15,7 +15,7 @@
                     <template slot-scope="props">
                         <el-form label-position="left" inline class="demo-table-expand">
                             <el-form-item label="用户ID：">
-                                <span>{{ props.row.id }}</span>
+                                <span>{{ props.row.userId }}</span>
                             </el-form-item>
                             <el-form-item label="真实姓名：">
                                 <span>{{ props.row.userName }}</span>
@@ -40,14 +40,15 @@
                         {{scope.row.kinds==='1'?'学生身份审核':(scope.row.kinds==='0'?'商家身份审核':'其他')}}
                     </template>
                 </el-table-column> -->
-                <el-table-column label="附件" align="center">
+                <el-table-column label="详情" align="center">
                     <template slot-scope="scope">
-                        <el-image
+                        <el-button type="primary" @click="ApplyDetail(scope.row.userId)" size="mini">详情 </el-button>
+                        <!-- <el-image
                             v-if="scope.row.auditimg"
                             class="table-td-thumb"
                             :src="scope.row.auditimg"
                             :preview-src-list="[scope.row.auditimg]"
-                        ></el-image>
+                        ></el-image> -->
                     </template>
                 </el-table-column>
 
@@ -92,10 +93,15 @@
                 ></el-pagination>
             </div>
         </div>
+        <el-dialog :visible.sync="dialogVisible" v-if="dialogVisible" :close-on-click-modal="false" @close="propClose('取消')" width="50%">
+            <conslt-resume @propClose="propClose" />
+            <!-- :date-show="dateShow" :single-data="singleData"  -->
+        </el-dialog>
     </div>
 </template>
 <script>
 import axios from 'axios';
+import consltResume from './ConsltResume.vue';
 
 export default {
     name: 'useraudit',
@@ -108,7 +114,9 @@ export default {
                 offset: 0, //查询首条位置
                 limit: 10 //查询数据量
             },
-            tableData: []
+            tableData: [],
+            dialogVisible: false,
+            uid: ''
         };
     },
     created() {
@@ -121,7 +129,7 @@ export default {
                 .post('/api/audit/selectKeyByLimit', this.query)
                 .then((res) => {
                     console.log(res);
-                    this.tableData = res.data.records;
+                    this.tableData = res.records;
                     this.pageTotal = this.tableData.length;
                     this.changeData();
                 })
@@ -175,6 +183,17 @@ export default {
                         console.log('接口请求异常');
                     });
             }
+        },
+        // 弹框关闭
+        propClose(content) {
+            this.dialogVisible = false;
+            if (content != '取消') {
+                this.calendarData.push(content);
+            }
+        },
+        ApplyDetail(uid) {
+            this.dialogVisible = true;
+            this.uid = uid;
         },
         // 触发搜索按钮
         handleSearch() {
@@ -233,6 +252,9 @@ export default {
             else if (stid == '2') return '已认证';
             else if (stid == '3') return '审核未通过';
         }
+    },
+    components: {
+        consltResume
     }
 };
 </script>

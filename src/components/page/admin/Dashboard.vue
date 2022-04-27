@@ -9,13 +9,13 @@
                 </el-card>
                 <el-card shadow="hover" style="height: 200px; margin-top: 20px; margin-left: 20px">
                     <div slot="header" class="clearfix">
-                        <span>订单总览</span>
+                        <span>心理咨询预约总览</span>
                     </div>
-                    交易成功：{{ orderView[0] }}单
+                    咨询完成：{{ orderView[0] }}次
                     <el-progress :percentage="((orderView[0] * 100) / orderView[3]).toFixed(0)" color="#42b983"></el-progress>
-                    交易进行中：{{ orderView[1] }}单
+                    咨询进行中：{{ orderView[1] }}次
                     <el-progress :percentage="((orderView[1] * 100) / orderView[3]).toFixed(0)"></el-progress>
-                    交易终止：{{ orderView[2] }}单
+                    咨询终止：{{ orderView[2] }}次
                     <el-progress :percentage="((orderView[2] * 100) / orderView[3]).toFixed(0)" color="#f56c6c"></el-progress>
                 </el-card>
             </el-col>
@@ -133,13 +133,13 @@ export default {
             options: {
                 type: 'line',
                 title: {
-                    text: '销售统计'
+                    text: '用户预约统计'
                 },
                 xRorate: 25,
                 labels: ['01-01', '01-01'],
                 datasets: [
                     {
-                        label: '本月所有订单统计',
+                        label: '本月所有用户预约统计',
                         data: [234, 278, 270, 190, 230]
                     }
                 ]
@@ -167,7 +167,7 @@ export default {
     },
     mounted() {
         this.$nextTick(() => {
-            setInterval(this.CurentTime, 1000);
+            setInterval(this.CurrentTime, 1000);
         });
     },
     computed: {
@@ -190,16 +190,16 @@ export default {
         //查询本月每天订单量
         getorderbyM() {
             this.$axios.get('/api/adminhome/adminHomeOrderByM').then((res) => {
-                this.options.labels = res.data[1];
-                this.options.datasets[0].data = res.data[0];
-                console.log(res.data);
+                this.options.labels = res[1];
+                this.options.datasets[0].data = res[0];
+                console.log(res);
                 console.log(this.options);
             });
         }, //无限滑动评论更新
         getcommentcount() {
             this.$axios.get('/api/adminhome/adminHomeViewCommentLimit?offset=0&limit=' + this.count).then((res) => {
-                if (this.commentcount.length >= res.data.length) this.countfinal = true;
-                this.commentcount = res.data;
+                if (this.commentcount.length >= res.length) this.countfinal = true;
+                this.commentcount = res;
                 this.changeData();
             });
         },
@@ -222,27 +222,27 @@ export default {
         },
         getbingtu() {
             this.$axios.get('/api/adminhome/adminhomepageAllConsultant').then((res) => {
-                this.options3.labels = res.data[0];
-                this.options3.datasets[0].data = res.data[1];
+                this.options3.labels = res[0];
+                this.options3.datasets[0].data = res[1];
             });
         },
         getorderView() {
             this.$axios.get('/api/adminhome/orderView').then((res) => {
-                this.orderView = res.data;
+                this.orderView = res;
             });
         },
         getintright() {
             this.$axios.get('/api/adminhome/userSum').then((res) => {
-                this.userSum = res.data;
+                this.userSum = res;
             });
             this.$axios.get('/api/adminhome/waitRead').then((res) => {
-                this.waitRead = res.data;
+                this.waitRead = res;
             });
             this.$axios.get('/api/adminhome/checkConsultant').then((res) => {
-                this.checkConsultant = res.data;
+                this.checkConsultant = res;
             });
         },
-        CurentTime() {
+        CurrentTime() {
             var getTime = new Date();
             var year = getTime.getFullYear(); //年
             var month = getTime.getMonth() + 1; //月

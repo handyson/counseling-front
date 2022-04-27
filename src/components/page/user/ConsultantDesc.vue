@@ -151,7 +151,7 @@ export default {
         // this.getConsltSkillList();
         // this.getConsltCertifList();
 
-        if (this.user.id != null) {
+        if (this.user && this.user.id != null) {
             this.collectparams.id = this.user.id;
             this.getcollectiondate();
         }
