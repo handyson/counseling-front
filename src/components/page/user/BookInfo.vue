@@ -141,7 +141,7 @@ export default {
         this.consltWay = this.$route.query.consltWay;
 
         // this.param.uid = localStorage.getItem('user_id');
-        this.consellform.userId = localStorage.getItem('user_id');
+        this.consellform.userId =  this.user.id;
         this.getconsltSchedule();
     },
     methods: {

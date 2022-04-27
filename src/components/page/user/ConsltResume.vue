@@ -129,7 +129,65 @@
                 </el-table-column>
             </el-table>
             <div>
-                <el-button type="primary" @click="saveEdit">提 交</el-button>
+                <el-button type="primary" @click="saveCertifEdit">提 交</el-button>
+            </div>
+            <!-- <span slot="footer" class="dialog-footer">
+                <el-button @click="CertifeditVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveEdit">确 定</el-button>
+            </span> -->
+        </el-dialog>
+
+        <!-- 编辑弹出框 -->
+        <el-dialog title="编辑" :visible.sync="SkilleditVisible" width="30%">
+            <div>
+                <p><el-button class="el-icon-plus" @click.prevent="handleAddSkill()"></el-button></p>
+            </div>
+            <el-table height="310" :data="ConsltSkillList" style="width: 580px; margin-left: 10px">
+                <el-table-column type="index" label="序号">
+                    <template slot-scope="scope">
+                        {{ scope.$index + 1 }}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="name" label="擅长服务方向">
+                    <template slot-scope="scope">
+                         <!-- <el-input size="mini" v-show="scope.row.show" v-model="scope.row.tname"></el-input> -->
+                        <span v-show="!scope.row.show">{{ scope.row.tname }}</span>
+                        <el-select v-model="scope.row.id" placeholder="请选择" v-show="scope.row.show">
+                            <el-option v-for="(item, index) in typeList" :key="index" :label="item.typeName" :value="item.id"></el-option>
+                        </el-select>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="detail" label="详情">
+                    <template slot-scope="scope">
+                        <el-input size="mini" v-show="scope.row.show" v-model="scope.row.detail"></el-input>
+                        <span v-show="!scope.row.show">{{ scope.row.detail }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="" label="操作">
+                    <template slot-scope="scope">
+                        <el-dropdown trigger="click">
+                            <el-button type="text" size="mini"
+                                >操作
+                                <i class="el-icon-arrow-down el-icon--right"></i>
+                            </el-button>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>
+                                    <el-button
+                                        @click="handleDeleteSkill(scope.$index)"
+                                        class="btn-text-red"
+                                        type="text"
+                                        size="mini"
+                                        icon="el-icon-delete"
+                                        >删除
+                                    </el-button>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div>
+                <el-button type="primary" @click="saveSkillEdit">提 交</el-button>
             </div>
             <!-- <span slot="footer" class="dialog-footer">
                 <el-button @click="CertifeditVisible = false">取 消</el-button>
@@ -150,8 +208,9 @@ export default {
             dialogVisible: false,
             CertifeditVisible: false,
             SkilleditVisible: false,
+            isAdd:false,
             tableData: [],
-            kindsList: [],
+            typeList: [],
             wayList: [],
             // way: { 0: '即时聊天咨询', 1: '语音咨询', 2: '视频咨询', 3: '面对面咨询' },
             ways: ['聊天', '语音', '视频', '面对面'],
@@ -184,12 +243,32 @@ export default {
         // 添加点击按钮
         handleAddCertf() {
             this.ConsltCertifList.push({
-                name: '',
-                code: '',
-                c_year: '',
+                certifName: '',
+                certifNo: '',
+                certifAge: '',
+                remark: '',
+                show: true
+            });
+        },
+        // 添加点击按钮
+        handleAddSkill() {
+            this.ConsltSkillList.push({
+                tname: '',
                 detail: '',
                 show: true
             });
+            this.getConsltSkillList();
+        },
+        getConsltSkillList() {
+            axios
+                .get('/api/consultantType/selectAll')
+                .then((res) => {
+                    this.typeList = res;
+                    console.log(res);
+                })
+                .catch((error) => {
+                    console.log('查找商品接口请求异常');
+                });
         },
         //保存添加
         saveAdd() {
@@ -204,8 +283,15 @@ export default {
                 this.$message.success('添加成功');
             });
         },
-        // 保存编辑
-        saveEdit() {
+        // 保存资质资料编辑
+        saveCertifEdit() {
+            axios.post('/api/goods/useredit', this.eform).then((res) => {
+                this.$message.success('修改成功');
+            });
+            this.editVisible = false;
+        },
+        // 保存咨询类型编辑
+        saveSkillEdit() {
             axios.post('/api/goods/useredit', this.eform).then((res) => {
                 this.$message.success('修改成功');
             });
@@ -233,28 +319,28 @@ export default {
             }
             return isJPG && isLt2M;
         },
-        getConsltSkillList() {
-            axios
-                .get('/api/consltSkill/getConsltSkill?id=' + this.consultantId)
-                .then((res) => {
-                    this.ConsltSkillList = res.data;
-                    console.log(res.data);
-                })
-                .catch((error) => {
-                    console.log('查找商品接口请求异常');
-                });
-        },
-        getConsltCertifList() {
-            axios
-                .get('/api/consltCertification/getConsltCertf?id=' + this.consultantId)
-                .then((res) => {
-                    this.ConsltCertifList = res.data;
-                    console.log(res.data);
-                })
-                .catch((error) => {
-                    console.log('查找商品接口请求异常');
-                });
-        }
+        // getConsltSkillList() {
+        //     axios
+        //         .get('/api/consltSkill/getConsltSkill?id=' + this.consultantId)
+        //         .then((res) => {
+        //             this.ConsltSkillList = res.data;
+        //             console.log(res.data);
+        //         })
+        //         .catch((error) => {
+        //             console.log('查找商品接口请求异常');
+        //         });
+        // },
+        // getConsltCertifList() {
+        //     axios
+        //         .get('/api/consltCertification/getConsltCertf?id=' + this.consultantId)
+        //         .then((res) => {
+        //             this.ConsltCertifList = res.data;
+        //             console.log(res.data);
+        //         })
+        //         .catch((error) => {
+        //             console.log('查找商品接口请求异常');
+        //         });
+        // }
     }
 };
 </script>
