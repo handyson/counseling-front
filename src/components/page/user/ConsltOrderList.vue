@@ -19,6 +19,11 @@
             <el-table-column prop="oid" label="ID" width="100" align="center"></el-table-column>
             <el-table-column prop="nickname" label="咨询者"> </el-table-column>
             <el-table-column prop="utel" label="咨询者联系方式"></el-table-column>
+            <el-table-column prop="startTime" label="咨询时间">
+                <template slot-scope="scope">
+                    <span>{{ transformTime(scope.row.startTime) }}</span>
+                </template>
+            </el-table-column>
             <el-table-column prop="tname" label="咨询方向"></el-table-column>
             <el-table-column label="咨询详情" align="center" width="100">
                 <template slot-scope="scope">
@@ -58,7 +63,7 @@
                             <el-dropdown-item>
                                 <el-button
                                     v-if="scope.row.status == 0 || scope.row.status == 1"
-                                    @click="scope.row.show = true"
+                                    @click="toEditOrder(scope.$index, scope.row)"
                                     type="text"
                                     size="mini"
                                     icon="el-icon-edit"
@@ -118,6 +123,40 @@
                 alt=""
             />
         </div>
+
+        <!-- 编辑弹出框 -->
+        <el-dialog title="修改预约信息" :visible.sync="editDialog" width="30%">
+            <el-form :model="consellform" label-width="180px" style="margin-left: -25px">
+                <br /><br />
+
+                <el-form-item label="预约时间">
+                    <el-select v-model="consellform.startTime" placeholder="请选择" @change="selectedTime">
+                        <el-option
+                            v-for="item in consltSchedule"
+                            :key="item.id"
+                            :label="transformTime(item.startTime)"
+                            :value="item.startTime"
+                        >
+                        </el-option>
+                    </el-select>
+                    <span v-if="isselectTime">-</span>
+                    <span v-if="isselectTime">{{ transformTime(consellform.endTime) }}</span>
+                </el-form-item>
+                <el-form-item
+                    class="input-prepend restyle no-radius"
+                    label="联系方式"
+                    :rules="[
+                        { required: true, message: '请输入手机号码', trigger: 'blur' },
+                        { validator: checkPhone, trigger: 'blur' }
+                    ]"
+                >
+                    <el-input v-model="consellform.utel" size="medium"></el-input>
+                </el-form-item>
+            </el-form>
+            <div>
+                <el-button type="primary" @click="editOrder">提 交</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -138,17 +177,21 @@ export default {
                 code: '',
                 cid: ''
             },
-            ways: { 0: '即时聊天咨询', 1: '语音咨询', 2: '视频咨询', 3: '面对面咨询' }
+            ways: { 0: '即时聊天咨询', 1: '语音咨询', 2: '视频咨询', 3: '面对面咨询' },
+            editDialog: false,
+            isselectTime: false,
+            consltSchedule: [],
+            consellform: ''
         };
     },
     created() {
         // this.consltId = localStorage.getItem('user_id');
         this.consltId = this.$store.state.currentUser.id;
+        this.orderList.cid = this.consltId;
         this.getConsltOrdersByUId();
     },
     methods: {
         getConsltOrdersByUId() {
-            this.orderList.cid = this.consltId;
             this.$axios.post('/api/ordersInfo/selectSellerOrdersByUId', this.orderList).then((res) => {
                 this.ordertableData = res;
                 // this.changeData2()
@@ -166,7 +209,7 @@ export default {
             else if (status == '1') return 'warning';
             else if (status == '2') return 'warning';
             else if (status == '3') return 'warning';
-            else if (status == '4') return 'success';
+            else if (status == '4') return 'danger';
             else return 'danger';
         },
         orderStatus2(status) {
@@ -187,6 +230,45 @@ export default {
                 }
             });
         },
+        toEditOrder(index, row) {
+            this.editDialog = true;
+            this.consellform = row;
+            this.getconsltSchedule();
+            console.log(this.consellform);
+        },
+        editOrder(index, row) {
+            this.$axios.post('/api/ordersInfo/EditOrder', this.consellform).then((res) => {
+                if (res && res.code == 200) {
+                    this.$message.success('确认成功');
+                    location.reload();
+                } else {
+                    this.$message.error(res.msg);
+                }
+            });
+        },
+        checkPhone(rule, value, callback) {
+            //debugger
+            if (!/^1[34578]\d{9}$/.test(value)) {
+                return callback(new Error('手机号码格式不正确'));
+            }
+            return callback();
+        },
+        getconsltSchedule() {
+            this.$axios.get('/api/consltSchedule/getConsltSchedule?id=' + this.consltId).then((res) => {
+                this.consltSchedule = res;
+                console.log(this.consltSchedule);
+            });
+        },
+        transformTime(timestamp = +new Date()) {
+            var date = new Date(timestamp * 1000 + 8 * 3600 * 1000); // 增加8小时
+            return date.toJSON().substr(0, 19).replace('T', ' ');
+        },
+        selectedTime(startTime) {
+            console.log(startTime);
+            console.log(this.consellform.startTime);
+            this.consellform.endTime = startTime + 50 * 60;
+            this.isselectTime = true;
+        },
         seccessorder(index, row) {
             this.$axios.get('/api/ordersInfo/seccessorder?id=' + row.oid).then((res) => {
                 this.$message.success('交易成功');
@@ -194,10 +276,23 @@ export default {
             });
         },
         closeorder(index, row) {
-            this.$axios.get('/api/ordersInfo/closeOrder?id=' + row.oid).then((res) => {
-                this.$message.success('终止订单');
-                location.reload();
-            });
+            this.$confirm('是否确定删除该预约?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            })
+                .then(() => {
+                    this.$axios.get('/api/ordersInfo/closeOrder?id=' + row.oid).then((res) => {
+                        this.$message.success('终止订单');
+                        location.reload();
+                    });
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
         }
     }
 };

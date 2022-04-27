@@ -95,20 +95,20 @@ export default {
                     };
                     // 请求参数
                     var params = {
-                        cid: localStorage.getItem('user_id'),
+                        cid: this.$store.state.currentUser.id,
                         schedule: calendarDataItem
                     };
                     // 请求添加接口
                     this.$axios.post('/api/consltSchedule/addSchedule', params).then((res) => {
                         console.log(res);
-                        if (res && res.data.code == 200) {
-                            calendarDataItem.id = res.data.data.id; // 接口返回新增的id字段
+                        if (res && res.code == 200) {
+                            calendarDataItem.id = res.data.id; // 接口返回新增的id字段
 
                             // 添加成功自动更新到日历显示
                             this.$emit('propClose', calendarDataItem);
                             this.$message.success('添加成功');
                         } else {
-                            this.$message.error(res.data.msg);
+                            this.$message.error(res.msg);
                         }
                     });
                 } else {

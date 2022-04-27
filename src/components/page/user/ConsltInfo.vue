@@ -222,8 +222,8 @@ export default {
             this.$axios.post('/api/consltSchedule/getSchedule', param).then((res) => {
                 if (res && res.code == 200) {
                     // 删除成功自动更新到日历显示
-                    for (let i in res.data.data) {
-                        this.calendarData.push(res.data.data[i]);
+                    for (let i in res.data) {
+                        this.calendarData.push(res.data[i]);
                     }
                 } else {
                     this.$message.error(res.msg);
