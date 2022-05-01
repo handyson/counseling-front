@@ -8,7 +8,7 @@
         <div class="container">
             <div class="handle-box">
                 <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">删除 </el-button>
-                <el-input v-model="query.key" placeholder="输入-商品ID/商品名-进行查询" class="handle-input mr10"></el-input>
+                <el-input v-model="query.key" placeholder="输入-咨询师ID/咨询师姓名-进行查询" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">查询</el-button>
                 <el-button type="primary" @click="handleAdd">添加</el-button>
             </div>
@@ -23,12 +23,12 @@
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="c_user_id" label="ID" width="100" align="center"></el-table-column>
-                <el-table-column prop="goodsname" label="商品名"></el-table-column>
+                <el-table-column prop="nickname" label="姓名"></el-table-column>
                 <!--                <el-table-column prop="uid" label="商家ID"></el-table-column>-->
-                <!-- <el-table-column prop="userinfo.name" label="商家名"></el-table-column>
-                <el-table-column prop="userinfo.tel" label="商家电话"></el-table-column>
-                <el-table-column prop="userinfo.mail" label="商家邮箱"></el-table-column> -->
-                <el-table-column prop="kid" label="商品种类" align="center"></el-table-column>
+                <!-- <el-table-column prop="userinfo.name" label="商家名"></el-table-column>-->
+                <el-table-column prop="tel" label="商家电话"></el-table-column> 
+                <!-- <el-table-column prop="userinfo.mail" label="商家邮箱"></el-table-column> --> 
+                <!-- <el-table-column prop="kid" label="商品种类" align="center"></el-table-column> -->
                 <el-table-column label="图片" align="center">
                     <template slot-scope="scope">
                         <el-image class="table-td-thumb" :src="scope.row.iconurl" :preview-src-list="[scope.row.iconurl]"></el-image>
@@ -37,7 +37,7 @@
                 <el-table-column label="商品价格">
                     <template slot-scope="scope">￥{{ scope.row.price }}</template>
                 </el-table-column>
-                <el-table-column prop="spec" label="商品规格"></el-table-column>
+                <el-table-column prop="status" label="状态"></el-table-column>
                 <el-table-column prop="details" label="商品描述"></el-table-column>
                 <el-table-column label="审核状态" align="center">
                     <template slot-scope="scope">

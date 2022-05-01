@@ -13,6 +13,9 @@
                     <el-form :model="consltInfoform" label-width="150px">
                         <h3>入驻基本信息</h3>
                         <br /><br />
+                        <el-form-item label="姓名">
+                            <el-input v-model="consltInfoform.nickname" size="medium"></el-input>
+                        </el-form-item>
                         <el-form-item style="margin-left: -200px">
                             <el-upload
                                 class="avatar-uploader"
@@ -36,7 +39,7 @@
                         </el-form-item> -->
                         <el-form-item label="最高学历">
                             <el-select placeholder="请选择学历" v-model="consltInfoform.education">
-                                <el-option v-for="edu in eduList" :key="edu" :value="edu" :label="eduList[edu]"></el-option>
+                                <el-option v-for="edu in eduList" :key="edu.id" :value="edu.id" :label="edu.detail"></el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="电话号码">
@@ -56,6 +59,13 @@
                         </el-form-item>
                         <el-form-item label="简介">
                             <el-input v-model="consltInfoform.brief" size="medium"></el-input>
+                        </el-form-item>
+                        <el-form-item label="选择咨询方式">
+                            <el-checkbox-group v-model="wayList">
+                                <el-checkbox v-for="(item, i) in ways" :label="i" :key="i" name="type" class="favour_checkbox">{{
+                                    item
+                                }}</el-checkbox>
+                            </el-checkbox-group>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -219,10 +229,17 @@ export default {
             typeList: [],
             CC_tableData: [],
             skill_tableData: [],
+            wayList: [],
+            ways: ['聊天', '语音', '视频', '面对面'],
             tableLoading: false,
             finished: true,
             editable: true,
-            eduList: { 1: '大专以下', 2: '大专', 3: '本科', 4: '研究生', 5: '博士' }
+            eduList: [
+                { id:1,detail:'大专以下'}, 
+                { id:2,detail: '大专'}, 
+                { id:3,detail: '本科'}, 
+                { id:4,detail: '研究生'}, 
+                { id:5,detail: '博士' }]
         };
     },
     created() {
@@ -261,6 +278,12 @@ export default {
         next() {
             this.tableLoading = true;
             if (this.index == 3) {
+                var setway = '';
+                for (var i = 0; i < this.wayList.length; i++) {
+                    if (this.wayList[i] == 0) continue;
+                    setway += this.wayList[i] + ';';
+                }
+                this.consltInfoform.way = setway;
                 var paramsData = {
                     uid: this.uid,
                     consellform: this.consltInfoform,

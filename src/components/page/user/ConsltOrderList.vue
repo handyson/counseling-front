@@ -255,7 +255,7 @@ export default {
             return callback();
         },
         getconsltSchedule() {
-            this.$axios.get('/api/consltSchedule/getConsltSchedule?id=' + this.consltId).then((res) => {
+            this.$axios.get('/api/consltSchedule/resetSchedule?id=' + this.consltId).then((res) => {
                 this.consltSchedule = res;
                 console.log(this.consltSchedule);
             });

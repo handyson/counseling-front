@@ -1,51 +1,37 @@
 <template>
     <div class="addPrestudyRecord">
         <el-form ref="aform" :model="aform" label-width="90px" style="width: 40%; margin-left: 30%">
-            <el-form-item label="咨询师头衔">
-                <el-input v-model="aform.title"></el-input>
+            <el-form-item label="咨询师头衔" v-model="aform.title">
+                <span>{{ aform.title }}</span>
             </el-form-item>
-            <el-form-item label="最高学历">
-                <el-select placeholder="请选择学历" v-model="aform.education">
-                    <el-option v-for="edu in eduList" :key="edu" :value="edu" :label="eduList[edu]"></el-option>
-                </el-select>
+            <el-form-item label="最高学历" v-model="aform.education">
+                <span>{{ eduList[aform.education] }}</span>
             </el-form-item>
-            <el-form-item label="从业年份">
-                <el-input v-model="aform.workyear"></el-input>
+            <el-form-item label="从业年份" v-model="aform.workyear">
+                <span>{{ aform.workyear }}</span>
             </el-form-item>
-            <el-form-item label="个人照片">
-                <el-upload
-                    class="avatar-uploader"
-                    name="kimg"
-                    action="/api/UpData/upkindimg/"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess"
-                    :before-upload="beforeAvatarUpload"
-                >
-                    <img v-if="aform.photourl" :src="aform.photourl" class="avatar" style="height: 180px" />
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
+            <el-form-item label="个人照片" v-model="aform.photourl">
+                <img :src="aform.photourl" class="avatar" style="height: 180px" />
             </el-form-item>
-            <el-form-item label="咨询方式">
-                <el-checkbox-group v-model="wayList">
+            <el-form-item label="咨询方式" v-model="wayList">
+                <span v-for="(item, i) in wayList" :label="i" :key="i">
+                    <span style="font-size: 20px">
+                        {{ ways[item] }}
+                    </span>
+                </span>
+                <!-- <el-checkbox-group v-model="wayList">
                     <el-checkbox v-for="(item, i) in ways" :label="i" :key="i" name="type" class="favour_checkbox">{{ item }}</el-checkbox>
-                </el-checkbox-group>
+                </el-checkbox-group> -->
             </el-form-item>
-            <el-form-item label="手机号码">
-                <el-input v-model="aform.tel"></el-input>
+            <el-form-item label="手机号码" v-model="aform.tel">
+                <span>{{ aform.tel }}</span>
             </el-form-item>
-            <el-form-item label="寄语">
-                <el-input type="textarea" v-model="aform.sendword"></el-input>
+            <el-form-item label="寄语" v-model="aform.sendword">
+                <span>{{ aform.sendword }}</span>
             </el-form-item>
-            <el-form-item label="简介">
-                <el-input type="textarea" :rows="10" v-model="aform.brief"></el-input>
+            <el-form-item label="简介" v-model="aform.brief">
+                <span>{{ aform.brief }}</span>
             </el-form-item>
-            <!-- <el-form-item label="关键字">
-                            <el-input v-model="aform.goodstitle"></el-input>
-                        </el-form-item> -->
-
-            <!-- <div>
-                            <el-button type="primary" @click="dialogVisible = true" size="mini" v-show="editable">修改资质资料 </el-button>
-                        </div> -->
         </el-form>
         <div>
             <!-- <el-button type="primary" @click="applySubmit" v-show="editable"
@@ -63,9 +49,9 @@
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="CertifeditVisible" width="30%">
-            <div>
+            <!-- <div>
                 <p><el-button class="el-icon-plus" @click.prevent="handleAddCertf()"></el-button></p>
-            </div>
+            </div> -->
             <el-table height="310" :data="ConsltCertifList" style="width: 580px; margin-left: 10px">
                 <el-table-column type="index" label="序号">
                     <template slot-scope="scope">
@@ -96,7 +82,7 @@
                         <span v-show="!scope.row.show">{{ scope.row.remark }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="" label="操作">
+                <!-- <el-table-column prop="" label="操作">
                     <template slot-scope="scope">
                         <el-dropdown trigger="click">
                             <el-button type="text" size="mini"
@@ -114,39 +100,18 @@
                                         >删除
                                     </el-button>
                                 </el-dropdown-item>
-                                <!-- <el-dropdown-item>
-                                                        <el-button
-                                                            @click="scope.row.show = true"
-                                                            type="text"
-                                                            size="mini"
-                                                            icon="el-icon-edit"
-                                                            >编辑</el-button
-                                                        >
-                                                    </el-dropdown-item> -->
-                                <!-- <el-dropdown-item>
-                                                        <el-button @click="save1(scope.row)" type="text" size="mini" icon="el-icon-success"
-                                                            >保存</el-button
-                                                        >
-                                                    </el-dropdown-item> -->
                             </el-dropdown-menu>
                         </el-dropdown>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
-            <div>
+            <!-- <div>
                 <el-button type="primary" @click="saveCertifEdit">提 交</el-button>
-            </div>
-            <!-- <span slot="footer" class="dialog-footer">
-                <el-button @click="CertifeditVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveEdit">确 定</el-button>
-            </span> -->
+            </div> -->
         </el-dialog>
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="SkilleditVisible" width="30%">
-            <div>
-                <p><el-button class="el-icon-plus" @click.prevent="handleAddSkill()"></el-button></p>
-            </div>
             <el-table height="310" :data="ConsltSkillList" style="width: 580px; margin-left: 10px">
                 <el-table-column type="index" label="序号">
                     <template slot-scope="scope">
@@ -168,7 +133,7 @@
                         <span v-show="!scope.row.show">{{ scope.row.detail }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="" label="操作">
+                <!-- <el-table-column prop="" label="操作">
                     <template slot-scope="scope">
                         <el-dropdown trigger="click">
                             <el-button type="text" size="mini"
@@ -189,15 +154,11 @@
                             </el-dropdown-menu>
                         </el-dropdown>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
-            <div>
+            <!-- <div>
                 <el-button type="primary" @click="saveSkillEdit">提 交</el-button>
-            </div>
-            <!-- <span slot="footer" class="dialog-footer">
-                <el-button @click="CertifeditVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveEdit">确 定</el-button>
-            </span> -->
+            </div> -->
         </el-dialog>
     </div>
 </template>
@@ -226,7 +187,7 @@ export default {
                 uid: ''
             },
             ConsltSkillList: [],
-            ConsltCertifList: [],
+            ConsltCertifList: []
         };
     },
     props: {
@@ -236,7 +197,7 @@ export default {
     },
     watch: {
         uid(newVal) {
-            this.uid = newVal //对父组件传过来的值进行监听，如果改变也对子组件内部的值进行改变
+            this.uid = newVal; //对父组件传过来的值进行监听，如果改变也对子组件内部的值进行改变
         }
     },
     created() {
@@ -250,7 +211,7 @@ export default {
             this.$axios.get('/api/consultant/selectOne?id=' + this.consltId).then((res) => {
                 this.aform = res;
                 this.wayList = this.aform.way.split(';').map(Number);
-                console.log(res);
+                console.log(this.wayList);
                 this.ConsltSkillList = res.ConsltSkill;
                 this.ConsltCertifList = res.ConsltCertif;
                 // this.getConsltOrdersByUId();
@@ -334,7 +295,7 @@ export default {
                 this.$message.error('上传头像图片大小不能超过 2MB!');
             }
             return isJPG && isLt2M;
-        },
+        }
         // getConsltSkillList() {
         //     axios
         //         .get('/api/consltSkill/getConsltSkill?id=' + this.consultantId)

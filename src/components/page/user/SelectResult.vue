@@ -56,8 +56,8 @@
                                             <a @click="goConsultantDesc(item.id)" class="name">
                                                 {{ item.nickname }}&nbsp;&nbsp;&nbsp;&nbsp;</a
                                             >
-                                            <!-- <span class="zx_num"> 6296人次咨询 </span> 
-                                            <span class="point">·</span>-->
+                                            <span class="zx_num"> {{ item.cases }}人次咨询 </span>
+                                            <span class="point">·</span>
                                             <span class="experience_year">从业{{ item.workyear }}年</span>
                                             <!--<span class="point">·</span>
                                              <span class="city">上海市</span> -->
@@ -68,30 +68,6 @@
                                         <span class="yuyue">预约</span>
                                     </a>
                                 </li>
-
-                                <!-- <li class="teacher-item">
-                                    <a href="https://www.xinli001.com/expert/1001796757"
-                                        ><img
-                                            src="https://ossimg.xinli001.com/20180917/22b96efa6d5c33d9de47839701152aee.jpg!120?x-oss-process=image/resize,m_fill,w_750"
-                                            alt="林颖"
-                                            class="avatar"
-                                    /></a>
-                                    <ul class="teacher-info">
-                                        <li class="basic-info">
-                                            <a href="https://www.xinli001.com/expert/1001796757" class="name">
-                                                林颖&nbsp;&nbsp;&nbsp;&nbsp;</a
-                                            >
-                                            <span class="zx_num"> 4179人次咨询 </span>
-                                            <span class="point">·</span>
-                                            <span class="experience_year">从业12年</span>
-                                            <span class="point">·</span>
-                                            <span class="city">广州市</span>
-                                        </li>
-                                        <li class="honor">中级心理治疗师，精神动力取向，催眠治疗</li>
-                                        <li class="price">￥800</li>
-                                    </ul>
-                                    <a href="https://www.xinli001.com/expert/1001796757"><span class="yuyue">预约</span></a>
-                                </li> -->
                             </ul>
                             <div class="block">
                                 <!-- <span class="demonstration">页数较少时的效果</span> -->
@@ -108,8 +84,8 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="right-container"> -->
-                    <!-- <div class="apply">
+                    <div class="right-container">
+                        <div class="apply">
                             <a href="https://www.xinli001.com/zx/apply-new"
                                 ><div class="apply-btn">
                                     <i class="icon icon-node-website icon-pc-zx-residence"></i>
@@ -122,35 +98,24 @@
                                     壹心理咨询师入驻标准
                                 </div></a
                             >
-                        </div> -->
-                    <!-- <div class="apply-new-teacher-list">
+                        </div>
+                        <div class="apply-new-teacher-list">
                             <div class="title">最新入驻心理咨询师</div>
-                            <ul class="teacher-list">
-                                <li class="teacher-item">
-                                    <a href="https://www.xinli001.com/expert/1009257690"
-                                        ><img
-                                            src="http://ossimg.xinli001.com/apply/pro_1009257690/avatar_20220328170109.jpeg!120?x-oss-process=image/resize,m_fill,w_480"
-                                            alt="王贵尧"
-                                            class="avatar"
-                                    /></a>
+                            <ul class="teacher-list" :data="consultantList.slice((currentPage - 1) * pagesize, currentPage * pagesize)">
+                                <li class="teacher-item" v-for="item in consultantList" :key="item.id">
+                                    <a @click="goConsultantDesc(item.id)"><img :src="item.photoUrl" class="avatar" /></a>
                                     <div class="teacher-info">
                                         <p class="name-price">
-                                            <a href="https://www.xinli001.com/expert/1009257690" class="name"> 王贵尧 </a>
-                                            <span class="price">￥500 </span>
+                                            <a @click="goConsultantDesc(item.id)" class="name">
+                                                {{ item.nickname }}&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </a>
                                         </p>
-                                        <p class="honor ellipsis-1">EFT情绪疗愈师，OH卡牌咨询师，冥想引导师</p>
-                                        <p class="time">2022-03-28入驻</p>
+                                        <p class="honor ellipsis-1">{{ item.title }}</p>
                                     </div>
                                 </li>
-                              
                             </ul>
-                            <a href="https://www.xinli001.com/consult"
-                                ><div class="change-apply-new-teacher-list">
-                                    <i class="icon icon-node-website icon-pc-zx-change"></i>
-                                    换一换
-                                </div></a
-                            >
-                        </div> -->
+                        </div>
+                    </div>
                     <!-- <div class="teacher-answer">
                             <div class="top">
                                 <div class="title">咨询师问答</div>
@@ -677,6 +642,7 @@ export default {
 #consult-index {
     background: #f9f8fd;
     margin-top: -7%;
+    margin-top: 40px;
 }
 
 #consult-index .header {
@@ -690,19 +656,19 @@ export default {
 }
 
 #consult-index .container {
-    width: 1000px;
-    margin: 90px auto 20px;
+    width: 1200px;
+    margin: 90px 120px 80px;
     display: flex;
     justify-content: space-between;
 }
 
 #consult-index .container .left-container {
-    width: 620px;
+    width: 750px;
     box-sizing: border-box;
-    padding: 30px 20px;
+    padding: 30px 40px;
     background: #fff;
     box-shadow: 0 20px 40px 0 rgba(227, 225, 237, 0.57);
-    border-radius: 14px;
+    border-radius: 20px;
 }
 
 #consult-index .container .left-container .selected-box {
@@ -774,7 +740,7 @@ export default {
 
 #consult-index .container .left-container .teacher-box .top-box .title {
     font-family: PingFangSC-Medium;
-    font-size: 18px;
+    font-size: 22px;
     color: #21252d;
     position: relative;
     padding-left: 12px;
@@ -839,7 +805,7 @@ export default {
     display: flex;
     align-items: center;
     margin-bottom: 25px;
-    height: 68px;
+    height: 100px;
 }
 
 #consult-index .container .left-container .teacher-box .teacher-list .teacher-item .teacher-info {
@@ -856,8 +822,8 @@ export default {
 }
 
 #consult-index .container .left-container .teacher-box .teacher-list .teacher-item .avatar {
-    width: 68px;
-    height: 68px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     margin-right: 20px;
     cursor: pointer;
@@ -866,7 +832,7 @@ export default {
 
 #consult-index .container .left-container .teacher-box .teacher-list .teacher-item .teacher-info .basic-info .name {
     font-family: PingFangSC-Medium;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
     color: #21252d;
     cursor: pointer;
@@ -874,13 +840,13 @@ export default {
 
 #consult-index .container .left-container .teacher-box .teacher-list .teacher-item .teacher-info .basic-info .point {
     margin: 0 5px;
-    font-size: 14px;
+    font-size: 18px;
     color: #bcc2cf;
 }
 
 #consult-index .container .left-container .teacher-box .teacher-list .teacher-item .teacher-info .honor {
     font-family: PingFangSC-Regular;
-    font-size: 14px;
+    font-size: 18px;
     color: #566171;
 }
 
@@ -890,11 +856,67 @@ export default {
     border: 1px solid #6982fa;
     border-radius: 20px;
     font-family: PingFangSC-Regular;
-    font-size: 14px;
+    font-size: 18px;
     color: #6982fa;
     text-align: right;
     line-height: 16px;
     cursor: pointer;
     white-space: nowrap;
+}
+#consult-index .container .right-container {
+    width: 400px;
+}
+#consult-index .container .right-container .apply {
+    padding: 30px 20px;
+    box-sizing: border-box;
+    background: #fff;
+    box-shadow: 0 20px 40px 0 rgba(227, 225, 237, 0.57);
+    border-radius: 14px;
+    text-align: center;
+}
+#consult-index .container .right-container .apply .apply-btn {
+    padding: 18px 0;
+    background: #6982fa;
+    box-shadow: 0 20px 40px 0 rgba(227, 225, 237, 0.57);
+    border-radius: 34px;
+    font-family: PingFangSC-Medium;
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+#consult-index .container .right-container .apply .apply-btn .icon {
+    font-size: 20px;
+}
+#consult-index .container .right-container .apply-new-teacher-list {
+    padding: 30px 20px;
+    box-sizing: border-box;
+    background: #fff;
+    box-shadow: 0 20px 40px 0 rgba(227, 225, 237, 0.57);
+    border-radius: 14px;
+    margin-top: 20px;
+}
+#consult-index .container .right-container .apply-new-teacher-list .title {
+    font-family: PingFangSC-Medium;
+    font-size: 18px;
+    font-weight: 700;
+    color: #21252d;
+    position: relative;
+    padding-left: 12px;
+}
+#consult-index .container .right-container .apply-new-teacher-list .teacher-list {
+    margin-top: 13px;
+}
+#consult-index .container .right-container .apply-new-teacher-list .teacher-list .teacher-item .avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    margin-right: 14px;
+    cursor: pointer;
+}
+#consult-index .container .right-container .apply-new-teacher-list .teacher-list .teacher-item {
+    display: flex;
+    margin-bottom: 8px;
+    height: 70px;
 }
 </style>
