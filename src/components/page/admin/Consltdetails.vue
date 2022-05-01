@@ -198,38 +198,10 @@ export default {
         });
     },
     methods: {
-        deletegoods(index, row) {
-            axios
-                .get('/api/goods/deleteByFlag?id=' + row.c_user_id)
-                .then((res) => {
-                    this.$message.success('删除成功');
-                    this.tableData.splice(index, 1);
-                })
-                .catch((error) => {
-                    console.log('接口请求异常');
-                });
-        },
-        handleSelectionChange(val) {
-            this.multipleSelection = val;
-        },
-        delAllSelection() {
-            const length = this.multipleSelection.length;
-            this.delList = this.delList.concat(this.multipleSelection);
-            for (let i = 0; i < length; i++) {
-                axios
-                    .get('/api/goods/deleteByFlag?id=' + this.multipleSelection[i].c_user_id)
-                    .then((res) => {})
-                    .catch((error) => {
-                        console.log('接口请求异常');
-                    });
-            }
-            this.getData();
-            this.multipleSelection = [];
-        },
         getData() {
             this.query.offset = (this.query.pageIndex - 1) * this.query.limit;
             axios
-                .post('/api/goods/selectKeyByLimit', this.query)
+                .post('/api/consultant/selectKeyByLimit', this.query)
                 .then((res) => {
                     console.log(res);
                     this.tableData = res.data.data;
@@ -267,6 +239,34 @@ export default {
                     this.handleUpdateClick();
                 });
             }
+        },
+        deletegoods(index, row) {
+            axios
+                .get('/api/goods/deleteByFlag?id=' + row.c_user_id)
+                .then((res) => {
+                    this.$message.success('删除成功');
+                    this.tableData.splice(index, 1);
+                })
+                .catch((error) => {
+                    console.log('接口请求异常');
+                });
+        },
+        handleSelectionChange(val) {
+            this.multipleSelection = val;
+        },
+        delAllSelection() {
+            const length = this.multipleSelection.length;
+            this.delList = this.delList.concat(this.multipleSelection);
+            for (let i = 0; i < length; i++) {
+                axios
+                    .get('/api/goods/deleteByFlag?id=' + this.multipleSelection[i].c_user_id)
+                    .then((res) => {})
+                    .catch((error) => {
+                        console.log('接口请求异常');
+                    });
+            }
+            this.getData();
+            this.multipleSelection = [];
         },
         handleUpdateClick() {
             this.key += 1;
