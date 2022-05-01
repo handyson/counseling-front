@@ -1,7 +1,7 @@
 let proxyObj = {};
 
 proxyObj['/api'] = {
-  target: 'http://localhost:8000',
+  target: 'http://vp2p76.natappfree.cc',
   changeOrigin: true,
   pathRewrite: {
     '^/api': ''
@@ -9,11 +9,11 @@ proxyObj['/api'] = {
 };
 proxyObj['/ws'] = {
   ws: true,
-  target: "http://localhost:8000"
+  target: "http://vp2p76.natappfree.cc"
 };
 proxyObj['/'] = {
   ws: false,
-  target: 'http://localhost:8000',
+  target: 'http://vp2p76.natappfree.cc',
   changeOrigin: true,
   pathRewrite: {
     '^/': ''
