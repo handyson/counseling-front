@@ -25,7 +25,7 @@
                     <div>心理咨询</div>
                 </el-menu-item>
                 <el-menu-item class="el-menu-demo-item" style="font-size: 18px" index="/user/SelectZiYingResult">
-                    <div @mouseenter="mouseenter2" @mouseleave="mouseleave2">心理问答</div>
+                    <div>专业服务</div>
                 </el-menu-item>
                 <el-menu-item class="el-menu-demo-item" style="font-size: 18px" index="/user/about">关于我们</el-menu-item>
 
@@ -190,7 +190,9 @@ export default {
                 localStorage.clear();
                 window.sessionStorage.clear();
 
-                this.$router.go(0);
+                // this.$router.go(0);
+                this.$router.replace("/");
+                location.reload();
             }
         },
 

@@ -1,29 +1,24 @@
 <template>
-    <div style="float: left; width: 100%">
-        <div
-            class="card"
-            v-for="(item, index) in goodsList"
-            :key="item.goodsid"
-            v-on:mouseenter="showDialog(index)"
-            v-on:mouseleave="hideDialog(index)"
-        >
-            <div class="ribbon">
-                <!--鼠标移入移出事件-->
-                <div class="handleDialog" v-if="ishow && index == current">
-                    <el-button
-                        type="success"
-                        style="margin-left: 30%; margin-top: 70%"
-                        size="medium"
-                        @click="goConsultantDesc(item.goodsid)"
-                        >查看详情
-                    </el-button>
+    <div style="width: 100%; height: 100%">
+        <div style="text-align: center">
+            <h2 style="padding: 30px">专业服务</h2>
+            <h3>针对两性心理、社交沟通、夫妻关系、亲子关系、家庭教育、专业督导、个人成长等等不同领域的困惑，并提供专业的心理咨询服务。</h3>
+        </div>
+        <div id="consult-index">
+            <div class="content">
+                <div class="content-item">
+                    <img class="pic-left" src="http://127.0.0.1:8000/images/others/011ef15ad054eba80121386751c8fb.jpg" alt="" />
+                    <div>
+                        <!-- <span class="detial-right">亲密关系</span> -->
+                    </div>
                 </div>
-                <img :src="item.iconurl" style="height: 100%; width: 100%" />
-            </div>
-            <div style="text-align: center">
-                <span>{{ item.goodsname }}</span>
-                <span style="color: red">&yen;{{ item.price }}</span>
-                <span>/{{ item.spec }}</span>
+                <!-- <div class="content-item">
+                <img class="pic-right" src="http://127.0.0.1:8000/images/others/019518579c1aa70000012e7e8f388e.jpg" alt="" />
+                <div>
+                    <span class="detial-left">亲密关系</span>
+
+                </div>
+            </div> -->
             </div>
         </div>
     </div>
@@ -41,66 +36,42 @@ export default {
                 searchkey: '',
                 pageIndex: 1,
                 pageSize: 15
-            },
-            pageTotal: 0,
-            ishow: false,
-            topmsg: false,
-            current: 0,
-            selectd: '',
-            currentDate: new Date(),
-            goodsList: []
+            }
         };
     },
-    created() {
-        this.getgoodsList();
-    },
-    methods: {
-        getgoodsList() {
-            axios
-                .get('/api/goods/selectShowZiYing')
-                .then((res) => {
-                    this.goodsList = res.data;
-                    console.log(res.data);
-                })
-                .catch((error) => {
-                    console.log('接口请求异常');
-                });
-        },
-        // 分页导航
-        handlePageChange(val) {
-            this.$set(this.query, 'pageIndex', val);
-            this.getData();
-        },
-        //前往商品详情页
-        goConsultantDesc(goods) {
-            this.$router.push({
-                path: '/consultant/consultantDesc',
-                query: {
-                    goods: goods
-                }
-            });
-        },
-        //显示操作项
-        showDialog(index, item) {
-            this.ishow = true;
-            this.current = index;
-        },
-        //隐藏蒙层
-        hideDialog(index, item) {
-            this.ishow = false;
-            this.current = null;
-        },
-        mouseenter1() {
-            this.topmsg = true;
-        },
-        mouseleave1() {
-            this.topmsg = false;
-        }
-    }
+    created() {},
+    methods: {}
 };
 </script>
 
 <style scoped>
+#consult-index {
+    background: #f9f8fd;
+    margin-top: 5%;
+}
+#consult-index .content {
+    width: 1200px;
+    margin: 90px 250px 80px;
+    display: flex; 
+    justify-content: space-between;
+}
+.content-item {
+    height: 200px;
+}
+.content-item .pic-left {
+    width: 70%;
+    height: 100%;
+}
+.content-item .detial-right {
+    width: 400px;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    background: #fff;
+    box-shadow: 0 20px 40px 0 rgba(227, 225, 237, 0.57);
+    border-radius: 14px;
+    text-align: center;
+}
+
 .el-carousel__item h3 {
     color: #475669;
     font-size: 14px;

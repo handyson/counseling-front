@@ -100,26 +100,26 @@ export default {
                     index: 'ordersdetails',
                     title: '订单管理'
                 },
-                {
-                    icon: 'el-icon-lx-emoji',
-                    index: 'commentsdetails',
-                    title: '评论管理'
-                },
-                {
-                    icon: 'el-icon-lx-service',
-                    index: 'complaintsmanage',
-                    title: '投诉申诉',
-                    subs: [
-                        {
-                            index: 'pushcomplaints',
-                            title: '投诉管理'
-                        },
-                        {
-                            index: 'pullcomplaints',
-                            title: '申诉管理'
-                        }
-                    ]
-                },
+                // {
+                //     icon: 'el-icon-lx-emoji',
+                //     index: 'commentsdetails',
+                //     title: '评论管理'
+                // },
+                // {
+                //     icon: 'el-icon-lx-service',
+                //     index: 'complaintsmanage',
+                //     title: '投诉申诉',
+                //     subs: [
+                //         {
+                //             index: 'pushcomplaints',
+                //             title: '投诉管理'
+                //         },
+                //         {
+                //             index: 'pullcomplaints',
+                //             title: '申诉管理'
+                //         }
+                //     ]
+                // },
                 {
                     icon: 'el-icon-lx-text',
                     index: 'log',

@@ -64,8 +64,8 @@
                 </el-table-column>
                 <el-table-column label="审核状态" align="center" sortable>
                     <template slot-scope="scope">
-                        <el-tag :type="scope.row.status === '1' ? 'success' : scope.row.status === '0' ? 'danger' : ''"
-                            >{{ scope.row.status === '1' ? '审核通过' : scope.row.status === '0' ? '审核未通过' : '待审核' }}
+                        <el-tag :type="scope.row.status === 2 ? 'success' : scope.row.status === 1 ? 'danger' : ''"
+                            >{{ scope.row.status === 2 ? '审核通过' : scope.row.status === 3 ? '审核未通过' : '待审核' }}
                         </el-tag>
                     </template>
                 </el-table-column>
@@ -139,7 +139,7 @@ export default {
         },
         //
         PassAudit(index, row) {
-            if (row.auditstate == '1') {
+            if (row.status == '2') {
                 this.$notify({
                     title: '审核',
                     message: '该用户已通过审核',
@@ -152,7 +152,7 @@ export default {
                     type: 'success'
                 });
                 axios
-                    .get('/api/audit/PassAudit?id=' + row.auditid)
+                    .get('/api/audit/PassAudit?id=' + row.id)
                     .then((res) => {
                         this.getData();
                     })

@@ -141,6 +141,7 @@ export default {
             this.$router.push('/user/helloHome');
         }
         this.consultantId = this.$route.query.consultant;
+        console.log(this.consultantId )
         this.collectparams.consltid = this.consultantId;
         // this.collectparams.id = localStorage.getItem('user_id');
         // this.collectparams.id = this.user.id;
