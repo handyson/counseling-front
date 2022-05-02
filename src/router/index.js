@@ -43,8 +43,17 @@ export default new Router({
                 }, {
                     path: '/admin/consultant_details',
                     component: () => import('../components/page/admin/Consltdetails.vue'),
-                    meta: { title: '商品信息' }
+                    meta: { title: '咨询师信息管理' }
                 }, {
+                    path: '/admin/consultant_certification',
+                    component: () => import('../components/page/admin/ConsltCertif.vue'),
+                    meta: { title: '咨询师资质管理' }
+                }, {
+                    path: '/admin/consultant_Area',
+                    component: () => import('../components/page/admin/ConsltArea.vue'),
+                    meta: { title: '咨询师领域管理' }
+                }, 
+                {
                     path: '/admin/useraudit',
                     component: () => import('../components/page/admin/Useraudit.vue'),
                     meta: { title: '咨询师审核' }

@@ -87,7 +87,15 @@ export default {
                         },
                         {
                             index: 'consultant_details',
-                            title: '信息管理'
+                            title: '咨询师信息管理'
+                        },
+                        {
+                            index: 'consultant_certification',
+                            title: '咨询师资质管理'
+                        },
+                        {
+                            index: 'consultant_Area',
+                            title: '咨询师领域管理'
                         },
                         {
                             index: 'useraudit',
@@ -98,7 +106,7 @@ export default {
                 {
                     icon: 'el-icon-lx-calendar',
                     index: 'ordersdetails',
-                    title: '订单管理'
+                    title: '预约管理'
                 },
                 // {
                 //     icon: 'el-icon-lx-emoji',
