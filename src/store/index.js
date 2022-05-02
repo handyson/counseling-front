@@ -4,6 +4,7 @@ import { getRequest, postRequest } from "../utils/api";
 import SockJS from '../utils/sockjs'
 import '../utils/stomp'
 import { Notification } from 'element-ui';
+import router from "../router";
 
 Vue.use(Vuex)
 
@@ -203,12 +204,21 @@ const store = new Vuex.Store({
         context.state.stomp.subscribe('/user/queue/chat', msg => {
           //接收到的消息数据
           let receiveMsg = JSON.parse(msg.body);
-          //没有选中用户或选中用户不是发来消息的那一方
-          if (!context.state.currentSession || receiveMsg.from != context.state.currentSession.username) {
+          console.log("receiveMsg:::", receiveMsg);
+          // 不在聊天室页面则弹出消息
+          if (router.currentRoute.path != '/chatroom') {
             Notification.info({
               title: '【' + receiveMsg.fromNickname + '】发来一条消息',
               message: receiveMsg.content.length < 8 ? receiveMsg.content : receiveMsg.content.substring(0, 8) + "...",
-              position: "bottom-right"
+              position: "bottom-right",
+              onClick: () => {
+                router.push({
+                  name: 'ChatRoom',
+                  params: {
+                      uid: receiveMsg.fromId,
+                  }
+                });
+              }
             });
             //默认为消息未读
             Vue.set(context.state.isDot, context.state.currentUser.username + "#" + receiveMsg.from, true);
@@ -221,6 +231,7 @@ const store = new Vuex.Store({
           context.commit('addMessage', receiveMsg);
         })
       }, error => {
+        console.log("无法与服务端建立连接，请尝试重新登陆系统~:::", error);
         Notification.info({
           title: '系统消息',
           message: "无法与服务端建立连接，请尝试重新登陆系统~",

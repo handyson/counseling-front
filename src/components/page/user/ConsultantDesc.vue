@@ -46,6 +46,7 @@
                     </h2> -->
                     <br /><br />
                     <el-button size="medium" type="danger" @click="TobookConslt">立即预约</el-button>
+                    <el-button size="medium" type="danger" @click="ToConsult">立即咨询</el-button>
                     <el-button size="medium" type="warning" @click="addcollection" v-if="!haveCollection"
                         ><i class="el-icon-star-off"></i>关注
                     </el-button>
@@ -105,6 +106,7 @@
 <script>
 import axios from 'axios';
 import wayMap from '../../common/user/global';
+import { log } from '../../../utils/trtc';
 
 export default {
     name: 'consultantDesc',
@@ -282,6 +284,18 @@ export default {
                 //     .catch((error) => {
                 //         console.log('收藏接口请求异常');
                 //     });
+            }
+        },
+        ToConsult() {
+            if (this.user.id == null) {
+                this.$message.error('请先登录账号');
+            } else {
+                this.$router.push({
+                    name: 'ChatRoom',
+                    params: {
+                        uid: this.consultantId,
+                    }
+                });
             }
         },
         getcollectiondate() {

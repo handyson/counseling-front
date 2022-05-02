@@ -11,6 +11,15 @@ export default {
     name: 'App',
     components: {
         trtc
+    },
+    created () {
+            //刷新连接聊天室WebSocket服务
+            // this.$store.dispatch('initData');
+            if (this.$store.state.currentUser) {
+                console.log("刷新连接聊天室WebSocket服务");
+                this.$store.dispatch('connect');
+            }
+        // }
     }
 };
 </script>

@@ -656,8 +656,8 @@ export default {
 }
 
 #consult-index .container {
-    width: 1200px;
-    margin: 90px 120px 80px;
+    width: 87%;
+    margin: auto;
     display: flex;
     justify-content: space-between;
 }

@@ -31,13 +31,14 @@
                     <div style="display: flex; justify-content: space-between">
                         <div>
                             <el-badge :is-dot="isDot[user.username + '#' + item.username]" style="">
-                                <el-image class="avatar" :preview-src-list="[item.fromAvatar]" :src="item.fromAvatar" :alt="item.nickname">
+                                <el-image class="avatar" :preview-src-list="[item.avatar || 'default_head.jpg']" :src="item.avatar || 'default_head.jpg'" :alt="item.nickname">
                                     <div slot="error" class="image-slot">
-                                        <i class="el-icon-picture-outline"></i>
+                                        <el-image :preview-src-list="['default_head.jpg']" src="default_head.jpg"></el-image>
                                     </div>
                                 </el-image>
                             </el-badge>
-                            <p class="name">{{ item.nickname }}</p>
+                            <p class="name">{{ item.nickname }}</p>&nbsp;
+                            <i v-if="item.roleType == 1" class="el-icon-service"></i>
                         </div>
                         <div>
                             <el-badge
@@ -54,6 +55,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { log } from '../../utils/sockjs';
 
 export default {
     name: 'list',
@@ -65,8 +67,15 @@ export default {
                 username: '机器人',
                 nickname: '机器人',
                 fromAvatar: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2548892998,499717296&fm=26&gp=0.jpg'
-            }
+            },
+            showVideo: false,
         };
+    },
+    mounted() {
+        if (this.$route.params.uid) {
+            console.log(this.$route.params.uid);
+            this.changeCurrentSessionByUid(this.$route.params.uid);
+        }
     },
     computed: mapState([
         //'sessions',//this.sessions映射成this.$store.state.sessions
@@ -77,8 +86,35 @@ export default {
     ]),
     methods: {
         changeCurrentSession: function (currentSession) {
-            this.$store.commit('changeCurrentSession', currentSession);
-        }
+            let params = {};
+            params.uid = this.$store.state.currentUser.id;
+            params.cid = currentSession.id;
+            this.postRequest("/chat/allowVideo", params).then(resp => {
+                if (resp) {
+                    currentSession.showVideo = true;
+                } else {
+                    currentSession.showVideo = false;
+                }
+                this.$store.commit('changeCurrentSession', currentSession);
+            });
+        },
+        changeCurrentSessionByUid: function (id) {
+            var user = this.$store.state.users.filter((item) => item.id == id);
+
+            if (user.length > 0) {
+                let params = {};
+                params.uid = this.$store.state.currentUser.id;
+                params.cid = user[0].id;
+                this.postRequest("/chat/allowVideo", params).then(resp => {
+                    if (resp) {
+                        user[0].showVideo = true;
+                    } else {
+                        user[0].showVideo = false;
+                    }
+                    this.$store.commit('changeCurrentSession', user[0]);
+                });
+            }
+        },
     }
 };
 </script>

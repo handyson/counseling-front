@@ -229,9 +229,9 @@ export default new Router({
                     meta: { title: '全部商品' }
                 },
                 {
-                    path: '/user/SelectZiYingResult',
-                    component: () => import('../components/page/user/SelectZiYingResult.vue'),
-                    meta: { title: '网站自营商品' }
+                    path: '/user/OurService',
+                    component: () => import('../components/page/user/OurService.vue'),
+                    meta: { title: '专业服务' }
                 },
                 {
                     path: '/user/consltInfo',

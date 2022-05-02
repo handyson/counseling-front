@@ -27,8 +27,8 @@
             >
                 <el-button id="uploadImgBtn" icon="el-icon-picture-outline"></el-button>
             </el-upload>
-            <el-button icon="el-icon-video-camera" @click="handleVideoCall"></el-button>
-            <el-button icon="el-icon-phone-outline" @click="handleAudioCall"></el-button>
+            <el-button v-show="this.currentSession.showVideo" icon="el-icon-video-camera" @click="handleVideoCall"></el-button>
+            <el-button v-show="this.currentSession.showVideo" icon="el-icon-phone-outline" @click="handleAudioCall"></el-button>
         </div>
         <textarea id="textarea" placeholder="按 Ctrl + Enter 发送" v-model="content" v-on:keyup="addMessage"> </textarea>
         <el-button id="sendBtn" type="primary" size="mini" @click="addMessageByClick">发送(S)</el-button>
@@ -166,6 +166,16 @@ export default {
             return;
         },
         handleVideoCall: function () {
+            let msgObj = new Object();
+            msgObj.content = "🎥 发起了视频通话";
+            msgObj.messageTypeId = 1;
+            msgObj.from = this.$store.state.currentUser.username;
+            msgObj.fromNickname = this.$store.state.currentUser.nickname;
+            msgObj.to = this.currentSession.username;
+            this.$store.state.stomp.send('/ws/chat', {}, JSON.stringify(msgObj));
+            //提交私聊消息记录
+            this.$store.commit('addMessage', msgObj);
+
             this.$router.push({
                 name: 'VideoCall',
                 params: {
@@ -174,6 +184,16 @@ export default {
             });
         },
         handleAudioCall: function () {
+            let msgObj = new Object();
+            msgObj.content = "📞 发起了语音通话";
+            msgObj.messageTypeId = 1;
+            msgObj.from = this.$store.state.currentUser.username;
+            msgObj.fromNickname = this.$store.state.currentUser.nickname;
+            msgObj.to = this.currentSession.username;
+            this.$store.state.stomp.send('/ws/chat', {}, JSON.stringify(msgObj));
+            //提交私聊消息记录
+            this.$store.commit('addMessage', msgObj);
+
             this.$router.push({
                 name: 'AudioCall',
                 params: {

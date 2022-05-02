@@ -21,7 +21,9 @@ axios.interceptors.response.use(success => {
     Message.error({ message: '权限不足，请联系管理员' })
   } else if (error.response.status == 401) {//请求要求用户的身份认证
     Message.error({ message: '尚未登录，请登录' });
-    router.replace("/");//跳转到登陆页
+    localStorage.clear();
+    window.sessionStorage.clear();
+    router.replace("/userlogin");//跳转到登陆页
   } else if (error.response.status == 404) {
     Message.error({ message: '服务器无法根据客户端的请求找到资源' })
   } else if (error.response.status == 500) {

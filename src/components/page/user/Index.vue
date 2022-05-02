@@ -203,7 +203,7 @@
 
     .card {
         height: 350px;
-        width: 266px;
+        width: 250px;
         margin-left: 30px;
         margin-top: 30px;
         background-color: white;

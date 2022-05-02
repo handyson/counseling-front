@@ -24,7 +24,7 @@
                 <el-menu-item class="el-menu-demo-item" style="font-size: 18px" index="/user/SelectResult">
                     <div>心理咨询</div>
                 </el-menu-item>
-                <el-menu-item class="el-menu-demo-item" style="font-size: 18px" index="/user/SelectZiYingResult">
+                <el-menu-item class="el-menu-demo-item" style="font-size: 18px" index="/user/OurService">
                     <div>专业服务</div>
                 </el-menu-item>
                 <el-menu-item class="el-menu-demo-item" style="font-size: 18px" index="/user/about">关于我们</el-menu-item>
@@ -183,14 +183,17 @@ export default {
         // 用户名下拉菜单选择事件
         handleCommand(command) {
             if (command == 'loginout') {
+                // 登出聊天室
                 // localStorage.removeItem('user_id');
                 // localStorage.removeItem('user_name');
                 // localStorage.removeItem('user');
 
                 localStorage.clear();
                 window.sessionStorage.clear();
+                
+                //关闭连接
+                // this.$store.dispatch('disconnect');
 
-                // this.$router.go(0);
                 this.$router.replace("/");
                 location.reload();
             }

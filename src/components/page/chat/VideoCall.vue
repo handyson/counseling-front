@@ -2,6 +2,8 @@
     <div class="video-call-section">
         <div class="video-call-section-header">Welcome {{ currentUser && (currentUser.nickname || currentUser.id) }}</div>
         <div class="video-call-section-title">视频通话</div>
+        <br />
+        <el-button v-if="!isShowVideoCall" type="primary" @click="handleCancelCallUser" size="120"><i class="el-icon-loading"></i> 取消</el-button>
         <div :class="{ 'video-conference': true, 'is-show': isShowVideoCall }">
             <div class="video-conference-header">视频通话区域</div>
 
@@ -114,6 +116,7 @@ export default {
                 this.cancelFlag = false;
                 this.$store.commit('dissolveMeeting');
                 this.$store.commit('updateCallStatus', 'idle');
+                this.$router.go(-1);
             });
         },
         startMeeting: function () {
@@ -143,7 +146,7 @@ export default {
             this.$trtcCalling.hangup();
             this.isShowVideoCall = false;
             this.$store.commit('updateCallStatus', 'idle');
-            this.$router.push('/');
+            this.$router.go(-1);
         },
         toggleVideo: function () {
             this.isVideoOn = !this.isVideoOn;
