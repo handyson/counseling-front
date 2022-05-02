@@ -26,8 +26,12 @@
                 <el-table-column label="用户ID" prop="u_user_id" align="center"></el-table-column>
                 <el-table-column label="咨询师ID" prop="c_user_id" align="center"></el-table-column>
                 <el-table-column label="咨询方式" prop="consult_way" align="center"></el-table-column>
-                <el-table-column label="咨询开始时间" prop="consult_start_time" align="center"></el-table-column>
-                <el-table-column label="咨询结束时间" prop="consult_end_time" align="center"></el-table-column>
+                <el-table-column label="咨询时间" prop="consult_start_time" align="center">
+                    <template slot-scope="scope"> 
+                        <span>{{scope.row.consult_start_time}}-{{scope.row.consult_end_time}}</span>
+                    </template>
+                </el-table-column>
+                <!-- <el-table-column label="咨询结束时间" prop="consult_end_time" align="center"></el-table-column> -->
                 <el-table-column label="下单时间" prop="createtimeString" align="center"></el-table-column>
                 <el-table-column label="订单状态" prop="order_status" align="center">
                     <template slot-scope="scope">
@@ -100,7 +104,7 @@ export default {
     methods: {
         deleterow(index, row) {
             axios
-                .get('/api/ordersinfo/deleteByFlag?id=' + row.orderid)
+                .get('/api/ordersInfo/deleteByFlag?id=' + row.orderid)
                 .then((res) => {
                     this.$message.success('删除成功');
                     this.tableData.splice(index, 1);
@@ -117,7 +121,7 @@ export default {
             this.delList = this.delList.concat(this.multipleSelection);
             for (let i = 0; i < length; i++) {
                 axios
-                    .get('/api/ordersinfo/deleteByFlag?id=' + this.multipleSelection[i].orderid)
+                    .get('/api/ordersInfo/deleteByFlag?id=' + this.multipleSelection[i].orderid)
                     .then((res) => {})
                     .catch((error) => {
                         console.log('接口请求异常');
@@ -129,7 +133,7 @@ export default {
         getData() {
             this.query.offset = (this.query.pageIndex - 1) * this.query.limit;
             axios
-                .post('/api/ordersinfo/selectKeyByLimit', this.query)
+                .post('/api/ordersInfo/selectKeyByLimit', this.query)
                 .then((res) => {
                     this.tableData = res.data.data;
                     this.pageTotal = res.data.pageTotal;
@@ -181,12 +185,12 @@ export default {
         },
         // 保存编辑
         saveEdit() {
-            axios.post('/api/ordersinfo/edit', this.form).then((res) => {});
+            axios.post('/api/ordersInfo/edit', this.form).then((res) => {});
             this.editVisible = false;
         },
         //保存添加
         saveAdd() {
-            axios.post('/api/ordersinfo/add', this.aform).then((res) => {});
+            axios.post('/api/ordersInfo/add', this.aform).then((res) => {});
             this.addVisible = false;
         },
         orderStatus(status) {

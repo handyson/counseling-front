@@ -22,45 +22,45 @@
                 @selection-change="handleSelectionChange"
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="c_user_id" label="ID" width="100" align="center"></el-table-column>
+                <el-table-column prop="cid" label="ID" width="100" align="center"></el-table-column>
                 <el-table-column prop="nickname" label="姓名"></el-table-column>
-                <!--                <el-table-column prop="uid" label="商家ID"></el-table-column>-->
-                <!-- <el-table-column prop="userinfo.name" label="商家名"></el-table-column>-->
-                <el-table-column prop="tel" label="商家电话"></el-table-column> 
-                <!-- <el-table-column prop="userinfo.mail" label="商家邮箱"></el-table-column> --> 
-                <!-- <el-table-column prop="kid" label="商品种类" align="center"></el-table-column> -->
-                <el-table-column label="图片" align="center">
-                    <template slot-scope="scope">
-                        <el-image class="table-td-thumb" :src="scope.row.iconurl" :preview-src-list="[scope.row.iconurl]"></el-image>
-                    </template>
-                </el-table-column>
-                <el-table-column label="商品价格">
-                    <template slot-scope="scope">￥{{ scope.row.price }}</template>
-                </el-table-column>
-                <el-table-column prop="status" label="状态"></el-table-column>
-                <el-table-column prop="details" label="商品描述"></el-table-column>
-                <el-table-column label="审核状态" align="center">
-                    <template slot-scope="scope">
-                        <el-tag :type="isCert(scope.row.isreview)">
-                            {{ scope.row.isreview === 0 ? '等待审核' : scope.row.isreview === 1 ? '已通过审核' : '审核异常，请修改' }}
-                        </el-tag>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="createtimeString" label="创建时间"></el-table-column>
-                <el-table-column label="商品审核" align="center" width="200">
-                    <template slot-scope="scope">
-                        <el-button icon="el-icon-lx-roundcheck" type="success" @click="PassAudit(scope.$index, scope.row)">通过 </el-button>
-                        <el-button type="danger" icon="el-icon-lx-roundclose" @click="ReMoveAudit(scope.$index, scope.row)"
-                            >驳回
-                        </el-button>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作" align="center" width="200">
+                <el-table-column prop="tname" label="类型名称"></el-table-column>
+                <el-table-column prop="detail" label="详情" width="700"></el-table-column>
+                <!-- <el-table-column prop="createtimeString" label="创建时间"></el-table-column> -->
+                <!-- <el-table-column label="操作" align="center" width="200">
                     <template slot-scope="scope">
                         <el-button type="primary" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑 </el-button>
                         <el-button type="danger" icon="el-icon-lx-roundclose" @click="deletegoods(scope.$index, scope.row)"
                             >删除
                         </el-button>
+                    </template>
+                </el-table-column> -->
+
+                <el-table-column label="操作" align="center" width="150">
+                    <template slot-scope="scope">
+                        <el-dropdown trigger="click">
+                            <el-button type="text" size="mini"
+                                >操作
+                                <i class="el-icon-arrow-down el-icon--right"></i>
+                            </el-button>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>
+                                    <el-button @click="handleEdit(scope.$index, scope.row)" type="text" size="mini" icon="el-icon-edit"
+                                        >修改</el-button
+                                    >
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <el-button
+                                        @click="deletegoods(scope.$index, scope.row)"
+                                        class="btn-text-red"
+                                        type="text"
+                                        size="mini"
+                                        icon="el-icon-delete"
+                                        >删除
+                                    </el-button>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
                     </template>
                 </el-table-column>
             </el-table>
@@ -80,38 +80,13 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="90px">
-                <el-form-item label="商品种类">
-                    <el-select v-model="form.kid" placeholder="请选择商品种类">
+                <el-form-item label="类型">
+                    <el-select v-model="form.kid" placeholder="请选择类型">
                         <el-option v-for="item in kindsList" :key="item.kid" :label="item.kname" :value="item.kid"> </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="商品价格">
-                    <el-input v-model="form.price"></el-input>
-                </el-form-item>
-                <el-form-item label="商品名字">
-                    <el-input v-model="form.goodsname"></el-input>
-                </el-form-item>
-                <el-form-item label="商品规格">
-                    <el-input v-model="form.spec"></el-input>
-                </el-form-item>
-                <el-form-item label="图片">
-                    <el-upload
-                        class="avatar-uploader"
-                        name="kimg"
-                        action="/api/UpData/upkindimg/"
-                        :show-file-list="false"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload"
-                    >
-                        <img v-if="form.iconurl" :src="form.iconurl" class="avatar" style="height: 180px" />
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                </el-form-item>
-                <el-form-item label="商品详情">
+                <el-form-item label="详情">
                     <el-input v-model="form.details"></el-input>
-                </el-form-item>
-                <el-form-item label="商品关键字">
-                    <el-input v-model="form.goodstitle"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -120,40 +95,18 @@
             </span>
         </el-dialog>
         <!-- 添加弹出框 -->
-        <el-dialog title="编辑" :visible.sync="addVisible" width="30%">
+        <el-dialog title="添加" :visible.sync="addVisible" width="30%">
             <el-form ref="aform" :model="aform" label-width="90px">
-                <el-form-item label="商品种类">
-                    <el-select v-model="aform.kid" placeholder="请选择商品种类">
+                <el-form-item label="咨询师id">
+                    <el-input v-model="aform.cid"></el-input>
+                </el-form-item>
+                <el-form-item label="类型">
+                    <el-select v-model="aform.kid" placeholder="请选择类型">
                         <el-option v-for="item in kindsList" :key="item.kid" :label="item.kname" :value="item.kid"> </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="商品价格">
-                    <el-input v-model="aform.price"></el-input>
-                </el-form-item>
-                <el-form-item label="商品名字">
-                    <el-input v-model="aform.goodsname"></el-input>
-                </el-form-item>
-                <el-form-item label="商品规格">
-                    <el-input v-model="aform.spec"></el-input>
-                </el-form-item>
-                <el-form-item label="图片">
-                    <el-upload
-                        class="avatar-uploader"
-                        name="kimg"
-                        action="/api/UpData/upkindimg/"
-                        :show-file-list="false"
-                        :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload"
-                    >
-                        <img v-if="aform.iconurl" :src="aform.iconurl" class="avatar" style="height: 180px" />
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
-                </el-form-item>
                 <el-form-item label="商品详情">
                     <el-input v-model="aform.details"></el-input>
-                </el-form-item>
-                <el-form-item label="商品关键字">
-                    <el-input v-model="aform.goodstitle"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -200,7 +153,7 @@ export default {
     methods: {
         deletegoods(index, row) {
             axios
-                .get('/api/goods/deleteByFlag?id=' + row.c_user_id)
+                .get('/api/consltSkill/deleteByFlag?id=' + row.c_user_id)
                 .then((res) => {
                     this.$message.success('删除成功');
                     this.tableData.splice(index, 1);
@@ -217,7 +170,7 @@ export default {
             this.delList = this.delList.concat(this.multipleSelection);
             for (let i = 0; i < length; i++) {
                 axios
-                    .get('/api/goods/deleteByFlag?id=' + this.multipleSelection[i].c_user_id)
+                    .get('/api/consltSkill/deleteByFlag?id=' + this.multipleSelection[i].c_user_id)
                     .then((res) => {})
                     .catch((error) => {
                         console.log('接口请求异常');
@@ -229,12 +182,12 @@ export default {
         getData() {
             this.query.offset = (this.query.pageIndex - 1) * this.query.limit;
             axios
-                .post('/api/goods/selectKeyByLimit', this.query)
+                .post('/api/consltSkill/selectKeyByLimit', this.query)
                 .then((res) => {
                     console.log(res);
-                    this.tableData = res.data.data;
-                    this.pageTotal = res.data.pageTotal;
-                    this.changeData();
+                    this.tableData = res.records;
+                    this.pageTotal = res.records.length;
+                    // this.changeData();
                 })
                 .catch((error) => {
                     console.log('接口请求异常');
@@ -261,11 +214,11 @@ export default {
                     ':' +
                     createtime.getMinutes();
                 //根据商家ID查询联系方式
-                this.$axios.get('/api/userinfo/selectOne?id=' + this.tableData[i].uid).then((res) => {
-                    // console.log(res.data)
-                    this.tableData[i].userinfo = res.data;
-                    this.handleUpdateClick();
-                });
+                // this.$axios.get('/api/userinfo/selectOne?id=' + this.tableData[i].uid).then((res) => {
+                //     // console.log(res.data)
+                //     this.tableData[i].userinfo = res.data;
+                //     this.handleUpdateClick();
+                // });
             }
         },
         handleUpdateClick() {
@@ -279,37 +232,11 @@ export default {
         handleSizeChange(val) {
             this.query.limit = val;
             this.getData();
-        },
-        isCert(stid) {
-            if (stid == '0') return 'info';
-            else if (stid == '1') return 'success';
-            else if (stid == '2') return 'danger';
-            else if (stid == '3') return 'warning';
-        },
-        isCertString(stid) {
-            if (stid == '0') return '未认证';
-            else if (stid == '1') return '待审核';
-            else if (stid == '2') return '已认证';
-            else if (stid == '3') return '审核未通过';
         }, // 编辑操作
         handleEdit(index, row) {
             this.idx = index;
             this.form = row;
             this.editVisible = true;
-        },
-        //通过审核
-        PassAudit(index, row) {
-            axios.get('/api/goods/PassAudit?id=' + row.c_user_id).then((res) => {
-                this.getData();
-                this.$message.success('通过审核');
-            });
-        },
-        //驳回审核
-        ReMoveAudit(index, row) {
-            axios.get('/api/goods/ReMoveAudit?id=' + row.c_user_id).then((res) => {
-                this.getData();
-                this.$message.success('通过审核');
-            });
         },
         //添加操作
         handleAdd() {
@@ -317,14 +244,14 @@ export default {
         },
         // 保存编辑
         saveEdit() {
-            axios.post('/api/goods/edit', this.form).then((res) => {
+            axios.post('/api/consltSkill/edit', this.form).then((res) => {
                 this.$message.success('修改成功');
             });
             this.editVisible = false;
         },
         //保存添加
         saveAdd() {
-            axios.post('/api/goods/add', this.aform).then((res) => {
+            axios.post('/api/consltSkill/add', this.aform).then((res) => {
                 this.$message.success('添加成功');
             });
             this.addVisible = false;

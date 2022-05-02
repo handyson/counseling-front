@@ -72,10 +72,10 @@
                 <el-table-column label="操作" align="center">
                     <template slot-scope="scope">
                         <el-button icon="el-icon-lx-roundcheck" type="success" @click="PassAudit(scope.$index, scope.row)"
-                            >申请通过
+                            >通过
                         </el-button>
                         <el-button type="danger" icon="el-icon-lx-roundclose" @click="ReMoveAudit(scope.$index, scope.row)"
-                            >驳回申请
+                            >驳回
                         </el-button>
                     </template>
                 </el-table-column>

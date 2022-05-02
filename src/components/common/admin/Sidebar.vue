@@ -106,7 +106,7 @@ export default {
                 {
                     icon: 'el-icon-lx-calendar',
                     index: 'ordersdetails',
-                    title: '订单管理'
+                    title: '预约管理'
                 },
                 // {
                 //     icon: 'el-icon-lx-emoji',

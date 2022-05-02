@@ -22,47 +22,88 @@
                 @selection-change="handleSelectionChange"
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
-                <el-table-column prop="c_user_id" label="ID" width="100" align="center"></el-table-column>
-                <el-table-column prop="nickname" label="姓名"></el-table-column>
+                <el-table-column prop="id" label="ID" width="100" align="center"></el-table-column>
+                <el-table-column prop="nickname" label="咨询师姓名"></el-table-column>
                 <!--                <el-table-column prop="uid" label="商家ID"></el-table-column>-->
                 <!-- <el-table-column prop="userinfo.name" label="商家名"></el-table-column>-->
-                <el-table-column prop="tel" label="商家电话"></el-table-column> 
-                <!-- <el-table-column prop="userinfo.mail" label="商家邮箱"></el-table-column> --> 
+                <el-table-column prop="tel" label="电话"></el-table-column>
+                <!-- <el-table-column prop="userinfo.mail" label="商家邮箱"></el-table-column>  -->
                 <!-- <el-table-column prop="kid" label="商品种类" align="center"></el-table-column> -->
                 <el-table-column label="图片" align="center">
                     <template slot-scope="scope">
-                        <el-image class="table-td-thumb" :src="scope.row.iconurl" :preview-src-list="[scope.row.iconurl]"></el-image>
+                        <el-image class="table-td-thumb" :src="scope.row.photoUrl" :preview-src-list="[scope.row.photoUrl]"></el-image>
                     </template>
                 </el-table-column>
-                <el-table-column label="商品价格">
-                    <template slot-scope="scope">￥{{ scope.row.price }}</template>
+                <el-table-column label="累计案例(例)">
+                    <template slot-scope="scope">{{ scope.row.cases }}</template>
                 </el-table-column>
-                <el-table-column prop="status" label="状态"></el-table-column>
-                <el-table-column prop="details" label="商品描述"></el-table-column>
-                <el-table-column label="审核状态" align="center">
+                <el-table-column label="累计时间(年)">
+                    <template slot-scope="scope">{{ scope.row.workyear }}</template>
+                </el-table-column>
+                <!-- <el-table-column prop="cases" label="累计案例"></el-table-column> -->
+                <!-- <el-table-column prop="workyear" label="累计时间"></el-table-column> -->
+                <el-table-column prop="title" label="头衔"></el-table-column>
+                <el-table-column label="寄语">
                     <template slot-scope="scope">
-                        <el-tag :type="isCert(scope.row.isreview)">
-                            {{ scope.row.isreview === 0 ? '等待审核' : scope.row.isreview === 1 ? '已通过审核' : '审核异常，请修改' }}
+                        <el-popover placement="top-start" title="寄语" width="500" trigger="hover">
+                            <div>{{ scope.row.sendWord }}</div>
+                            <span slot="reference">{{ scope.row.sendWord.substr(0, 20) + '...' }}</span>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+                <!-- <el-table-column prop="status" label="状态"></el-table-column> -->
+                <el-table-column label="简介">
+                    <template slot-scope="scope">
+                        <el-popover placement="top-start" title="简介" width="500" trigger="hover">
+                            <div>{{ scope.row.brief }}</div>
+                            <span slot="reference">{{ scope.row.brief.substr(0, 20) + '...' }}</span>
+                        </el-popover>
+                    </template>
+                </el-table-column>
+                <el-table-column label="状态" align="center">
+                    <template slot-scope="scope">
+                        <el-tag :type="isCert(scope.row.status)">
+                            {{ scope.row.status === 1 ? '等待审核' : scope.row.status === 2 ? '正常' : '审核异常，请修改' }}
                         </el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column prop="createtimeString" label="创建时间"></el-table-column>
-                <el-table-column label="商品审核" align="center" width="200">
+
+                <el-table-column label="操作" align="center" width="150">
                     <template slot-scope="scope">
-                        <el-button icon="el-icon-lx-roundcheck" type="success" @click="PassAudit(scope.$index, scope.row)">通过 </el-button>
-                        <el-button type="danger" icon="el-icon-lx-roundclose" @click="ReMoveAudit(scope.$index, scope.row)"
-                            >驳回
-                        </el-button>
+                        <el-dropdown trigger="click">
+                            <el-button type="text" size="mini"
+                                >操作
+                                <i class="el-icon-arrow-down el-icon--right"></i>
+                            </el-button>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>
+                                    <el-button @click="handleEdit(scope.$index, scope.row)" type="text" size="mini" icon="el-icon-edit"
+                                        >修改</el-button
+                                    >
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <el-button
+                                        @click="deletegoods(scope.$index, scope.row)"
+                                        class="btn-text-red"
+                                        type="text"
+                                        size="mini"
+                                        icon="el-icon-delete"
+                                        >删除
+                                    </el-button>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作" align="center" width="200">
+                <!-- <el-table-column label="操作" align="center" width="200">
                     <template slot-scope="scope">
                         <el-button type="primary" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑 </el-button>
                         <el-button type="danger" icon="el-icon-lx-roundclose" @click="deletegoods(scope.$index, scope.row)"
                             >删除
                         </el-button>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -204,8 +245,8 @@ export default {
                 .post('/api/consultant/selectKeyByLimit', this.query)
                 .then((res) => {
                     console.log(res);
-                    this.tableData = res.data.data;
-                    this.pageTotal = res.data.pageTotal;
+                    this.tableData = res.records;
+                    this.pageTotal = res.records.length;
                     this.changeData();
                 })
                 .catch((error) => {
@@ -220,7 +261,7 @@ export default {
             const length = this.tableData.length;
             for (let i = 0; i < length; i++) {
                 //时间格式转化
-                var createtime = new Date(this.tableData[i].createtime);
+                var createtime = new Date(this.tableData[i].gmtCreate);
                 var month = createtime.getMonth() + 1;
                 this.tableData[i].createtimeString =
                     createtime.getFullYear() +
@@ -233,7 +274,7 @@ export default {
                     ':' +
                     createtime.getMinutes();
                 //根据商家ID查询联系方式
-                this.$axios.get('/api/userinfo/selectOne?id=' + this.tableData[i].uid).then((res) => {
+                this.$axios.get('/api/userInfo/selectOne?id=' + this.tableData[i].id).then((res) => {
                     // console.log(res.data)
                     this.tableData[i].userinfo = res.data;
                     this.handleUpdateClick();
@@ -282,8 +323,8 @@ export default {
         },
         isCert(stid) {
             if (stid == '0') return 'info';
-            else if (stid == '1') return 'success';
-            else if (stid == '2') return 'danger';
+            else if (stid == '1') return 'info';
+            else if (stid == '2') return 'success';
             else if (stid == '3') return 'warning';
         },
         isCertString(stid) {
@@ -296,20 +337,6 @@ export default {
             this.idx = index;
             this.form = row;
             this.editVisible = true;
-        },
-        //通过审核
-        PassAudit(index, row) {
-            axios.get('/api/goods/PassAudit?id=' + row.c_user_id).then((res) => {
-                this.getData();
-                this.$message.success('通过审核');
-            });
-        },
-        //驳回审核
-        ReMoveAudit(index, row) {
-            axios.get('/api/goods/ReMoveAudit?id=' + row.c_user_id).then((res) => {
-                this.getData();
-                this.$message.success('通过审核');
-            });
         },
         //添加操作
         handleAdd() {
