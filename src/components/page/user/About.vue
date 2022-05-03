@@ -1,13 +1,13 @@
 <template>
     <div>
-        <div style="text-align: center; width: 70%; margin-left: 15%; margin-top: 40px; margin-bottom: 50px">
+        <div class="text-box">
             <!-- <div>
                 <img src="http://www.lzy.edu.cn/__local/B/E6/97/2EBB828D970D7D3CA7E18F50D4A_70DCAB7B_2040C.jpg"
                      style="width: 80%;" alt="">
             </div> -->
             <h3>我们是谁？</h3>
             <p>大白心理咨询专注于提供高质量心理服务，是国内优质的心理咨询平台。</p>
-            <br /><br />
+            
             <h3>大白心理咨询平台正在做些什么？</h3>
             <p>
                 我们在做心理健康服务领域的标杆，我们培养、监督、选择数量有限的专业心理咨询师和相关领域的从业者，生产靠谱的心理服务产品，为有心理健康帮助需求的用户提供有偿服务。
@@ -15,7 +15,8 @@
                 用严苛的标准筛选国内及海外的心理咨询师入驻，参考美国心理学会（APA）标准逐一对咨询师进行专业考核和面试、以及追踪评估和管理；
                 目前有来自全球117个城市800余名个体心理咨询师提供包括个体咨询、伴侣咨询、家庭咨询在内的心理咨询服务。
             </p>
-            <br /><br />
+            
+
             <h3>旨在服务</h3>
             <p>
                 面向企业客户的服务：大白心理咨询为企业提供定制化专业心理服务，包括企业心理课程 、员工心理咨询 、
@@ -28,13 +29,10 @@
             <p>
                 面向行业：大白心理咨询平台和国内外知名的研究机构合作，进行心理咨询行业的数据统计分析、干预方法的比较研究等学术研究项目，助力咨询行业发展。
             </p>
-        </div>
-        <div style="height: 200px; text-align: center">
-            <h2>公司电话：13321191379</h2>
-            <h2>联系人：刘经理</h2>
-            <h2>邮箱：12346543@ershou.com</h2>
-            <h2>传真：3465464</h2>
-            <h2>公司地址：XX省XX市XX区XX街道XX号</h2>
+            
+            <h3>创始团队</h3>
+            <p>简单心理学术团队90%为心理学硕士，毕业于欧洲、美国、香港以及大陆的名校，我们尤其注重团队的思维训练以及科研能力。我们是有温度、有边界、守伦理的心理服务者。</p>
+
         </div>
     </div>
 </template>
@@ -80,44 +78,33 @@ export default {
 </script>
 
 <style scoped>
-.avatar {
-    width: 100px;
-    height: 100px;
+.text-box {
+    text-align: left;
+    width: 70%;
+    margin: auto;
+    padding-bottom: 80px;
 }
-
-/deep/ .el-upload {
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
-    margin-left: 60px;
+h3 {
+    line-height: 25px;
+    font-size: 18px;
+    color: #40434c;
+    text-align: center;
+    font-weight: 600;
+    padding-top: 30px;
+    padding-bottom: 14px;
 }
-
-/* 顶栏容器CSS */
-.el-header .el-menu {
-    max-width: 1225px;
-    margin: 0 auto;
+p {
+    text-indent: 30px;
+    margin-bottom: 14px;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    line-height: 30px;
+    letter-spacing: 0.3px;
+    font-size: 16px;
+    word-break: break-all;
+    color: rgb(140, 140, 140);
 }
-
-.el-header .logo {
-    height: 60px;
-    width: 189px;
-    float: left;
-    margin-right: 100px;
-}
-
-.el-header .so {
-    margin-top: 10px;
-    width: 300px;
-    float: right;
-}
-
-/*.el-menu-demo:hover{*/
-/*    background-color: #00a854 !important;*/
-/*}*/
-
-.el-menu-demo-item:hover {
-    background-color: #f7f7f7 !important;
-}
-
-/* 顶栏容器CSS END */
 </style>
