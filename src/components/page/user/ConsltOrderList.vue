@@ -116,12 +116,13 @@
             </el-table-column>
         </el-table>
         <div style="text-align: center">
-            <img
+            <span v-if="ordertableData.length == 0">无数据</span>
+            <!-- <img
                 v-if="ordertableData.length == 0"
                 src="http://127.0.0.1:8000/images/title/msg/noSellerOrder.png"
                 style="height: 90px"
                 alt=""
-            />
+            /> -->
         </div>
 
         <!-- 编辑弹出框 -->
@@ -222,11 +223,11 @@ export default {
         },
         submitOrder(index, row) {
             this.$axios.get('/api/ordersInfo/submitOrder?id=' + row.oid).then((res) => {
-                if (res && res.data.code == 200) {
+                if (res && res.code == 200) {
                     this.$message.success('确认成功');
                     location.reload();
                 } else {
-                    this.$message.error(res.data.msg);
+                    this.$message.error(res.msg);
                 }
             });
         },

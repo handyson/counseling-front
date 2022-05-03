@@ -26,21 +26,48 @@
                 <el-table-column prop="nickname" label="姓名"></el-table-column>
                 <el-table-column prop="certifName" label="证书名称"></el-table-column>
                 <el-table-column prop="certifNo" label="证书编号" align="center"></el-table-column>
-                <el-table-column prop="certifNo" label="年份" align="center">
+                <el-table-column label="年份" align="center">
                     <template slot-scope="scope">
                         <span>{{scope.row.certifAge}}年</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="createtimeString" label="创建时间"></el-table-column>
                 <el-table-column prop="remark" label="备注"></el-table-column>
-                <el-table-column label="操作" align="center" width="200">
+                 <el-table-column label="操作" align="center" width="150">
+                    <template slot-scope="scope">
+                        <el-dropdown trigger="click">
+                            <el-button type="text" size="mini"
+                                >操作
+                                <i class="el-icon-arrow-down el-icon--right"></i>
+                            </el-button>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>
+                                    <el-button @click="handleEdit(scope.$index, scope.row)" type="text" size="mini" icon="el-icon-edit"
+                                        >修改</el-button
+                                    >
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <el-button
+                                        @click="handleDelete(scope.$index, scope.row)"
+                                        class="btn-text-red"
+                                        type="text"
+                                        size="mini"
+                                        icon="el-icon-delete"
+                                        >删除
+                                    </el-button>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </template>
+                </el-table-column>
+                <!-- <el-table-column label="操作" align="center" width="200">
                     <template slot-scope="scope">
                         <el-button type="primary" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑 </el-button>
                         <el-button type="danger" icon="el-icon-lx-roundclose" @click="deletegoods(scope.$index, scope.row)"
                             >删除
                         </el-button>
                     </template>
-                </el-table-column>
+                </el-table-column> -->
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -59,16 +86,16 @@
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="90px">
                 <el-form-item label="证书名称">
-                    <el-input v-model="form.price"></el-input>
+                    <el-input v-model="form.certifName"></el-input>
                 </el-form-item>
                 <el-form-item label="证书编号">
-                    <el-input v-model="form.price"></el-input>
-                </el-form-item>
-                <el-form-item label="证书编号">
-                    <el-input v-model="form.goodsname"></el-input>
+                    <el-input v-model="form.certifNo"></el-input>
                 </el-form-item>
                 <el-form-item label="年份">
-                    <el-input v-model="form.spec"></el-input>
+                    <el-input v-model="form.certifAge"></el-input>
+                </el-form-item>
+                <el-form-item label="备注">
+                    <el-input v-model="form.remark"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -80,19 +107,19 @@
         <el-dialog title="添加" :visible.sync="addVisible" width="30%">
             <el-form ref="aform" :model="aform" label-width="90px">
                 <el-form-item label="咨询师id">
-                    <el-input v-model="aform.price"></el-input>
+                    <el-input v-model="aform.cid"></el-input>
                 </el-form-item>
                 <el-form-item label="证书名称">
-                    <el-input v-model="aform.price"></el-input>
+                    <el-input v-model="aform.name"></el-input>
                 </el-form-item>
                 <el-form-item label="证书编号">
-                    <el-input v-model="aform.goodsname"></el-input>
+                    <el-input v-model="aform.code"></el-input>
                 </el-form-item>
                 <el-form-item label="年份">
-                    <el-input v-model="aform.spec"></el-input>
+                    <el-input v-model="aform.c_year"></el-input>
                 </el-form-item>
                 <el-form-item label="备注">
-                    <el-input v-model="aform.details"></el-input>
+                    <el-input v-model="aform.detail"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -137,7 +164,7 @@ export default {
         });
     },
     methods: {
-        deletegoods(index, row) {
+        handleDelete(index, row) {
             axios
                 .get('/api/consltCertification/deleteByFlag?id=' + row.c_user_id)
                 .then((res) => {
@@ -237,7 +264,7 @@ export default {
         },
         //保存添加
         saveAdd() {
-            axios.post('/api/consltCertification/add', this.aform).then((res) => {
+            axios.post('/api/consltCertification/saveCertf', this.aform).then((res) => {
                 this.$message.success('添加成功');
             });
             this.addVisible = false;

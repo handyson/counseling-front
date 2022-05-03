@@ -20,7 +20,7 @@
             <div style="width: 80%;margin-left: 40px; font-size: 22px; color: #333; font-weight: 200; line-height: 58px; margin-bottom: -20px">
                 专业服务
                 <a
-                    href="/#/user/selectResult?searchkey="
+                    href="/#/user/OurService"
                     style="float: right; margin-bottom: -20px; margin-right: 40px; color: #333"
                     >查看全部<i class="el-icon-lx-right"></i
                 ></a>

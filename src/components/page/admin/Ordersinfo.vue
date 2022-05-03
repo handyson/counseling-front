@@ -2,13 +2,13 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item> <i class="el-icon-lx-cascades"></i> 订单信息 </el-breadcrumb-item>
+                <el-breadcrumb-item> <i class="el-icon-lx-cascades"></i> 用户预约信息 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
             <div class="handle-box">
                 <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量删除 </el-button>
-                <el-input v-model="query.key" placeholder="输入-订单ID-进行查询" class="handle-input mr10"></el-input>
+                <el-input v-model="query.key" placeholder="输入-预约ID-进行查询" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">查询</el-button>
                 <el-button type="primary" @click="handleAdd">添加</el-button>
             </div>
@@ -22,9 +22,9 @@
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
 
-                <el-table-column label="订单ID" prop="orderid" align="center"></el-table-column>
-                <el-table-column label="用户ID" prop="u_user_id" align="center"></el-table-column>
-                <el-table-column label="咨询师ID" prop="c_user_id" align="center"></el-table-column>
+                <el-table-column label="ID" prop="oid" align="center"></el-table-column>
+                <el-table-column label="用户ID" prop="uid" align="center"></el-table-column>
+                <el-table-column label="咨询师ID" prop="cid" align="center"></el-table-column>
                 <el-table-column label="咨询方式" prop="consult_way" align="center"></el-table-column>
                 <el-table-column label="咨询时间" prop="consult_start_time" align="center">
                     <template slot-scope="scope"> 
@@ -135,8 +135,8 @@ export default {
             axios
                 .post('/api/ordersInfo/selectKeyByLimit', this.query)
                 .then((res) => {
-                    this.tableData = res.data.data;
-                    this.pageTotal = res.data.pageTotal;
+                    this.tableData = res.records;
+                    this.pageTotal = res.records.length;
                     this.changeData();
                 })
                 .catch((error) => {

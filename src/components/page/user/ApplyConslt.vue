@@ -235,11 +235,12 @@ export default {
             finished: true,
             editable: true,
             eduList: [
-                { id:1,detail:'大专以下'}, 
-                { id:2,detail: '大专'}, 
-                { id:3,detail: '本科'}, 
-                { id:4,detail: '研究生'}, 
-                { id:5,detail: '博士' }]
+                { id: 1, detail: '大专以下' },
+                { id: 2, detail: '大专' },
+                { id: 3, detail: '本科' },
+                { id: 4, detail: '研究生' },
+                { id: 5, detail: '博士' }
+            ]
         };
     },
     created() {
