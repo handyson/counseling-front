@@ -25,14 +25,9 @@
                 </el-table-column> -->
 
                 <!--        预约时间-->
-                <el-table-column label="预约时间" prop="conselltime" align="center">
+                <el-table-column label="咨询时间" prop="conselltime" align="center">
                     <template slot-scope="scope">
-                        <span>{{
-                            scope.row.conselltime
-                                .toLocaleString()
-                                .replace(/T/g, ' ')
-                                .replace(/\.[\d]{3}Z/, '')
-                        }}</span>
+                        <span>{{ transformTime(scope.row.conselltime) }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="咨询方式" prop="way" align="center">
@@ -78,7 +73,7 @@ export default {
     created() {
         this.user = this.$store.state.currentUser;
         // if (localStorage.getItem('user_id') == null) {
-        if (this.user.id == null) {
+        if (!this.user) {
             this.$router.push('/user/helloHome');
             this.$message.error('用户未登录');
         }
@@ -104,7 +99,7 @@ export default {
             for (let i = 0; i < length; i++) {
                 this.tableData[i].createtime.replice;
                 //时间格式转化
-                var createtime = new Date(this.tableData[i].createtime);
+                var createtime = new Date(this.tableData[i].conselltime);
                 // var month = createtime.getMonth() + 1;
                 this.tableData[i].createtimeString =
                     createtime.getFullYear() +
@@ -117,6 +112,10 @@ export default {
                     ':' +
                     createtime.getMinutes();
             }
+        },
+        transformTime(timestamp = +new Date()) {
+            var date = new Date(timestamp * 1000 + 8 * 3600 * 1000); // 增加8小时
+            return date.toJSON().substr(0, 19).replace('T', ' ');
         },
         ordStatusOutput(status) {
             // if (this.tableData.submit == 0) return '未确认';

@@ -52,14 +52,9 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column prop="gmtCreate" label="提交申请时间" sortable>
+                <el-table-column label="提交申请时间" sortable>
                     <template slot-scope="scope">
-                        <span>{{
-                            scope.row.gmtCreate
-                                .toLocaleString()
-                                .replace(/T/g, ' ')
-                                .replace(/\.[\d]{3}Z/, '')
-                        }}</span>
+                        <span>{{scope.row.createtimeString}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="审核状态" align="center" sortable>
@@ -162,7 +157,7 @@ export default {
             }
         },
         ReMoveAudit(index, row) {
-            if (row.auditstate == '0') {
+            if (row.status == '3') {
                 this.$notify({
                     title: '审核',
                     message: '该用户已被驳回',
@@ -175,7 +170,7 @@ export default {
                     type: 'success'
                 });
                 axios
-                    .get('/api/audit/ReMoveAudit?id=' + row.auditid)
+                    .get('/api/audit/ReMoveAudit?id=' + row.id)
                     .then((res) => {
                         this.getData();
                     })
@@ -205,7 +200,7 @@ export default {
             const length = this.tableData.length;
             for (let i = 0; i < length; i++) {
                 //时间格式转化
-                var createtime = new Date(this.tableData[i].createtime);
+                var createtime = new Date(this.tableData[i].gmtCreate);
                 var month = createtime.getMonth() + 1;
                 this.tableData[i].createtimeString =
                     createtime.getFullYear() +

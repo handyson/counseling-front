@@ -78,9 +78,7 @@
                 </el-table-column>
                 <el-table-column prop="isLocked" label="账号状态" align="center" sortable>
                     <template slot-scope="scope">
-                        <el-tag :type="!scope.row.isLocked ? 'success' : 'danger'"
-                            >{{ !scope.row.isLocked ? '正常' : '封禁' }}
-                        </el-tag>
+                        <el-tag :type="!scope.row.isLocked ? 'success' : 'danger'">{{ !scope.row.isLocked ? '正常' : '封禁' }} </el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column prop="" label="操作">
@@ -93,7 +91,7 @@
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item>
                                     <el-button
-                                        @click="scope.row.show = true"
+                                        @click="handleEdit(scope.$index, scope.row)"
                                         class="btn-text-red"
                                         type="text"
                                         size="mini"
@@ -103,7 +101,7 @@
                                 </el-dropdown-item>
                                 <el-dropdown-item>
                                     <el-button
-                                        @click="scope.row.show = true"
+                                        @click="handleBlock(scope.$index, scope.row)"
                                         class="btn-text-red"
                                         type="text"
                                         size="mini"
@@ -113,7 +111,7 @@
                                 </el-dropdown-item>
                                 <el-dropdown-item>
                                     <el-button
-                                        @click="handleDelete(scope.$index)"
+                                        @click="handleDelete(scope.$index, scope.row)"
                                         class="btn-text-red"
                                         type="text"
                                         size="mini"
@@ -211,6 +209,58 @@ export default {
                     ':' +
                     logintime.getMinutes();
             }
+        },
+        handleDelete(index, row) {
+            this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            })
+                .then(() => {
+                    axios
+                        .post('/api/userInfo/deleteUser', row.id)
+                        .then((res) => {
+                            if (res) {
+                                this.$message.success('删除成功');
+                                this.tableData.splice(index, 1);
+                            }
+                        })
+                        .catch((error) => {
+                            console.log('接口请求异常');
+                        });
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+        },
+        handleBlock(index, row) {
+            this.$confirm('此操作将该用户加进黑名单, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            })
+                .then(() => {
+                    axios
+                        .post('/api/user/blockUser', row.id)
+                        .then((res) => {
+                            if (res) {
+                                this.$message.success('拉黑成功');
+                                this.tableData.splice(index, 1);
+                            }
+                        })
+                        .catch((error) => {
+                            console.log('接口请求异常');
+                        });
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
         },
         // 分页导航
         handlePageChange(val) {

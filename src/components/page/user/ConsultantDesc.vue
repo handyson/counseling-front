@@ -4,7 +4,7 @@
             <div class="goodsBox-img">
                 <el-image
                     style="position: absolute; width: 340px; height: 400px; left: 0px; border-radius: 14px; margin-top: 50px"
-                    :src="this.ConsultantList.photourl"
+                    :src="ConsultantList.photourl || ''"
                 >
                 </el-image>
                 <div class="goodsBox-btn">
@@ -117,7 +117,7 @@ export default {
             add1_can_press: true,
             add2_can_press: true,
             err_can_press: true,
-            ConsultantList: [],
+            ConsultantList: {},
             ConsltSkillList: [],
             ConsltCertifList: [],
             wayList: [],
@@ -143,7 +143,7 @@ export default {
             this.$router.push('/user/helloHome');
         }
         this.consultantId = this.$route.query.consultant;
-        console.log(this.consultantId )
+        console.log(this.consultantId);
         this.collectparams.consltid = this.consultantId;
         // this.collectparams.id = localStorage.getItem('user_id');
         // this.collectparams.id = this.user.id;
@@ -256,22 +256,25 @@ export default {
         // },
         //创建订单
         TobookConslt() {
-            if (this.user.id == null) {
+            if (!this.user) {
                 this.$message.error('请先登录账号');
-            } else if (this.user.isAuth == 0) {
-                this.$message.error('若要预约，请先实名认证');
-                this.$router.push('/user/userInfo');
             } else {
-                this.$router.push({
-                    path: '/user/bookInfo',
-                    query: {
-                        consltId: this.consultantId,
-                        consltName: this.ConsultantList.username,
-                        consltPhoto: this.ConsultantList.photourl,
-                        consltArea: this.ConsltSkillList,
-                        consltWay: this.wayList
-                    }
-                });
+                if (this.user.isAuth == 0) {
+                    this.$message.error('若要预约，请先实名认证');
+                    this.$router.push('/user/userInfo');
+                } else {
+                    this.$router.push({
+                        path: '/user/bookInfo',
+                        query: {
+                            consltId: this.consultantId,
+                            consltName: this.ConsultantList.username,
+                            consltPhoto: this.ConsultantList.photourl,
+                            consltArea: this.ConsltSkillList,
+                            consltWay: this.wayList
+                        }
+                    });
+                }
+
                 // this.$router.push('/user/bookInfo');
                 // axios
                 //     .post('/api/ordersInfo/addOrders', this.orderparams)
@@ -287,13 +290,13 @@ export default {
             }
         },
         ToConsult() {
-            if (this.user.id == null) {
+            if (!this.user) {
                 this.$message.error('请先登录账号');
             } else {
                 this.$router.push({
                     name: 'ChatRoom',
                     params: {
-                        uid: this.consultantId,
+                        uid: this.consultantId
                     }
                 });
             }
@@ -313,7 +316,7 @@ export default {
         },
         //添加收藏
         addcollection() {
-            if (this.collectparams.id == null) {
+            if (!this.user) {
                 this.$message.error('请先登录账号');
             } else {
                 axios

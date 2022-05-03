@@ -84,7 +84,16 @@
                                 </el-dropdown-item>
                                 <el-dropdown-item>
                                     <el-button
-                                        @click="deletegoods(scope.$index, scope.row)"
+                                        @click="handleBlock(scope.$index, scope.row)"
+                                        type="text"
+                                        size="mini"
+                                        icon="el-icon-user-solid"
+                                        >黑名单</el-button
+                                    >
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <el-button
+                                        @click="handleDelete(scope.$index, scope.row)"
                                         class="btn-text-red"
                                         type="text"
                                         size="mini"
@@ -281,15 +290,54 @@ export default {
                 });
             }
         },
-        deletegoods(index, row) {
-            axios
-                .get('/api/goods/deleteByFlag?id=' + row.c_user_id)
-                .then((res) => {
-                    this.$message.success('删除成功');
-                    this.tableData.splice(index, 1);
+        handleDelete(index, row) {
+            this.$confirm('此操作将永久删除该咨询师, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            })
+                .then(() => {
+                    axios
+                        .get('/api/consultant/deleteByFlag?id=' + row.id)
+                        .then((res) => {
+                            this.$message.success('删除成功');
+                            this.tableData.splice(index, 1);
+                        })
+                        .catch((error) => {
+                            console.log('接口请求异常');
+                        });
                 })
-                .catch((error) => {
-                    console.log('接口请求异常');
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+        },
+        handleBlock(index, row) {
+            this.$confirm('此操作将该咨询师加进黑名单, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            })
+                .then(() => {
+                    axios
+                        .post('/api/consultant/blockConslt', row.id)
+                        .then((res) => {
+                            if (res) {
+                                this.$message.success('拉黑成功');
+                                this.tableData.splice(index, 1);
+                            }
+                        })
+                        .catch((error) => {
+                            console.log('接口请求异常');
+                        });
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
                 });
         },
         handleSelectionChange(val) {
@@ -300,7 +348,7 @@ export default {
             this.delList = this.delList.concat(this.multipleSelection);
             for (let i = 0; i < length; i++) {
                 axios
-                    .get('/api/goods/deleteByFlag?id=' + this.multipleSelection[i].c_user_id)
+                    .get('/api/consultant/deleteByFlag?id=' + this.multipleSelection[i].c_user_id)
                     .then((res) => {})
                     .catch((error) => {
                         console.log('接口请求异常');

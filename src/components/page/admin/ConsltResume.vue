@@ -37,10 +37,10 @@
             <!-- <el-button type="primary" @click="applySubmit" v-show="editable"
                                    v-if="settleform.roleType=='0'&&settleform.isAuth=='1'">提交商家申请
                             </el-button> -->
-            <el-button type="primary" @click="CertifeditVisible = true" icon="el-icon-edit" size="mini" v-show="editable"
+            <el-button type="primary" @click="CertifeditVisible = true" size="mini" v-show="editable"
                 >资质资料
             </el-button>
-            <el-button type="primary" @click="SkilleditVisible = true" icon="el-icon-edit" size="mini" v-show="editable"
+            <el-button type="primary" @click="SkilleditVisible = true" size="mini" v-show="editable"
                 >擅长领域
             </el-button>
             <br /><br />
@@ -48,7 +48,7 @@
         <el-button type="primary" @click="saveAdd">确 定</el-button>
 
         <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="CertifeditVisible" width="30%">
+        <el-dialog title="咨询师资质" :visible.sync="CertifeditVisible" width="30%">
             <!-- <div>
                 <p><el-button class="el-icon-plus" @click.prevent="handleAddCertf()"></el-button></p>
             </div> -->
@@ -111,7 +111,7 @@
         </el-dialog>
 
         <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="SkilleditVisible" width="30%">
+        <el-dialog title="咨询师擅长领域" :visible.sync="SkilleditVisible" width="30%">
             <el-table height="310" :data="ConsltSkillList" style="width: 580px; margin-left: 10px">
                 <el-table-column type="index" label="序号">
                     <template slot-scope="scope">

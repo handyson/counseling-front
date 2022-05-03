@@ -51,7 +51,7 @@
                                 </el-dropdown-item>
                                 <el-dropdown-item>
                                     <el-button
-                                        @click="deletegoods(scope.$index, scope.row)"
+                                        @click="handleDelete(scope.$index, scope.row)"
                                         class="btn-text-red"
                                         type="text"
                                         size="mini"
@@ -78,7 +78,7 @@
             </div>
         </div>
         <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
+        <el-dialog title="编辑" :visible.sync="editVisible" width="50%">
             <el-form ref="form" :model="form" label-width="90px">
                 <el-form-item label="类型">
                     <el-select v-model="form.kid" placeholder="请选择类型">
@@ -95,18 +95,18 @@
             </span>
         </el-dialog>
         <!-- 添加弹出框 -->
-        <el-dialog title="添加" :visible.sync="addVisible" width="30%">
+        <el-dialog title="添加" :visible.sync="addVisible" width="50%">
             <el-form ref="aform" :model="aform" label-width="90px">
                 <el-form-item label="咨询师id">
                     <el-input v-model="aform.cid"></el-input>
                 </el-form-item>
                 <el-form-item label="类型">
-                    <el-select v-model="aform.kid" placeholder="请选择类型">
+                    <el-select v-model="aform.id" placeholder="请选择类型">
                         <el-option v-for="item in kindsList" :key="item.kid" :label="item.kname" :value="item.kid"> </el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="商品详情">
-                    <el-input v-model="aform.details"></el-input>
+                    <el-input v-model="aform.detail"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -136,9 +136,7 @@ export default {
             delList: [],
             multipleSelection: [],
             form: {},
-            aform: {
-                uid: 1001
-            },
+            aform: {},
             editVisible: false,
             addVisible: false,
             key: 0
@@ -151,7 +149,7 @@ export default {
         });
     },
     methods: {
-        deletegoods(index, row) {
+        handleDelete(index, row) {
             axios
                 .get('/api/consltSkill/deleteByFlag?id=' + row.c_user_id)
                 .then((res) => {

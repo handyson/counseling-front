@@ -6,7 +6,7 @@
             </el-form-item>
             <el-form-item label="最高学历">
                 <el-select placeholder="请选择学历" v-model="aform.education">
-                    <el-option v-for="edu in eduList" :key="edu" :value="edu" :label="eduList[edu]"></el-option>
+                    <el-option v-for="edu in eduList" :key="edu.id" :value="edu.id" :label="edu.detail"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="从业年份">
@@ -59,10 +59,10 @@
             </el-button>
             <br /><br />
         </div>
-        <el-button type="primary" @click="saveAdd">确 定</el-button>
+        <el-button type="primary" @click="saveAdd">提交修改</el-button>
 
         <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="CertifeditVisible" width="30%">
+        <el-dialog title="编辑" :visible.sync="CertifeditVisible" width="50%">
             <div>
                 <p><el-button class="el-icon-plus" @click.prevent="handleAddCertf()"></el-button></p>
             </div>
@@ -143,7 +143,7 @@
         </el-dialog>
 
         <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="SkilleditVisible" width="30%">
+        <el-dialog title="编辑" :visible.sync="SkilleditVisible" width="50%">
             <div>
                 <p><el-button class="el-icon-plus" @click.prevent="handleAddSkill()"></el-button></p>
             </div>
@@ -219,7 +219,13 @@ export default {
             wayList: [],
             // way: { 0: '即时聊天咨询', 1: '语音咨询', 2: '视频咨询', 3: '面对面咨询' },
             ways: ['聊天', '语音', '视频', '面对面'],
-            eduList: { 1: '大专以下', 2: '大专', 3: '本科', 4: '研究生', 5: '博士' },
+            eduList: [
+                { id: 1, detail: '大专以下' },
+                { id: 2, detail: '大专' },
+                { id: 3, detail: '本科' },
+                { id: 4, detail: '研究生' },
+                { id: 5, detail: '博士' }
+            ],
             form: {},
             eform: {},
             aform: {
