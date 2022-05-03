@@ -346,14 +346,14 @@ export default {
 }
 
 .user-info-cont {
-    padding-left: 30px;
+    /* padding-left: 30px; */
     flex: 1;
     font-size: 14px;
     color: #999;
 }
 
 .user-info-cont div:first-child {
-    margin-left: 110px;
+    text-align: center;
     font-size: 28px;
     color: #222;
 }
@@ -363,10 +363,6 @@ export default {
     font-size: 24px;
     color: #999;
     line-height: 25px;
-}
-
-.user-info-list span {
-    margin-left: 20px;
 }
 
 .mgb20 {

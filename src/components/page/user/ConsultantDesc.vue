@@ -6,6 +6,9 @@
                     style="position: absolute; width: 340px; height: 400px; left: 0px; border-radius: 14px; margin-top: 50px"
                     :src="this.ConsultantList.photourl"
                 >
+                    <div slot="error" class="image-slot">
+                        <el-image src="https://my-chat-sync.oss-cn-beijing.aliyuncs.com/hongshu.jpg"></el-image>
+                    </div>
                 </el-image>
                 <div class="goodsBox-btn">
                     <br /><br />
@@ -23,36 +26,20 @@
                         </p>
                         <br />
                         <p>
-                            <span style="font-size: 20px">所在地：</span>
+                            <span style="font-size: 20px">学历：</span>
                             <span>{{ this.ConsultantList.details }}</span>
                         </p>
-                        <br />
-                        <div>
-                            <p>
-                                <span style="font-size: 20px">咨询方式：</span>
-
-                                <span v-for="item in wayList" :key="item">
-                                    <span style="font-size: 20px">
-                                        {{ way[item] }}
-                                    </span>
-                                </span>
-                            </p>
-                        </div>
                     </div>
                     <br /><br />
-                    <!-- <h2>
-                        <span style="color: #777777">售价&ensp;</span>
-                        <span style="color: #e4393c; font-family: simsun">&yen;<span></span>{{ this.ConsultantList.price }}</span>
-                    </h2> -->
-                    <br /><br />
-                    <el-button size="medium" type="danger" @click="TobookConslt">立即预约</el-button>
-                    <el-button size="medium" type="danger" @click="ToConsult">立即咨询</el-button>
-                    <el-button size="medium" type="warning" @click="addcollection" v-if="!haveCollection"
-                        ><i class="el-icon-star-off"></i>关注
-                    </el-button>
-                    <el-button size="medium" type="warning" @click="removecollection" v-if="haveCollection"
-                        ><i class="el-icon-star-on"></i>取消关注
-                    </el-button>
+                    <div class="btn-container">
+                        <el-button type="primary" @click="ToConsult" round><i class="el-icon-chat-dot-round"></i>&nbsp;立即咨询</el-button>
+                        <el-button @click="addcollection" v-if="!haveCollection" round
+                            ><i class="el-icon-star-off"></i>&nbsp;关注
+                        </el-button>
+                        <el-button @click="removecollection" v-if="haveCollection" round
+                            ><i class="el-icon-star-on"></i>&nbsp;取消关注
+                        </el-button>
+                    </div>
                     <br />
                     <p style="color: #777777">温馨提示·下单后请及时联系咨询师</p>
                     <!-- <p style="text-align: right; margin-left: 0%; margin-top: 100px; cursor: pointer" @click="goUserShow()">
@@ -62,40 +49,83 @@
             </div>
             <br /><br />
         </div>
+
+        <div class="yuyue-notice-block fixed">
+            <div class="yuyue-way">
+                <i class="el-icon-microphone"></i>
+                <span class="txt">语音咨询</span>
+            </div>
+            <div class="yuyue-way">
+                <i class="el-icon-camera"></i>
+                <span class="txt">视频咨询</span>
+            </div>
+            <a @click="TobookConslt" class="yuyue-btn on-now">立即预约</a>
+            <div class="assurance">
+                <div class="item">
+                    <i class="el-icon-success"></i>
+                    <span class="txt">来访者隐私安全</span>
+                </div>
+                <div class="item">
+                    <i class="el-icon-success"></i>
+                    <span class="txt">&nbsp;支持取消预约&nbsp;&nbsp;</span>
+                </div>
+                <div class="item">
+                    <i class="el-icon-success"></i>
+                    <span class="txt">咨询师信息真实</span>
+                </div>
+                <div class="item">
+                    <i class="el-icon-success"></i>
+                    <span class="txt">咨询师入驻审核</span>
+                </div>
+            </div>
+        </div>
         <div class="detail-box">
+            <span class="triangle"></span>
             <span class="detial-bigtitle">基本信息</span>
             <br />
             <el-divider></el-divider>
             <div class="detial-title">
-                <span style="font-weight: bold; font-size: 20px">认证资质 · 从业{{ this.ConsultantList.workyear }}年</span>
-                <div v-for="(item, index) in ConsltCertifList" :key="index">
-                    <!-- <p class="txt" >{{ item.certfname }}</p> -->
-                    <h4 style="font-weight: normal">{{ item.certifName }}</h4>
+                <div class="detial-title-left">
+                    <img src="/auth.png" />
                 </div>
-                <br /><br />
+                <div class="detial-title-right">
+                    <span style="font-weight: 700; font-size: 20px; color:#2a3033;">认证资质 · </span><span style="color:#6e6e6e;font-size:16px;font-weight:400;">从业{{ this.ConsultantList.workyear }}年</span>
+                    <div v-for="(item, index) in ConsltCertifList" :key="index">
+                        <!-- <p class="txt" >{{ item.certfname }}</p> -->
+                        <h4 style="color:#6e6e6e;font-size:16px;font-weight:400;margin-top:6px;">{{ item.certifName }}</h4>
+                    </div>
+                </div>
             </div>
             <br /><br />
             <div class="detial-title">
-                <span style="font-weight: bold; font-size: 20px">擅长方向</span>
-                <br /><br />
-                <div v-for="(item, index) in ConsltSkillList" :key="index">
-                    <span class="tag">{{ item.tname }}</span>
-                    <span class="sub-tag">{{ item.detail }}</span>
-                    <br /><br />
+                <div class="detial-title-left">
+                    <img src="/tag.png" />
                 </div>
-                <br /><br />
+                <div class="detial-title-right">
+                    <span style="font-weight: 700; font-size: 20px; color:#2a3033;">擅长方向</span>
+                    <br /><br />
+                    <div v-for="(item, index) in ConsltSkillList" :key="index">
+                        <span class="tag">{{ item.tname }}</span>
+                        <span class="sub-tag">{{ item.detail }}</span>
+                    </div>
+                </div>
             </div>
 
+            <br />
+            <span class="triangle"></span>
             <span class="detial-bigtitle">推荐语</span>
             <br />
             <el-divider></el-divider>
-            <span style="font-size: 20px">{{ this.ConsultantList.sendword }}</span>
+            <div class="detail-brief-box">
+                <p class="detail-brief">{{ this.ConsultantList.sendword }}</p>
+            </div>
 
             <br /><br /><br /><br />
+            <span class="triangle"></span>
             <span class="detial-bigtitle">个人简介</span>
             <br />
             <el-divider></el-divider>
-            <div>
+            <div class="detail-brief-box">
                 <p class="detail-brief">{{ this.ConsultantList.brief }}</p>
             </div>
             <br /><br /><br /><br />
@@ -143,7 +173,7 @@ export default {
             this.$router.push('/user/helloHome');
         }
         this.consultantId = this.$route.query.consultant;
-        console.log(this.consultantId )
+        console.log(this.consultantId);
         this.collectparams.consltid = this.consultantId;
         // this.collectparams.id = localStorage.getItem('user_id');
         // this.collectparams.id = this.user.id;
@@ -154,7 +184,7 @@ export default {
         // this.getConsltSkillList();
         // this.getConsltCertifList();
 
-        if (this.user && this.user.id != null) {
+        if (this.user && this.user.id) {
             this.collectparams.id = this.user.id;
             this.getcollectiondate();
         }
@@ -293,7 +323,7 @@ export default {
                 this.$router.push({
                     name: 'ChatRoom',
                     params: {
-                        uid: this.consultantId,
+                        uid: this.consultantId
                     }
                 });
             }
@@ -304,7 +334,11 @@ export default {
                 axios
                     .post('/api/userCollection/haveCollection', this.collectparams)
                     .then((res) => {
-                        if (res && res.data.code == 200) this.haveCollection = true;
+                        if (res) {
+                            this.haveCollection = true;
+                        } else {
+                            this.haveCollection = false;
+                        }
                     })
                     .catch((error) => {
                         console.log('查找收藏接口返回异常');
@@ -319,7 +353,7 @@ export default {
                 axios
                     .post('/api/userCollection/addCollection', this.collectparams)
                     .then((res) => {
-                        if (res.data.code == 200) this.haveCollection = true;
+                        if (res.code == 200) this.haveCollection = true;
                     })
                     .catch((error) => {
                         console.error(error);
@@ -331,7 +365,7 @@ export default {
             axios
                 .post('/api/userCollection/removeCollection', this.collectparams)
                 .then((res) => {
-                    if (res.data.code == 200) this.haveCollection = false;
+                    if (res.code == 200) this.haveCollection = false;
                 })
                 .catch((error) => {
                     console.log('取消收藏接口请求异常');
@@ -347,14 +381,14 @@ export default {
     /*background: #F2F8FE;*/
     position: relative;
     width: 1400px;
-    height: 600px;
+    height: 540px;
     margin: 0 auto;
     text-align: center;
 }
 
 .goodsBox-img {
     position: absolute;
-    top: 8%;
+    top: 0%;
     left: 15%;
     width: 75%;
     height: 75%;
@@ -366,7 +400,7 @@ export default {
 .goodsBox-btn {
     position: absolute;
     top: 8%;
-    left: 45%;
+    left: 42%;
     width: 30%;
     height: 20%;
     /*background-color: #409E1F;*/
@@ -450,26 +484,53 @@ export default {
 }
 
 .detail-box .detial-title {
-    margin-left: 100px;
+    margin-left: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.detial-title-left{
+    display: inline-block;
+}
+.detial-title-left img{
+    width: 56px;
+    height: 56px;
+}
+.detial-title-right{
+    display: inline-block;
+    margin-left: 40px;
+    flex-grow:1;
 }
 
 .detial-title .tag {
-    border-style: solid;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
     border-width: 1px;
-    padding: 10px 10px 10px 10px;
-    font-size: 15px;
+    padding: 0px 10px;
+    font-size: 16px;
     /* margin-top: 100px;
   margin-bottom: 100px; */
 }
-
 .sub-tag {
-    border-style: solid;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
     border-left-style: none;
     border-width: 1px;
-    padding: 10px 10px 10px 10px;
-    font-size: 15px;
+    padding: 0px 10px;
+    color:#6e6e6e;
+    font-size:15px;
+    font-weight:400;
 }
 
+.detail-brief-box{
+    width: 90%;
+}
 .detail-brief {
     /* width: 400px; color:#336699;*/
     font-family: 楷体;
@@ -479,9 +540,92 @@ export default {
     line-height: 200%;
 }
 
-.el-button--medium {
-    padding: 10px 20px;
+.yuyue-notice-block {
+    display: block;
+    min-height: 1%;
+    float: right;
+    box-sizing: border-box;
+    width: 320px;
+    margin-top: 70px;
+    padding: 8px 20px 0;
+    background: #fff;
+    box-shadow: 0 8px 27px 0 rgba(18, 74, 157, 0.1);
+    border-radius: 0 0 4px 4px;
+    position: fixed;
+    top: 60px;
+    right: 40px;
+    bottom: auto;
+    margin-left: 240px;
+    z-index: 10;
+}
+.yuyue-way {
+    color: #111;
+    font-size: 12px;
+    margin-top: 30px;
+    text-align: center;
+}
+.yuyue-way i{
+    margin-right: 30px;
+    font-size: 34px;
+    color: #0b8bff;
+}
+.yuyue-way .txt{
+    position: relative;
+    top: -4px;
+    display: inline-block;
     font-size: 20px;
-    border-radius: 20px;
+    color: #333;
+}
+.yuyue-btn {
+    display: inline-block;
+    width: 260px;
+    height: 42px;
+    line-height: 42px;
+    margin: 30px 10px 0px 10px;
+    -webkit-border-radius: 100px;
+    border-radius: 100px;
+    background-color: #0b8bff;
+    font-size: 16px;
+    color: #fff;
+    text-align: center;
+}
+.assurance {
+    padding: 30px 10px;
+    clear: both;
+    overflow: hidden;
+    text-align: center;
+}
+.assurance .item {
+    color: #ccc;
+    font-size: 10px;
+    float: left;
+    width: 130px;
+    /* margin-left: 7px;
+    margin-right: 7px; */
+}
+.assurance .item .txt {
+    font-size: 8px;
+    color: #999;
+}
+.btn-container{
+    width: 100%;
+    text-align: center;
+}
+.btn-container button{
+    margin: 10px auto;
+    display: block;
+    width: 90%;
+    padding: 14px 40px;
+    font-size: 18px;
+    border-radius: 100px;
+}
+.triangle{
+    display: inline-block;
+    position: relative;
+    top: -3px;
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+    background-color: #0b8bff;
 }
 </style>
