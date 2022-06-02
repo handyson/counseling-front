@@ -1,5 +1,5 @@
 import http from './public'
-// 商品列表
+// 咨询师列表
 export const getConsultantList = (params) => {
     return http.fetchGet('/api/consultant/selectShowIndex')
 }

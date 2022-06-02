@@ -49,7 +49,7 @@
         </el-form>
         <div>
             <!-- <el-button type="primary" @click="applySubmit" v-show="editable"
-                                   v-if="settleform.roleType=='0'&&settleform.isAuth=='1'">提交商家申请
+                                   v-if="settleform.roleType=='0'&&settleform.isAuth=='1'">提交咨询师申请
                             </el-button> -->
             <el-button type="primary" @click="CertifeditVisible = true" icon="el-icon-edit" size="mini" v-show="editable"
                 >资质资料
@@ -279,7 +279,7 @@ export default {
                     console.log(res);
                 })
                 .catch((error) => {
-                    console.log('查找商品接口请求异常');
+                    console.log('查找咨询师接口请求异常');
                 });
         },
         //保存添加
@@ -331,28 +331,6 @@ export default {
             }
             return isJPG && isLt2M;
         }
-        // getConsltSkillList() {
-        //     axios
-        //         .get('/api/consltSkill/getConsltSkill?id=' + this.consultantId)
-        //         .then((res) => {
-        //             this.ConsltSkillList = res.data;
-        //             console.log(res.data);
-        //         })
-        //         .catch((error) => {
-        //             console.log('查找商品接口请求异常');
-        //         });
-        // },
-        // getConsltCertifList() {
-        //     axios
-        //         .get('/api/consltCertification/getConsltCertf?id=' + this.consultantId)
-        //         .then((res) => {
-        //             this.ConsltCertifList = res.data;
-        //             console.log(res.data);
-        //         })
-        //         .catch((error) => {
-        //             console.log('查找商品接口请求异常');
-        //         });
-        // }
     }
 };
 </script>

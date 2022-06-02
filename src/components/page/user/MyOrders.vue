@@ -2,7 +2,7 @@
     <div>
         <!--表头-->
         <div class="title" style="width: 80%; margin-left: 10%">
-            <!--            <h3>我的订单</h3>-->
+            <!--            <h3>我的预约</h3>-->
             <el-radio-group style="margin-bottom: 20px; margin-top: 15px; text-align: left; width: 100%">
                 <img src="http://127.0.0.1:8000/images/title/wodedingdan.png" style="height: 80px" alt="" />
             </el-radio-group>
@@ -13,11 +13,11 @@
                 :data="tableData.filter((data) => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
                 style="width: 100%"
             >
-                <el-table-column label="订单号" prop="oid" align="center" width="100"></el-table-column>
+                <el-table-column label="预约号" prop="oid" align="center" width="100"></el-table-column>
 
-                <!--        商品名字-->
+                <!--        咨询师名字-->
                 <el-table-column label="咨询师" prop="nickname" align="center"></el-table-column>
-                <!--        商品图片-->
+                <!--        咨询师图片-->
                 <!-- <el-table-column label="时间" prop="img" width="110px" align="center">
                     <template slot-scope="scope">
                         <el-image style="width: 100px; height: 100px;" :src="scope.row.iconurl"/>
@@ -125,7 +125,7 @@ export default {
             else if (status == 1) return '待咨询';
             else if (status == 2) return '正咨询';
             else if (status == 3) return '咨询结束';
-            else return '订单终止';
+            else return '预约终止';
             // }
         },
         orderStatus(status) {
@@ -137,10 +137,10 @@ export default {
         },
         orderStatus2(status) {
             if (status == '1') return '交易进行中';
-            else if (status == '2') return '买家确认收货';
-            else if (status == '3') return '卖家确认收款';
+            else if (status == '2') return '患者确认完成';
+            else if (status == '3') return '咨询师确认完成';
             else if (status == '4') return '交易成功';
-            else return '订单终止';
+            else return '预约终止';
         },
         goOrder(row, column, event) {
             // if (row.goodssum == 4) {

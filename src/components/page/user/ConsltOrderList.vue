@@ -47,7 +47,7 @@
                     }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="订单状态" align="center">
+            <el-table-column label="预约状态" align="center">
                 <template slot-scope="scope">
                     <el-tag :type="orderStatus(scope.row.status)">{{ orderStatus2(scope.row.status) }} </el-tag>
                 </template>
@@ -216,10 +216,10 @@ export default {
         orderStatus2(status) {
             if (status == '0') return '未确认';
             else if (status == '1') return '准备咨询';
-            else if (status == '2') return '买家确认收货';
+            else if (status == '2') return '正在进行';
             else if (status == '3') return '咨询结束';
             else if (status == '4') return '取消咨询';
-            else return '订单终止';
+            else return '预约终止';
         },
         submitOrder(index, row) {
             this.$axios.get('/api/ordersInfo/submitOrder?id=' + row.oid).then((res) => {
@@ -285,7 +285,7 @@ export default {
             })
                 .then(() => {
                     this.$axios.get('/api/ordersInfo/closeOrder?id=' + row.oid).then((res) => {
-                        this.$message.success('终止订单');
+                        this.$message.success('终止预约');
                         location.reload();
                     });
                 })

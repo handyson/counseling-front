@@ -21,7 +21,7 @@
                             </template>
                         </el-table-column> -->
                         <el-table-column prop="typeName"> </el-table-column>
-                        <el-table-column prop="createTime"> </el-table-column>
+                        <el-table-column prop="createtimeString"></el-table-column>
 
                         <el-table-column width="120">
                             <template slot-scope="scope">
@@ -103,7 +103,7 @@ export default {
             const len = this.read.length;
             for (let i = 0; i < len; i++) {
                 //时间格式转化
-                var createtime = new Date(this.read[i].createtime);
+                var createtime = new Date(this.read[i].createTime);
                 var month = createtime.getMonth() + 1;
                 this.read[i].createtimeString =
                     createtime.getFullYear() +
@@ -114,19 +114,10 @@ export default {
                     ' ' +
                     createtime.getHours() +
                     ':' +
-                    createtime.getMinutes();
-                var logintime = new Date(this.read[i].logintime);
-                month = logintime.getMonth() + 1;
-                this.read[i].logintimeString =
-                    logintime.getFullYear() +
-                    '-' +
-                    month +
-                    '-' +
-                    logintime.getDate() +
-                    ' ' +
-                    logintime.getHours() +
+                    createtime.getMinutes()+
                     ':' +
-                    logintime.getMinutes();
+                    createtime.getSeconds();
+               
             }
         }
 

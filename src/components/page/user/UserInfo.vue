@@ -3,7 +3,7 @@
         <el-radio-group style="margin-bottom: 20px; margin-top: 15px; text-align: left; width: 60%">
             <img src="http://127.0.0.1:8000/images/title/gerenzhongxin.png" style="height: 80px" alt="" />
         </el-radio-group>
-        <el-tabs :tab-position="tabPosition" style="height: 100%; margin-top: 20px; margin-left: 20%; width: 50%" @tab-click="handleClick">
+        <el-tabs :tab-position="tabPosition" style="height: 100%; margin-top: 20px; margin-left: 20%; width: 50%">
             <el-tab-pane label="我的信息">
                 <el-form ref="form" :model="user" label-width="80px">
                     <h3>我的信息</h3>
@@ -77,33 +77,16 @@
                     <el-form-item>
                         <el-button type="primary" @click="authSubmit" v-show="!editable">提交</el-button>
                         <el-button type="primary" @click="editabled" v-show="editable">实名认证 </el-button>
-                        <!-- v-if="form.isAuth == '0'" -->
-                        <!--<el-button type="primary" @click="editabled" v-show="editable" v-if="form.isAuth=='3'">修改学生申请
-                        </el-button> -->
-                        <!--等待审核-->
-                        <!-- <div style="text-align: center;" v-if="form.iscert=='1'">
-                            <img src="http://127.0.0.1:8000/images/title/msg/waitAdmin.png"
-                                 style="height: 90px;" alt="">
-                        </div> -->
-                        <!--已通过-->
-                        <!-- <div style="text-align: center;" v-if="form.iscert=='2'">
-                            <img src="http://127.0.0.1:8000/images/title/msg/passStu.png"
-                                 style="height: 90px;" alt="">
-                        </div> -->
-                        <!--被驳回-->
-                        <!-- <div style="text-align: center;" v-if="form.iscert=='3'">
-                            <img src="http://127.0.0.1:8000/images/title/msg/noPass.png"
-                                 style="height: 70px;" alt="">
-                        </div> -->
+                       
                     </el-form-item>
                 </el-form>
             </el-tab-pane>
-            <el-tab-pane label="申请咨询师入驻" index="3">
+            <el-tab-pane label="申请咨询师入驻">
                 <el-form ref="form" :model="settleform" label-width="80px">
                     <h3>入驻咨询师申请</h3>
                     <br /><br />
                     <el-form-item>
-                        <div v-if="this.user.isAuth == 1">
+                        <div>
                             <img
                                 src="http://127.0.0.1:8000/images/kinds/f8ba7d95-6a1e-4e30-9dd1-b6f5e8b71fc0.jpg"
                                 style="height: 200px"
@@ -112,25 +95,12 @@
                             <h5>注：入驻咨询师须先完成实名认证</h5>
                             <!--已完成个人信息，未提交过申请-->
                             <div>
-                                <!-- <el-button type="primary" @click="applySubmit" v-show="editable"
-                                   v-if="settleform.roleType=='0'&&settleform.isAuth=='1'">提交商家申请
-                            </el-button> -->
-                                <el-button type="primary" @click="dialogVisible = true" icon="el-icon-plus" size="mini" v-show="editable"
+                                <el-button type="primary" @click="toAuth" icon="el-icon-plus" size="mini" v-show="editable"
                                     >填写资格申请表
                                 </el-button>
                                 <!-- <el-button size="mini" type="success" @click="applySubmit" icon="el-icon-refresh"> </el-button> -->
                             </div>
                         </div>
-
-                        <!--已完成个人信息，重新提交申请-->
-                        <!-- <el-button type="primary" @click="SellerSubmit" v-show="editable"
-                                   v-if="form.isseller=='3'&&form.iscert=='2'">提交商家申请
-                        </el-button> -->
-                        <!--未完成个人信息-->
-                        <!-- <div style="text-align: center;" v-if="form.iscert!='2'">
-                            <img src="http://127.0.0.1:8000/images/title/msg/beforeStu.png"
-                                 style="height: 90px;" alt="">
-                        </div> -->
                         <!--等待审核-->
                         <div style="text-align: center" v-if="settleform.status == '1'">
                             <img src="http://127.0.0.1:8000/images/title/msg/waitAdmin.png" style="height: 90px" alt="" />
@@ -229,6 +199,16 @@ export default {
                 });
             }
         },
+         toAuth() {
+            if (this.user.isAuth == 1) {
+                this.dialogVisible = true;
+            } else {
+                this.$message({
+                    message: '请先实名认证',
+                    type: 'warning'
+                });
+            }
+        },
         authSubmit() {
             this.editable = !this.editable;
             // this.$axios.put('/api/userInfo/toAuth', this.form).then((res) => {
@@ -238,14 +218,13 @@ export default {
                 this.$message.success('实名认证成功');
             });
         },
-
         editPwd() {
             this.pwdform.uid = this.user.id;
             this.$axios.put('/api/user/resetpwd', this.pwdform).then((res) => {
-                if (res.data.code == 400) this.$message.error(res.data.msg);
+                if (res.code == 400) this.$message.error(res.msg);
                 else {
                     this.$router.push('/user/helloHome');
-                    this.$message.success(res.data.msg);
+                    this.$message.success(res.msg);
                 }
             });
         },

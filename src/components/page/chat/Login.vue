@@ -133,8 +133,8 @@ export default {
         };
         return {
             loginForm: {
-                username: 'lol',
-                password: 'a123456',
+                username: '',
+                password: '',
                 code: ''
             },
             verifyCode: '/verifyCode',

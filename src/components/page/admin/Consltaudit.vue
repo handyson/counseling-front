@@ -2,7 +2,7 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item> <i class="el-icon-lx-cascades"></i> 商品信息 </el-breadcrumb-item>
+                <el-breadcrumb-item> <i class="el-icon-lx-cascades"></i> 咨询师信息 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
@@ -21,19 +21,15 @@
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="id" label="ID" width="100" align="center"></el-table-column>
-                <el-table-column prop="name" label="商品名"></el-table-column>
+                <el-table-column prop="name" label="咨询师姓名"></el-table-column>
 
                 <el-table-column label="图片" align="center">
                     <template slot-scope="scope">
                         <el-image class="table-td-thumb" :src="scope.row.thumb" :preview-src-list="[scope.row.thumb]"></el-image>
                     </template>
                 </el-table-column>
-                <!-- <el-table-column label="商品价格">
-                    <template slot-scope="scope">￥{{scope.row.money}}</template>
-                </el-table-column> -->
-                <el-table-column prop="name" label="商品规格"></el-table-column>
-                <el-table-column prop="name" label="商品描述"></el-table-column>
-                <el-table-column label="商品状态" align="center">
+                <el-table-column prop="name" label="咨询师描述"></el-table-column>
+                <el-table-column label="咨询师状态" align="center">
                     <template slot-scope="scope">
                         <el-tag :type="scope.row.state === '成功' ? 'success' : scope.row.state === '失败' ? 'danger' : ''">{{
                             scope.row.state

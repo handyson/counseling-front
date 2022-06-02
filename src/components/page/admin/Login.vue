@@ -17,7 +17,7 @@
                     <el-button type="primary" @click="submitForm()">登录</el-button>
                 </div>
                 <div class="login-btn">
-                    <el-button type="primary" @click="gouser()">前往商城首页</el-button>
+                    <el-button type="primary" @click="gouser()">前往首页</el-button>
                 </div>
                 <!--                <p class="login-tips">Tips :</p>-->
             </el-form>
@@ -30,8 +30,8 @@ export default {
     data: function () {
         return {
             param: {
-                username: 'admin',
-                pwd: 'a123456'
+                username: '',
+                pwd: ''
             },
             rules: {
                 username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],

@@ -148,10 +148,10 @@ export default {
         editPwd() {
             this.pwdform.uid = this.user.id;
             this.$axios.put('/api/user/resetpwd', this.pwdform).then((res) => {
-                if (res.data.code == 400) this.$message.error(res.data.msg);
+                if (res.code == 400) this.$message.error(res.msg);
                 else {
                     this.$router.push('/user/helloHome');
-                    this.$message.success(res.data.msg);
+                    this.$message.success(res.msg);
                 }
             });
         },

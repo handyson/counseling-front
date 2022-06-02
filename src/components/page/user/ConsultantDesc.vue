@@ -27,7 +27,7 @@
                         <br />
                         <p>
                             <span style="font-size: 20px">学历：</span>
-                            <span>{{ this.ConsultantList.details }}</span>
+                            <span>{{ eduList[ConsultantList.education] }}</span>
                         </p>
                     </div>
                     <br /><br />
@@ -152,6 +152,7 @@ export default {
             ConsltCertifList: [],
             wayList: [],
             way: { 0: '即时聊天咨询', 1: '语音咨询', 2: '视频咨询', 3: '面对面咨询' },
+            eduList: { 1: '大专以下', 2: '大专', 3: '本科', 4: '研究生', 5: '博士' },
             userList: [],
             loginuserList: [],
             uid: '',
@@ -216,7 +217,7 @@ export default {
                     this.ConsltCertifList = res.ConsltCertif;
 
                     // if (this.ConsultantList.isreview != 1) {
-                    //     this.$message.error("该商品不符合审核规范")
+                    //     this.$message.error("该咨询师不符合审核规范")
                     //     this.$router.push('/user/helloHome');
                     // }
                     // this.getuserdate();
@@ -232,7 +233,7 @@ export default {
                 .then((res) => {
                     this.userList = res.data;
                     if (this.userList.userState != 0) {
-                        this.$message.error('该商家已被封禁、商品暂停访问');
+                        this.$message.error('该咨询师已被封禁，暂停访问');
                         this.$router.push('/user/helloHome');
                     }
                 })
@@ -248,7 +249,7 @@ export default {
                     console.log(res.data);
                 })
                 .catch((error) => {
-                    console.log('查找商品接口请求异常');
+                    console.log('查找咨询师接口请求异常');
                 });
         },
         getConsltCertifList() {
@@ -259,7 +260,7 @@ export default {
                     console.log(res.data);
                 })
                 .catch((error) => {
-                    console.log('查找商品接口请求异常');
+                    console.log('查找咨询师接口请求异常');
                 });
         },
         getWayList() {
@@ -270,7 +271,7 @@ export default {
                     console.log(res.data);
                 })
                 .catch((error) => {
-                    console.log('查找商品接口请求异常');
+                    console.log('查找咨询师接口请求异常');
                 });
         },
         // getloginuserdate() {
@@ -284,7 +285,7 @@ export default {
         //             console.log('查找用户接口请求异常');
         //         });
         // },
-        //创建订单
+        //创建预约
         TobookConslt() {
             if (!this.user) {
                 this.$message.error('请先登录账号');
@@ -304,19 +305,6 @@ export default {
                         }
                     });
                 }
-
-                // this.$router.push('/user/bookInfo');
-                // axios
-                //     .post('/api/ordersInfo/addOrders', this.orderparams)
-                //     .then((res) => {
-                //         if (res.data.code == 200) {
-                //             this.$message.success('创建订单成功');
-                //             this.$router.push('/user/myOrders');
-                //         }
-                //     })
-                //     .catch((error) => {
-                //         console.log('收藏接口请求异常');
-                //     });
             }
         },
         ToConsult() {

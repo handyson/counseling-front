@@ -17,7 +17,9 @@
                                 <i class="el-icon-s-home"></i>
                                 style="position: absolute;left: 12%;"
                             </div> -->
-                        <img style="height: 50px; margin: 5px auto" src="../../../assets/img/logo.png" />
+                           
+                        <img style="height: 50px; margin: 5px auto" src="../../../assets/img/logo1.png" />
+                        
                     </router-link>
                 </div>
                 <el-menu-item class="el-menu-demo-item" index="/user/helloHome" style="font-size: 18px">首页 </el-menu-item>
@@ -89,7 +91,7 @@
                             </span>
                             <el-dropdown-menu slot="dropdown">
                                 <router-link to="/user/myOrders">
-                                    <el-dropdown-item>我的订单</el-dropdown-item>
+                                    <el-dropdown-item>我的预约</el-dropdown-item>
                                 </router-link>
                                 <router-link to="/user/userInfo">
                                     <el-dropdown-item>个人中心</el-dropdown-item>
@@ -177,7 +179,7 @@ export default {
                     this.typelist = res.data;
                 })
                 .catch((error) => {
-                    console.log('商品种类接口请求异常');
+                    console.log('咨询师种类接口请求异常');
                 });
         },
         // 用户名下拉菜单选择事件
@@ -223,7 +225,7 @@ export default {
                     searchkey: this.searchkey
                 }
             });
-        }, //前往商品详情页
+        }, //前往咨询师详情页
         goConsultantDesc(goods) {
             this.$router.push({
                 path: '/user/selectGoodsTemp',
@@ -284,6 +286,7 @@ export default {
     width: 120px;
     height: 61px;
     margin: 0px 20px;
+    margin-left: 5%;
 }
 
 .header-right {

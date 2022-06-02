@@ -60,7 +60,7 @@ export default new Router({
                 }, {
                     path: '/admin/ordersdetails',
                     component: () => import('../components/page/admin/Ordersinfo.vue'),
-                    meta: { title: '订单信息' }
+                    meta: { title: '预约信息' }
                 }, {
                     path: '/admin/commentsdetails',
                     component: () => import('../components/page/admin/Comments.vue'),
@@ -200,22 +200,17 @@ export default new Router({
                 {
                     path: '/user/bookInfo',
                     component: () => import('../components/page/user/BookInfo.vue'),
-                    meta: { title: '我的订单' }
+                    meta: { title: '我的预约' }
                 },
                 {
                     path: '/user/myOrders',
                     component: () => import('../components/page/user/MyOrders.vue'),
-                    meta: { title: '我的订单' }
-                },
-                {
-                    path: '/user/makeSureOrder',
-                    component: () => import('../components/page/user/MakeSureOrder.vue'),
-                    meta: { title: '确认订单' }
+                    meta: { title: '我的预约' }
                 },
                 {
                     path: '/user/orderDetail',
                     component: () => import('../components/page/user/OrderDetail.vue'),
-                    meta: { title: '提交订单' }
+                    meta: { title: '提交预约' }
                 },
                 {
                     path: '/user/userInfo',
@@ -235,7 +230,7 @@ export default new Router({
                 {
                     path: '/user/selectResult',
                     component: () => import('../components/page/user/SelectResult.vue'),
-                    meta: { title: '全部商品' }
+                    meta: { title: '全部咨询师' }
                 },
                 {
                     path: '/user/OurService',
@@ -245,7 +240,7 @@ export default new Router({
                 {
                     path: '/user/consltInfo',
                     component: () => import('../components/page/user/ConsltInfo.vue'),
-                    meta: { title: '商家中心' }
+                    meta: { title: '咨询师中心' }
                 },
                 {
                     path: '/user/selectkindTemp',
@@ -255,7 +250,7 @@ export default new Router({
                 {
                     path: '/user/selectGoodsTemp',
                     component: () => import('../components/page/user/SelectGoodsTemp.vue'),
-                    meta: { title: '商品中转' }
+                    meta: { title: '咨询师中转' }
                 },
                 {
                     path: '/user/selectTemp',
@@ -265,7 +260,7 @@ export default new Router({
                 {
                     path: '/user/UserShow',
                     component: () => import('../components/page/user/UserShow.vue'),
-                    meta: { title: '商家主页' }
+                    meta: { title: '咨询师主页' }
                 },
                 {
                     path: '/user/about',

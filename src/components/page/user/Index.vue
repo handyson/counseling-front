@@ -139,7 +139,7 @@
                 axios.get('/api/consultant/selectShowIndex').then(res => {
                     this.consultantList = res;
                 }).catch(error => {
-                    console.log("主页商品接口请求异常");
+                    console.log("主页咨询师接口请求异常");
                 });
             }, 
             getscrolltofigure() {
@@ -150,7 +150,7 @@
                     console.log("轮播图接口请求异常");
                 });
             },
-            //前往商品详情页
+            //前往咨询师详情页
             goConsultantDesc(consultant_id) {
                 this.$router.push({
                     path: '/consultant/consultantDesc',

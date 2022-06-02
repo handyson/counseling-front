@@ -24,11 +24,9 @@
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="id" label="ID" width="100" align="center"></el-table-column>
                 <el-table-column prop="nickname" label="咨询师姓名"></el-table-column>
-                <!--                <el-table-column prop="uid" label="商家ID"></el-table-column>-->
-                <!-- <el-table-column prop="userinfo.name" label="商家名"></el-table-column>-->
                 <el-table-column prop="tel" label="电话"></el-table-column>
-                <!-- <el-table-column prop="userinfo.mail" label="商家邮箱"></el-table-column>  -->
-                <!-- <el-table-column prop="kid" label="商品种类" align="center"></el-table-column> -->
+                <!-- <el-table-column prop="userinfo.mail" label="咨询师邮箱"></el-table-column>  -->
+                <!-- <el-table-column prop="kid" label="咨询师种类" align="center"></el-table-column> -->
                 <el-table-column label="图片" align="center">
                     <template slot-scope="scope">
                         <el-image class="table-td-thumb" :src="scope.row.photoUrl" :preview-src-list="[scope.row.photoUrl]"></el-image>
@@ -130,19 +128,13 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="90px">
-                <el-form-item label="商品种类">
-                    <el-select v-model="form.kid" placeholder="请选择商品种类">
+                <el-form-item label="咨询师种类">
+                    <el-select v-model="form.kid" placeholder="请选择咨询师种类">
                         <el-option v-for="item in kindsList" :key="item.kid" :label="item.kname" :value="item.kid"> </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="商品价格">
-                    <el-input v-model="form.price"></el-input>
-                </el-form-item>
-                <el-form-item label="商品名字">
+                <el-form-item label="咨询师名字">
                     <el-input v-model="form.goodsname"></el-input>
-                </el-form-item>
-                <el-form-item label="商品规格">
-                    <el-input v-model="form.spec"></el-input>
                 </el-form-item>
                 <el-form-item label="图片">
                     <el-upload
@@ -157,10 +149,10 @@
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="商品详情">
+                <el-form-item label="咨询师详情">
                     <el-input v-model="form.details"></el-input>
                 </el-form-item>
-                <el-form-item label="商品关键字">
+                <el-form-item label="咨询师关键字">
                     <el-input v-model="form.goodstitle"></el-input>
                 </el-form-item>
             </el-form>
@@ -172,19 +164,13 @@
         <!-- 添加弹出框 -->
         <el-dialog title="编辑" :visible.sync="addVisible" width="30%">
             <el-form ref="aform" :model="aform" label-width="90px">
-                <el-form-item label="商品种类">
-                    <el-select v-model="aform.kid" placeholder="请选择商品种类">
+                <el-form-item label="咨询师种类">
+                    <el-select v-model="aform.kid" placeholder="请选择咨询师种类">
                         <el-option v-for="item in kindsList" :key="item.kid" :label="item.kname" :value="item.kid"> </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="商品价格">
-                    <el-input v-model="aform.price"></el-input>
-                </el-form-item>
-                <el-form-item label="商品名字">
+                <el-form-item label="咨询师名字">
                     <el-input v-model="aform.goodsname"></el-input>
-                </el-form-item>
-                <el-form-item label="商品规格">
-                    <el-input v-model="aform.spec"></el-input>
                 </el-form-item>
                 <el-form-item label="图片">
                     <el-upload
@@ -199,10 +185,10 @@
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="商品详情">
+                <el-form-item label="咨询师详情">
                     <el-input v-model="aform.details"></el-input>
                 </el-form-item>
-                <el-form-item label="商品关键字">
+                <el-form-item label="咨询师关键字">
                     <el-input v-model="aform.goodstitle"></el-input>
                 </el-form-item>
             </el-form>
@@ -243,9 +229,9 @@ export default {
     },
     created() {
         this.getData();
-        getKindsList().then((data) => {
-            this.kindsList = data;
-        });
+        // getKindsList().then((data) => {
+        //     this.kindsList = data;
+        // });
     },
     methods: {
         getData() {
@@ -282,7 +268,7 @@ export default {
                     createtime.getHours() +
                     ':' +
                     createtime.getMinutes();
-                //根据商家ID查询联系方式
+                //根据咨询师ID查询联系方式
                 this.$axios.get('/api/userInfo/selectOne?id=' + this.tableData[i].id).then((res) => {
                     // console.log(res.data)
                     this.tableData[i].userinfo = res.data;

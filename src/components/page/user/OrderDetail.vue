@@ -1,7 +1,7 @@
 <template>
     <div style="width: 100%; float: left">
         <div style="width: 40%; margin-left: 30%; padding-bottom: 10%; padding-top: 5%">
-            <!-- 订单确认窗口 -->
+            <!-- 预约确认窗口 -->
             <p style="width: 100%; background: #2db7f5; line-height: 50px; font-size: 18px; text-align: center; color: #fff">
                 <b>您的预约咨询详情</b>
             </p>
@@ -27,7 +27,7 @@
 
                 <p>咨询类型：{{ tableData.tname }}</p>
                 <p>咨询方式：{{ ways[tableData.way] }}</p>
-                <p>订单编号：{{ tableData.oid }}</p>
+                <p>预约编号：{{ tableData.oid }}</p>
                 <p>状态：{{ ordStatusOutput(tableData.status) }}</p>
                 <h3>请联系咨询师，确认交易完成后点击确认按钮</h3>
                 <p>用户信息：{{ tableData.username }}</p>
@@ -59,7 +59,7 @@
                         @click="cancelOrder"
                         v-if="tableData.status == 0 || tableData.status == 1"
                     >
-                        终止订单
+                        终止预约
                     </button>
                     <button class="btn1" name="submit" type="submit" @click="openComment" v-if="tableData.status == 3">评论咨询师</button>
                     <!-- <button class="btn1" name="submit" type="submit" disabled v-if="tableData.status == 2">请等待咨询师</button> -->
@@ -68,7 +68,7 @@
             </div>
         </div>
         <!-- 编辑弹出框 -->
-        <el-dialog title="评论商家" :visible.sync="commentVisible" width="30%">
+        <el-dialog title="评论咨询师" :visible.sync="commentVisible" width="30%">
             <el-input type="text" v-model="param.details" placeholder="输入评价内容"></el-input>
             <el-select v-model="param.anonymousflag" placeholder="是否匿名评论">
                 <el-option label="不匿名" value="0"></el-option>
@@ -105,12 +105,12 @@ export default {
     },
     created() {
         this.user = this.$store.state.currentUser;
-        // if (localStorage.getItem('user_id') == null) {
-        //     this.$router.push('/user/helloHome');
-        //     this.$message.error('用户未登录');
-        // }
+        if (!this.user) {
+            this.$router.push('/user/helloHome');
+            this.$message.error('用户未登录');
+        }
         if (this.$route.query.orderid == null) {
-            this.$message.error('订单不存在');
+            this.$message.error('预约不存在');
             this.$router.push('/user/helloHome');
         }
         this.orderid = this.$route.query.orderid;
@@ -128,13 +128,13 @@ export default {
             else if (status == 1) return '待咨询';
             else if (status == 2) return '正咨询';
             else if (status == 3) return '咨询结束';
-            else return '订单终止';
+            else return '预约终止';
             // }
         },
         getOrder() {
             this.$axios.get('/api/ordersInfo/getOrdersByid?id=' + this.orderid).then((res) => {
                 if (res.data == null) {
-                    this.$message.error('订单不存在');
+                    this.$message.error('预约不存在');
                     this.$router.push('/user/helloHome');
                 }
                 // if (res.data.uid != localStorage.getItem('user_id')) {
@@ -146,7 +146,7 @@ export default {
                 console.log(this.tableData);
             });
         },
-        //前往商品详情页
+        //前往咨询师详情页
         goConsultantDesc(consultant_id) {
             this.$router.push({
                 path: '/consultant/consultantDesc',
@@ -163,20 +163,20 @@ export default {
         //             this.ConsultantMap = res.data;
         //         })
         //         .catch((error) => {
-        //             console.log('查找商品接口请求异常');
+        //             console.log('查找咨询师接口请求异常');
         //         });
         // },
-        //确认收货
+        //确认完成咨询
         confirmTofinish() {
             this.$axios.get('/api/ordersInfo/getGoods?id=' + this.orderid).then((res) => {
-                this.$message.success('确认收货');
+                this.$message.success('确认完成咨询');
                 location.reload();
                 confirm;
             });
         },
         cancelOrder() {
             this.$axios.get('/api/ordersInfo/closeOrder?id=' + this.orderid).then((res) => {
-                this.$message.success('取消订单');
+                this.$message.success('取消预约');
                 this.$router.push('/user/helloHome');
             });
         },

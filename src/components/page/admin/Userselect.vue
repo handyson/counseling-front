@@ -55,18 +55,18 @@
                     </template>
                 </el-table-column> -->
 
-                <el-table-column prop="createTime" label="注册时间" sortable>
-                    <template slot-scope="scope">
+                <el-table-column prop="createtimeString" label="注册时间" sortable>
+                    <!-- <template slot-scope="scope">
                         <span>{{
                             scope.row.createTime
                                 .toLocaleString()
                                 .replace(/T/g, ' ')
                                 .replace(/\.[\d]{3}Z/, '')
                         }}</span>
-                    </template>
+                    </template> -->
                 </el-table-column>
-                <el-table-column prop="loginIp" label="最后登录IP" sortable></el-table-column>
-                <el-table-column prop="loginTime" label="最后登录时间" sortable>
+                <!-- <el-table-column prop="loginIp" label="最后登录IP" sortable></el-table-column>
+                <el-table-column prop="loginTime" label="最后登录时间" sortable> -->
                     <!-- <template slot-scope="scope">
                         <span>{{
                             scope.row.loginTime
@@ -75,7 +75,7 @@
                             .replace(/\.[\d]{3}Z/, '')
                         }}</span>
                     </template> -->
-                </el-table-column>
+                <!-- </el-table-column> -->
                 <el-table-column prop="isLocked" label="账号状态" align="center" sortable>
                     <template slot-scope="scope">
                         <el-tag :type="!scope.row.isLocked ? 'success' : 'danger'">{{ !scope.row.isLocked ? '正常' : '封禁' }} </el-tag>
@@ -184,7 +184,7 @@ export default {
             const length = this.tableData.length;
             for (let i = 0; i < length; i++) {
                 //时间格式转化
-                var createtime = new Date(this.tableData[i].createtime);
+                var createtime = new Date(this.tableData[i].createTime);
                 var month = createtime.getMonth() + 1;
                 this.tableData[i].createtimeString =
                     createtime.getFullYear() +

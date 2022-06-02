@@ -126,10 +126,10 @@ export default {
     },
     created() {
         this.user = this.$store.state.currentUser;
-        // if (localStorage.getItem('user_id') == null) {
-        //     this.$router.push('/user/helloHome');
-        //     this.$message.error('用户未登录');
-        // }
+        if (!this.user) {
+            this.$router.push('/user/helloHome');
+            this.$message.error('用户未登录');
+        }
         // if (this.$route.query.orderid == null) {
         //     this.$message.error('订单不存在');
         //     this.$router.push('/user/helloHome');
@@ -143,6 +143,8 @@ export default {
         // this.param.uid = localStorage.getItem('user_id');
         this.consellform.userId =  this.user.id;
         this.getconsltSchedule();
+
+
     },
     methods: {
         getconsltSchedule() {

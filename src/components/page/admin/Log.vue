@@ -24,27 +24,6 @@
                 <el-table-column label="用户IP" prop="createip" align="center"></el-table-column>
                 <el-table-column label="操作详情" prop="details" align="center"></el-table-column>
                 <el-table-column label="备注" prop="note" align="center"></el-table-column>
-
-                <!--                <el-table-column prop="createtimeString" width="100" label="时间"></el-table-column>-->
-                <!--                <el-table-column label="图片" align="center">-->
-                <!--                    <template slot-scope="scope">-->
-                <!--                        <el-image-->
-                <!--                                class="table-td-thumb"-->
-                <!--                                :src="scope.row.iconurl"-->
-                <!--                                :preview-src-list="[scope.row.iconurl]"-->
-                <!--                        ></el-image>-->
-                <!--                    </template>-->
-                <!--                </el-table-column>-->
-                <!--                <el-table-column label="商品价格">-->
-                <!--                    <template slot-scope="scope">￥{{scope.row.price}}</template>-->
-                <!--                </el-table-column>-->
-                <!--                <el-table-column label="审核状态" align="center">-->
-                <!--                    <template slot-scope="scope">-->
-                <!--                        <el-tag :type="isCert(scope.row.isreview)">-->
-                <!--                            {{scope.row.isreview===1?'已通过审核':(scope.row.isreview===0?'未通过审核':'审核异常')}}-->
-                <!--                        </el-tag>-->
-                <!--                    </template>-->
-                <!--                </el-table-column>-->
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -86,7 +65,7 @@ export default {
     methods: {
         deleterow(index, row) {
             axios
-                .get('/api/logsinfo/deleteByFlag?id=' + row.logid)
+                .get('/api/logsInfo/deleteByFlag?id=' + row.logid)
                 .then((res) => {
                     this.$message.success('删除成功');
                     this.tableData.splice(index, 1);
@@ -103,7 +82,7 @@ export default {
             this.delList = this.delList.concat(this.multipleSelection);
             for (let i = 0; i < length; i++) {
                 axios
-                    .get('/api/logsinfo/deleteByFlag?id=' + this.multipleSelection[i].logid)
+                    .get('/api/logsInfo/deleteByFlag?id=' + this.multipleSelection[i].logid)
                     .then((res) => {})
                     .catch((error) => {
                         console.log('接口请求异常');
@@ -115,10 +94,10 @@ export default {
         getData() {
             this.query.offset = (this.query.pageIndex - 1) * this.query.limit;
             axios
-                .post('/api/logsinfo/selectKeyByLimit', this.query)
+                .post('/api/logsInfo/selectKeyByLimit', this.query)
                 .then((res) => {
-                    this.tableData = res.data.data;
-                    this.pageTotal = res.data.pageTotal;
+                    this.tableData = res.records;
+                    this.pageTotal =  this.tableData.length;
                     this.changeData();
                 })
                 .catch((error) => {
@@ -132,7 +111,7 @@ export default {
         changeData() {
             const length = this.tableData.length;
             for (let i = 0; i < length; i++) {
-                var createtime = new Date(this.tableData[i].createtime);
+                var createtime = new Date(this.tableData[i].gmtCreate);
                 var month = createtime.getMonth() + 1;
                 this.tableData[i].createtimeString =
                     createtime.getFullYear() +

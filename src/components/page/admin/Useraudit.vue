@@ -35,11 +35,7 @@
 
                 <el-table-column prop="id" label="ID" width="100" align="center" sortable></el-table-column>
                 <el-table-column prop="userName" label="用户名" sortable></el-table-column>
-                <!-- <el-table-column prop="kinds" label="审核类型" align="center" sortable>
-                    <template slot-scope="scope">
-                        {{scope.row.kinds==='1'?'学生身份审核':(scope.row.kinds==='0'?'商家身份审核':'其他')}}
-                    </template>
-                </el-table-column> -->
+            
                 <el-table-column label="详情" align="center">
                     <template slot-scope="scope">
                         <el-button type="primary" @click="ApplyDetail(scope.row.userId)" size="mini">详情 </el-button>

@@ -24,31 +24,10 @@
 
                 <el-table-column label="评论ID" prop="cid" align="center"></el-table-column>
                 <el-table-column label="用户ID" prop="uid" align="center"></el-table-column>
-                <el-table-column label="订单ID" prop="orderid" align="center"></el-table-column>
+                <el-table-column label="预约ID" prop="orderid" align="center"></el-table-column>
                 <el-table-column label="评论内容" prop="details" align="center"></el-table-column>
                 <el-table-column label="创建时间" prop="createtime" align="center"></el-table-column>
                 <el-table-column label="是否匿名" prop="anonymousflag" align="center"></el-table-column>
-
-                <!--                <el-table-column prop="createtimeString" width="100" label="时间"></el-table-column>-->
-                <!--                <el-table-column label="图片" align="center">-->
-                <!--                    <template slot-scope="scope">-->
-                <!--                        <el-image-->
-                <!--                                class="table-td-thumb"-->
-                <!--                                :src="scope.row.iconurl"-->
-                <!--                                :preview-src-list="[scope.row.iconurl]"-->
-                <!--                        ></el-image>-->
-                <!--                    </template>-->
-                <!--                </el-table-column>-->
-                <!--                <el-table-column label="商品价格">-->
-                <!--                    <template slot-scope="scope">￥{{scope.row.price}}</template>-->
-                <!--                </el-table-column>-->
-                <!--                <el-table-column label="审核状态" align="center">-->
-                <!--                    <template slot-scope="scope">-->
-                <!--                        <el-tag :type="isCert(scope.row.isreview)">-->
-                <!--                            {{scope.row.isreview===1?'已通过审核':(scope.row.isreview===0?'未通过审核':'审核异常')}}-->
-                <!--                        </el-tag>-->
-                <!--                    </template>-->
-                <!--                </el-table-column>-->
 
                 <el-table-column label="操作" align="center" width="100">
                     <template slot-scope="scope">

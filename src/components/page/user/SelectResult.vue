@@ -92,12 +92,12 @@
                                     心理咨询师申请入驻
                                 </div></a
                             >
-                            <a href="https://www.xinli001.com/info/100476329"
+                            <!-- <a href="https://www.xinli001.com/info/100476329"
                                 ><div class="standard">
                                     <i class="icon icon-node-website icon-pc-zx-standard"></i>
                                     壹心理咨询师入驻标准
                                 </div></a
-                            >
+                            > -->
                         </div>
                         <div class="apply-new-teacher-list">
                             <div class="title">最新入驻心理咨询师</div>
@@ -116,118 +116,7 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- <div class="teacher-answer">
-                            <div class="top">
-                                <div class="title">咨询师问答</div>
-                                <a href="https://www.xinli001.com/qa?source=pc-consult"
-                                    ><div class="more">更多 <i class="icon icon-node-website icon-m-right"></i></div
-                                ></a>
-                            </div>
-                            <ul class="teacher-answer-list">
-                                <li class="teacher-answer-item">
-                                    <a href="https://m.xinli001.com/qa/answer-6004658/?source=pc-consult"
-                                        ><div class="info-box">
-                                            <p class="info">
-                                                <a href="https://www.xinli001.com/expert/9100417"
-                                                    ><img
-                                                        src="https://ossimg.xinli001.com/20180831/44f644acd729697fcd8b8641cae4cf4e.jpg!120?x-oss-process=image/resize,w_750"
-                                                        alt="姚元启"
-                                                        class="avatar"
-                                                /></a>
-                                                <a href="https://www.xinli001.com/expert/9100417"
-                                                    ><span class="name ellipsis-1">姚元启</span></a
-                                                >
-                                                <span class="answer-txt">回答了问题</span>
-                                            </p>
-                                            <span class="time ellipsis-1">2022-04-01</span>
-                                        </div>
-                                        <p class="content">24岁女生初恋因为男友不是处男而痛苦</p></a
-                                    >
-                                </li>
-
-                                <li class="teacher-answer-item">
-                                    <a href="https://m.xinli001.com/qa/answer-6004612/?source=pc-consult"
-                                        ><div class="info-box">
-                                            <p class="info">
-                                                <a href="https://www.xinli001.com/expert/1791250"
-                                                    ><img
-                                                        src="https://ossimg.xinli001.com/20191025/46a5dc110a872b97de8d44bfbe28fe8d.jpg!120?x-oss-process=image/resize,w_750"
-                                                        alt="李丽峰"
-                                                        class="avatar"
-                                                /></a>
-                                                <a href="https://www.xinli001.com/expert/1791250"
-                                                    ><span class="name ellipsis-1">李丽峰</span></a
-                                                >
-                                                <span class="answer-txt">回答了问题</span>
-                                            </p>
-                                            <span class="time ellipsis-1">2022-03-31</span>
-                                        </div>
-                                        <p class="content">无解 咨询</p></a
-                                    >
-                                </li>
-                            </ul>
-                        </div> -->
-                    <!-- <div class="teacher-article">
-                            <div class="top">
-                                <div class="title">咨询师文章</div>
-                                <a href="https://www.xinli001.com/info?source=pc-consult"
-                                    ><div class="more">
-                                        更多
-                                        <i class="icon icon-node-website icon-m-right"></i></div
-                                ></a>
-                            </div>
-                            <ul class="teacher-article-list">
-                                <li>
-                                    <a href="https://www.xinli001.com/info/100482509" class="teacher-article-item"
-                                        ><img
-                                            src="https://ossimg.xinli001.com/20220331/eab675d5f614f938ae126032a857e672.jpeg?x-oss-process=image/resize,m_fill,w_468"
-                                            class="cover"
-                                        />
-                                        <div class="article-detail">
-                                            <p class="title ellipsis-2">为什么我们总是遇到“渣男”？总是失败？总是不幸？</p>
-                                            <div class="teacher-info">
-                                                <p class="info">
-                                                    <img
-                                                        src="https://ossimg.xinli001.com/op/df/2022125/1643078255872JMVgNg3CoHLNHA0b6lJLK4SFINnHL4X0.jpg!120"
-                                                        alt="赵军"
-                                                        class="avatar"
-                                                    />
-                                                    <span class="name">赵军</span>
-                                                </p>
-                                                <span class="time">2022-03-31</span>
-                                            </div>
-                                        </div></a
-                                    >
-                                </li>
-
-                                <li>
-                                    <a href="https://www.xinli001.com/info/100482482" class="teacher-article-item"
-                                        ><img
-                                            src="https://ossimg.xinli001.com/20220330/9dad405108b0633e334e553af6b63050.jpeg?x-oss-process=image/resize,m_fill,w_468"
-                                            class="cover"
-                                        />
-                                        <div class="article-detail">
-                                            <p class="title ellipsis-2">【专项培训】焦点解决短期咨询技术</p>
-                                            <div class="teacher-info">
-                                                <p class="info">
-                                                    <img
-                                                        src="https://ossimg.xinli001.com/20170623/974e74ce1614efa9dea925d2f6201d69.png!120"
-                                                        alt="刘在英"
-                                                        class="avatar"
-                                                    />
-                                                    <span class="name">刘在英</span>
-                                                </p>
-                                                <span class="time">2022-03-30</span>
-                                            </div>
-                                        </div></a
-                                    >
-                                </li>
-                            </ul>
-                        </div> -->
-                    <!-- </div> -->
                 </div>
-
-                <!---->
             </div>
         </div>
 
@@ -260,52 +149,6 @@
             ></span>
         </div>
     </div>
-
-    <!-- <div style="float: left; width: 100%">
-        <div style="width: 100%; background-color: #d2d7d7">
-            <div style="float: left; width: 10%; margin-top: 30px; text-align: center" v-for="(item, index) in kindlist" :key="item.kid">
-                <a @click="kindClick(item.kid)" target="_blank">
-                    <div class="figure figure-thumb">
-                        <img :src="item.kimg" style="border-radius: 20px" alt="" width="100px" height="80px" />
-                    </div>
-                    <div class="title" style="margin-top: 15px; font-size: 12px; color: #666666">{{ item.kname }}</div>
-                                          <p class="price" style="margin-top:5px;font-size: 12px;color: #fc0d5a">1999元起</p>-->
-    <!-- </a>
-            </div>
-        </div>
-
-        <div style="float: left; width: 100%">
-            <div v-if="consultantList.length == 0" style="text-align: center; margin-top: 100px; margin-bottom: 100px">
-                <img src="http://127.0.0.1:8000/images/nogoods.png" alt="" />
-            </div>
-            <div
-                class="card"
-                v-for="(item, index) in consultantList"
-                :key="item.goodsid"
-                v-on:mouseenter="showDialog(index)"
-                v-on:mouseleave="hideDialog(index)"
-            >
-                <div class="ribbon"> -->
-    <!--鼠标移入移出事件-->
-    <!-- <div class="handleDialog" v-if="ishow && index == current">
-                        <el-button
-                            type="success"
-                            style="margin-left: 30%; margin-top: 70%"
-                            size="medium"
-                            @click="goConsultantDesc(item.goodsid)"
-                            >查看详情
-                        </el-button>
-                    </div>
-                    <img :src="item.iconurl" style="height: 100%; width: 100%" />
-                </div>
-                <div style="text-align: center">
-                    <span>{{ item.goodsname }}</span>
-                    <span style="color: red">&yen;{{ item.price }}</span>
-                    <span>/{{ item.spec }}</span>
-                </div>
-            </div>
-        </div>
-    </div>  -->
 </template>
 
 <script>
@@ -377,8 +220,8 @@ export default {
                     defaultVal: '',
                     items: [
                         { value: '', text: '不限', active: true },
-                        { value: '0', text: '男咨询师', active: false },
-                        { value: '1', text: '女咨询师', active: false }
+                        { value: '1', text: '男咨询师', active: false },
+                        { value: '0', text: '女咨询师', active: false }
                     ]
                 }
             ]
@@ -455,7 +298,7 @@ export default {
             this.$set(this.query, 'pageIndex', val);
             this.getData();
         },
-        //前往商品详情页
+        //前往咨询师详情页
         goConsultantDesc(consultant) {
             this.$router.push({
                 path: '/consultant/consultantDesc',

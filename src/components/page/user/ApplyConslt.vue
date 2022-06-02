@@ -16,7 +16,8 @@
                         <el-form-item label="姓名">
                             <el-input v-model="consltInfoform.nickname" size="medium"></el-input>
                         </el-form-item>
-                        <el-form-item style="margin-left: -200px">
+                        <el-form-item style="margin-left: -200px" >
+                            本人照片
                             <el-upload
                                 class="avatar-uploader"
                                 name="Consltimg"
@@ -347,7 +348,7 @@ export default {
                     console.log(res);
                 })
                 .catch((error) => {
-                    console.log('查找商品接口请求异常');
+                    console.log('查找咨询师接口请求异常');
                 });
         },
         handleAvatarSuccess1(res, file) {
@@ -361,8 +362,8 @@ export default {
             const isJPG = file.type === 'image/jpeg';
             const isPng = file.type === 'image/png';
             const isLt2M = file.size / 1024 / 1024 < 2;
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
+            if (!isJPG || !isPng) {
+                this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!');
             }
             if (!isLt2M) {
                 this.$message.error('上传头像图片大小不能超过 2MB!');

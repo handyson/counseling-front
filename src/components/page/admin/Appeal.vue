@@ -23,28 +23,6 @@
                 <el-table-column label="申诉详情" prop="details" align="center" sortable></el-table-column>
                 <el-table-column label="申诉状态" prop="state" align="center" sortable></el-table-column>
                 <el-table-column label="申诉时间" prop="createtimeString" align="center" sortable></el-table-column>
-
-                <!--                <el-table-column prop="createtimeString" width="100" label="时间"></el-table-column>-->
-                <!--                <el-table-column label="图片" align="center">-->
-                <!--                    <template slot-scope="scope">-->
-                <!--                        <el-image-->
-                <!--                                class="table-td-thumb"-->
-                <!--                                :src="scope.row.iconurl"-->
-                <!--                                :preview-src-list="[scope.row.iconurl]"-->
-                <!--                        ></el-image>-->
-                <!--                    </template>-->
-                <!--                </el-table-column>-->
-                <!--                <el-table-column label="商品价格">-->
-                <!--                    <template slot-scope="scope">￥{{scope.row.price}}</template>-->
-                <!--                </el-table-column>-->
-                <!--                <el-table-column label="审核状态" align="center">-->
-                <!--                    <template slot-scope="scope">-->
-                <!--                        <el-tag :type="isCert(scope.row.isreview)">-->
-                <!--                            {{scope.row.isreview===1?'已通过审核':(scope.row.isreview===0?'未通过审核':'审核异常')}}-->
-                <!--                        </el-tag>-->
-                <!--                    </template>-->
-                <!--                </el-table-column>-->
-
                 <el-table-column label="操作" align="center" width="250">
                     <template slot-scope="scope">
                         <el-button type="success" icon="el-icon-lx-roundclose" @click="passCom(scope.$index, scope.row)"

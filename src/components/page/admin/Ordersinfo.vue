@@ -22,43 +22,26 @@
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
 
-                <el-table-column label="ID" prop="oid" align="center"></el-table-column>
+                <el-table-column label="ID" prop="id" align="center"></el-table-column>
                 <el-table-column label="用户ID" prop="uid" align="center"></el-table-column>
-                <el-table-column label="咨询师ID" prop="cid" align="center"></el-table-column>
-                <el-table-column label="咨询方式" prop="consult_way" align="center"></el-table-column>
+                <el-table-column label="咨询师ID" prop="consultant" align="center"></el-table-column>
+                <el-table-column label="咨询方式" align="center">
+                    <template slot-scope="scope"> 
+                        <span>{{ways[scope.row.consultWay]}}</span>
+                    </template>
+                </el-table-column>
                 <el-table-column label="咨询时间" prop="consult_start_time" align="center">
                     <template slot-scope="scope"> 
-                        <span>{{scope.row.consult_start_time}}-{{scope.row.consult_end_time}}</span>
+                        <span>{{transformTime(scope.row.startTime)}}-{{transformTime(scope.row.endTime)}}</span>
                     </template>
                 </el-table-column>
                 <!-- <el-table-column label="咨询结束时间" prop="consult_end_time" align="center"></el-table-column> -->
                 <el-table-column label="下单时间" prop="createtimeString" align="center"></el-table-column>
-                <el-table-column label="订单状态" prop="order_status" align="center">
+                <el-table-column label="预约状态" align="center">
                     <template slot-scope="scope">
-                        <el-tag :type="orderStatus(scope.row.setOrderStatus)">{{ orderStatus2(scope.row.order_status) }}</el-tag>
+                        <el-tag :type="orderStatus(scope.row.orderStatus)">{{ orderStatus2(scope.row.orderStatus) }}</el-tag>
                     </template>
                 </el-table-column>
-
-                <!--                <el-table-column prop="createtimeString" width="100" label="时间"></el-table-column>-->
-                <!--                <el-table-column label="图片" align="center">-->
-                <!--                    <template slot-scope="scope">-->
-                <!--                        <el-image-->
-                <!--                                class="table-td-thumb"-->
-                <!--                                :src="scope.row.iconurl"-->
-                <!--                                :preview-src-list="[scope.row.iconurl]"-->
-                <!--                        ></el-image>-->
-                <!--                    </template>-->
-                <!--                </el-table-column>-->
-                <!--                <el-table-column label="商品价格">-->
-                <!--                    <template slot-scope="scope">￥{{scope.row.price}}</template>-->
-                <!--                </el-table-column>-->
-                <!--                <el-table-column label="审核状态" align="center">-->
-                <!--                    <template slot-scope="scope">-->
-                <!--                        <el-tag :type="isCert(scope.row.isreview)">-->
-                <!--                            {{scope.row.isreview===1?'已通过审核':(scope.row.isreview===0?'未通过审核':'审核异常')}}-->
-                <!--                        </el-tag>-->
-                <!--                    </template>-->
-                <!--                </el-table-column>-->
             </el-table>
             <div class="pagination">
                 <el-pagination
@@ -91,6 +74,7 @@ export default {
             },
             form: {},
             aform: {},
+            ways: { 0: '即时聊天咨询', 1: '语音咨询', 2: '视频咨询', 3: '面对面咨询' },
             editVisible: false,
             addVisible: false,
             tableData: [],
@@ -150,7 +134,7 @@ export default {
         changeData() {
             const length = this.tableData.length;
             for (let i = 0; i < length; i++) {
-                var createtime = new Date(this.tableData[i].createtime);
+                var createtime = new Date(this.tableData[i].gmtCreate);
                 var month = createtime.getMonth() + 1;
                 this.tableData[i].createtimeString =
                     createtime.getFullYear() +
@@ -196,16 +180,20 @@ export default {
         orderStatus(status) {
             if (status == '1') return 'warning';
             else if (status == '2') return 'warning';
-            else if (status == '3') return 'warning';
-            else if (status == '4') return 'success';
+            else if (status == '3') return 'success';
+            else if (status == '4') return 'danger';
             else return 'danger';
         },
         orderStatus2(status) {
-            if (status == '1') return '交易进行中';
-            else if (status == '2') return '买家确认收货';
-            else if (status == '3') return '卖家确认收款';
-            else if (status == '4') return '交易成功';
-            else return '订单终止';
+            if (status == '0') return '未确认';
+            else if (status == '1') return '未咨询';
+            else if (status == '3') return '咨询完成';
+            else if (status == '4') return '预约取消';
+            else return '预约终止';
+        },
+         transformTime(timestamp = +new Date()) {
+            var date = new Date(timestamp * 1000 + 8 * 3600 * 1000); // 增加8小时
+            return date.toJSON().substr(0, 19).replace('T', ' ');
         }
     }
 };

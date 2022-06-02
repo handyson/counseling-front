@@ -105,7 +105,7 @@
                         <el-option v-for="item in kindsList" :key="item.kid" :label="item.kname" :value="item.kid"> </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="商品详情">
+                <el-form-item label="咨询师详情">
                     <el-input v-model="aform.detail"></el-input>
                 </el-form-item>
             </el-form>
@@ -211,12 +211,6 @@ export default {
                     createtime.getHours() +
                     ':' +
                     createtime.getMinutes();
-                //根据商家ID查询联系方式
-                // this.$axios.get('/api/userinfo/selectOne?id=' + this.tableData[i].uid).then((res) => {
-                //     // console.log(res.data)
-                //     this.tableData[i].userinfo = res.data;
-                //     this.handleUpdateClick();
-                // });
             }
         },
         handleUpdateClick() {

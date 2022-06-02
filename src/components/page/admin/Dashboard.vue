@@ -11,12 +11,14 @@
                     <div slot="header" class="clearfix">
                         <span>心理咨询预约总览</span>
                     </div>
-                    咨询完成：{{ orderView[0] }}次
-                    <el-progress :percentage="((orderView[0] * 100) / orderView[3]).toFixed(0)" color="#42b983"></el-progress>
+                    预约未确认：{{ orderView[0] }}次
+                    <el-progress :percentage="parseFloat((orderView[0] * 100) / orderView[4]).toFixed(0)"></el-progress>
                     咨询进行中：{{ orderView[1] }}次
-                    <el-progress :percentage="((orderView[1] * 100) / orderView[3]).toFixed(0)"></el-progress>
-                    咨询终止：{{ orderView[2] }}次
-                    <el-progress :percentage="((orderView[2] * 100) / orderView[3]).toFixed(0)" color="#f56c6c"></el-progress>
+                    <el-progress :percentage="parseFloat((orderView[1] * 100) / orderView[4]).toFixed(0)"></el-progress>
+                    咨询完成：{{ orderView[2] }}次
+                    <el-progress :percentage="parseFloat((orderView[2] * 100) / orderView[4]).toFixed(0)" color="#42b983"></el-progress>
+                    咨询终止：{{ orderView[3] }}次
+                    <el-progress :percentage="parseFloat((orderView[3] * 100) / orderView[4]).toFixed(0)" color="#f56c6c"></el-progress>
                 </el-card>
             </el-col>
             <el-col :span="6" style="width: 28%">
@@ -70,7 +72,7 @@
                 </el-row>
             </el-col>
         </el-row>
-        <el-row :gutter="20" style="margin-top: -20px">
+        <!-- <el-row :gutter="20" style="margin-top: -20px">
             <el-col :span="12" style="margin-left: 20px; width: 49%">
                 <el-card shadow="hover">
                     <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart>
@@ -102,13 +104,12 @@
                                 >
                             </div>
                         </div>
-                        <!--                        <li v-for="i in count" class="infinite-list-item">{{ i }}</li>-->
                     </ul>
                     <h5 v-if="loading">加载中...</h5>
                     <h5 v-if="noMore">没有更多了</h5>
                 </el-card>
             </el-col>
-        </el-row>
+        </el-row> -->
     </div>
 </template>
 
@@ -160,7 +161,7 @@ export default {
         this.getbingtu();
         this.getorderView();
         this.getintright();
-        this.getcommentcount();
+        // this.getcommentcount();
         this.getorderbyM();
         // this.handleListener();
         // this.changeDate();
@@ -386,4 +387,11 @@ export default {
 #commentbox::-webkit-scrollbar {
     display: none;
 }
+.el-card__header {
+    padding: 10px 20px;
+    border-bottom: 1px solid #EBEEF5;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 </style>

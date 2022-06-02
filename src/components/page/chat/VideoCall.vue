@@ -120,15 +120,6 @@ export default {
             });
         },
         startMeeting: function () {
-            if (this.meetingUserIdList.length >= 3) {
-                // 多人通话
-                const lastJoinUser = this.meetingUserIdList[this.meetingUserIdList.length - 1];
-                this.$trtcCalling.startRemoteView({
-                    userID: lastJoinUser,
-                    videoViewDomID: `video-${lastJoinUser}`
-                });
-                return;
-            }
             this.isShowVideoCall = true;
             this.$trtcCalling.startLocalView({
                 userID: this.currentUser.id,
